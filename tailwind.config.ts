@@ -20,6 +20,8 @@ export default {
           foreground: "rgb(var(--content-foreground))",
         },
         "sub-text": "rgb(var(--sub-text))",
+        "sub-text-2": "rgb(var(--sub-text-2))",
+        "card-border": "rgb(var(--card-border))",
         success: "rgb(var(--success))",
         important: "rgb(var(--important))",
         caution: "rgb(var(--caution))",
