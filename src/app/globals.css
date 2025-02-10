@@ -12,6 +12,7 @@
 
     --primary: 255 4 32; /* RGB values for #ff0420 */
     --primary-foreground: 255 253 253; /* RGB values for #fffdfd */
+    --secondary: 255 4 32; /* RGB values for #ff0420 */
 
     --sub-text: 122 122 122; /* RGB values for #7a7a7a */
     --sub-text-2: 184, 184, 184; /* RGB values for #b8b8b8 */
