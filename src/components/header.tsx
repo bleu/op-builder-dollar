@@ -1,15 +1,19 @@
 "use client";
 
 import { useThemeStore } from "@/store/useThemeStore";
-import { Moon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { ConnectWalletButton } from "./connect-wallet-button";
 import NavLink from "./nav-link";
 import { Button } from "./ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+
+const themeButtonStyle =
+  "py-2 pl-3 hover:bg-secondary/10 flex-1 w-full items-center justify-start";
 
 const Header = () => {
-  const { toggleTheme } = useThemeStore();
+  const { setTheme, theme } = useThemeStore();
 
   return (
     <header className="flex relative h-14 items-center justify-between bg-content mx-5 mt-6 px-5 rounded-3xl shadow-lg ">
@@ -26,13 +30,37 @@ const Header = () => {
       </div>
       <div className="flex items-center gap-2">
         <ConnectWalletButton />
-        <Button
-          variant="ghost"
-          className="flex items-center justify-center rounded-full bg-primary/10 p-1 w-8 h-8 "
-          onClick={() => toggleTheme()}
-        >
-          <Moon size={18} className="text-primary" />
-        </Button>
+        <Popover>
+          <PopoverTrigger className="flex items-center justify-center rounded-full bg-primary/10 p-1 w-8 h-8 ">
+            {theme === "light" ? (
+              <Sun size={18} className="text-primary" />
+            ) : (
+              <Moon size={18} className="text-primary" />
+            )}
+          </PopoverTrigger>
+          <PopoverContent className="px-6 py-3 border border-card-border bg-content flex flex-col items-start mt-5 mr-5">
+            <span className="text-2xl font-bold">Theme</span>
+            <p className="text-base text-sub-text mb-2">
+              Select your preference
+            </p>
+            <Button
+              variant="ghost"
+              onClick={() => setTheme("light")}
+              className={themeButtonStyle}
+            >
+              <Sun size={18} className="text-primary" />
+              Light
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => setTheme("dark")}
+              className={themeButtonStyle}
+            >
+              <Moon size={18} className="text-primary" />
+              Dark
+            </Button>
+          </PopoverContent>
+        </Popover>
       </div>
     </header>
   );
