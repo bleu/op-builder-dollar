@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { ChainIcon, ConnectKitButton } from "connectkit";
-import Image from "next/image";
 import {
   ArrowSquareOut,
   ChartLineUp,
@@ -12,51 +11,77 @@ import {
   UserCircle,
   Wallet,
 } from "phosphor-react";
-import type { ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import { formatEther } from "viem";
 import { useAccount, useBalance, useEnsName } from "wagmi";
-import logo from "../../public/icons/logo.svg";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 export const ConnectWalletButton = () => {
   const { address } = useAccount();
   const { data: balance } = useBalance({ address });
   const { data: ensName } = useEnsName({ address, chainId: 1 });
+  const [open, setOpen] = useState(false);
+
+  const handleMouseEnter = () => {
+    setOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setOpen(false);
+  };
 
   return (
     <ConnectKitButton.Custom>
       {({ show, isConnected, isConnecting, truncatedAddress, chain }) => (
         <>
           {isConnected ? (
-            <Popover>
-              <PopoverTrigger>
-                <div className="flex items-center justify-center gap-2 border border-card-border rounded-2xl pl-3">
-                  <ChainIcon id={chain?.id} size={24} />
-                  <span className="text-lg">{chain?.name}</span>
-                  <div className="flex items-center gap-1.5 bg-background text-foreground rounded-2xl py-2 px-1.5">
-                    <div className="w-6 h-6 rounded-full bg-primary" />
-                    <span>{ensName ?? truncatedAddress ?? ""}</span>
-                  </div>
+            <div className="relative">
+              <Popover open={open} onOpenChange={setOpen}>
+                <div
+                  className="relative"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <PopoverTrigger
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <div className="flex items-center justify-center gap-2 border border-card-border rounded-2xl pl-3">
+                      <ChainIcon id={chain?.id} size={24} />
+                      <span className="text-lg">{chain?.name}</span>
+                      <div className="flex items-center gap-1.5 bg-background text-foreground rounded-2xl py-2 px-1.5">
+                        <div className="w-6 h-6 rounded-full bg-primary" />
+                        <span>{ensName ?? truncatedAddress ?? ""}</span>
+                      </div>
+                    </div>
+                  </PopoverTrigger>
+                  {/* Invisible connector between trigger and content to keep the hover functionallity working */}
+                  {open && (
+                    <div className="absolute w-full h-6 bottom-0 translate-y-full" />
+                  )}
                 </div>
-              </PopoverTrigger>
-              <PopoverContent
-                align="end"
-                side="top"
-                sideOffset={20}
-                className="w-[400px] h-[318px]"
-              >
-                <WalletAccountDetails
-                  chainId={chain?.id}
-                  chainName={chain?.name}
-                  accountIdentifier={ensName ?? truncatedAddress ?? ""}
-                  balance={
-                    balance?.value
-                      ? Number(formatEther(balance.value)).toFixed(4)
-                      : "..."
-                  }
-                />
-              </PopoverContent>
-            </Popover>
+                <PopoverContent
+                  align="end"
+                  side="top"
+                  sideOffset={20}
+                  className="w-[400px] h-[318px]"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <WalletAccountDetails
+                    chainId={chain?.id}
+                    chainName={chain?.name}
+                    accountIdentifier={ensName ?? truncatedAddress ?? ""}
+                    balance={
+                      balance?.value
+                        ? Number(formatEther(balance.value)).toFixed(4)
+                        : "..."
+                    }
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           ) : (
             <Button
               onClick={isConnecting ? () => {} : show}
@@ -86,7 +111,6 @@ const WalletAccountDetails = ({
     <div className="flex flex-col justify-between h-full">
       <h1 className="font-bold text-2xl">Account</h1>
       <div className="flex flex-col justify-between h-[180px]">
-        {/* address | ENS name */}
         <DetailsRow
           icon={<UserCircle className="text-primary" size={24} />}
           leftText={accountIdentifier}
@@ -101,7 +125,6 @@ const WalletAccountDetails = ({
             </div>
           }
         />
-        {/* Network */}
         <DetailsRow
           icon={<Graph className="text-primary" size={24} />}
           leftText="Network"
@@ -114,13 +137,11 @@ const WalletAccountDetails = ({
             </div>
           }
         />
-        {/* ETH Balance */}
         <DetailsRow
           icon={<Wallet className="text-primary" size={24} />}
           leftText="ETH Balance"
           rightContent={<span>{balance}</span>}
         />
-        {/* obUSD */}
         <DetailsRow
           icon={<ChartLineUp className="text-primary" size={24} />}
           leftText="Generating obUSD"
