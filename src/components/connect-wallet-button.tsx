@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ConnectKitButton } from "connectkit";
+import { ChainIcon, ConnectKitButton } from "connectkit";
 import {
   ArrowSquareOut,
   ChartLineUp,
@@ -12,22 +12,28 @@ import {
   Wallet,
 } from "phosphor-react";
 import type { ReactNode } from "react";
+import { formatEther } from "viem";
+import { useAccount, useBalance, useEnsName } from "wagmi";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 export const ConnectWalletButton = () => {
+  const { address } = useAccount();
+  const { data: balance } = useBalance({ address });
+  const { data: ensName } = useEnsName({ address, chainId: 1 });
+
   return (
     <ConnectKitButton.Custom>
-      {({ show, isConnected, isConnecting }) => (
+      {({ show, isConnected, isConnecting, truncatedAddress, chain }) => (
         <>
           {isConnected ? (
             <Popover>
               <PopoverTrigger>
                 <div className="flex items-center justify-center gap-2 border border-card-border rounded-2xl pl-3">
-                  <div className="w-6 h-6 rounded-full bg-primary " />
-                  <span className="text-lg">OP Mainnet</span>
+                  <ChainIcon id={chain?.id} size={24} />
+                  <span className="text-lg">{chain?.name}</span>
                   <div className="flex items-center gap-1.5 bg-background text-foreground rounded-2xl py-2 px-1.5">
                     <div className="w-6 h-6 rounded-full bg-primary" />
-                    <span>Muraro.eth</span>
+                    <span>{ensName ?? truncatedAddress ?? ""}</span>
                   </div>
                 </div>
               </PopoverTrigger>
@@ -37,7 +43,16 @@ export const ConnectWalletButton = () => {
                 sideOffset={20}
                 className="w-[400px] h-[318px]"
               >
-                <WalletAccountDetails />
+                <WalletAccountDetails
+                  chainId={chain?.id}
+                  chainName={chain?.name}
+                  accountIdentifier={ensName ?? truncatedAddress ?? ""}
+                  balance={
+                    balance?.value
+                      ? Number(formatEther(balance.value)).toFixed(4)
+                      : "..."
+                  }
+                />
               </PopoverContent>
             </Popover>
           ) : (
@@ -54,7 +69,17 @@ export const ConnectWalletButton = () => {
   );
 };
 
-const WalletAccountDetails = () => {
+const WalletAccountDetails = ({
+  chainId,
+  chainName,
+  accountIdentifier,
+  balance,
+}: {
+  chainId: number | undefined;
+  chainName: string | undefined;
+  accountIdentifier: string;
+  balance: string;
+}) => {
   return (
     <div className="flex flex-col justify-between h-full">
       <h1 className="font-bold text-2xl">Account</h1>
@@ -62,7 +87,7 @@ const WalletAccountDetails = () => {
         {/* address | ENS name */}
         <DetailsRow
           icon={<UserCircle className="text-primary" size={24} />}
-          leftText="obUSD.eth"
+          leftText={accountIdentifier}
           rightContent={
             <div className="flex gap-2">
               <div className="w-7 h-7 flex justify-center items-center rounded-md hover:bg-card-border hover:cursor-pointer">
@@ -81,9 +106,9 @@ const WalletAccountDetails = () => {
           rightContent={
             <div className="flex">
               <div className="w-6 h-6 mr-2">
-                {<div className="w-5 h-5 rounded-full bg-red-400" />}
+                <ChainIcon id={chainId} size={24} />
               </div>
-              <span>OP Mainnet</span>
+              <span>{chainName}</span>
             </div>
           }
         />
@@ -91,7 +116,7 @@ const WalletAccountDetails = () => {
         <DetailsRow
           icon={<Wallet className="text-primary" size={24} />}
           leftText="ETH Balance"
-          rightContent={<span>3.65</span>}
+          rightContent={<span>{balance}</span>}
         />
         {/* obUSD */}
         <DetailsRow
