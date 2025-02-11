@@ -3,15 +3,13 @@
 import { useThemeStore } from "@/store/useThemeStore";
 import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { ArrowsDownUp, Butterfly, Gift, UsersThree } from "phosphor-react";
 import { ConnectWalletButton } from "./connect-wallet-button";
 import NavLink from "./nav-link";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-
 const themeButtonStyle =
   "py-2 pl-3 hover:bg-secondary/10 flex-1 w-full items-center justify-start";
-
 const Header = () => {
   const { setTheme, theme } = useThemeStore();
 
@@ -23,10 +21,18 @@ const Header = () => {
         </h1>
       </Link>
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-7 text-lg">
-        <NavLink href="/">Mint</NavLink>
-        <NavLink href="/yield">Yield distribution</NavLink>
-        <NavLink href="/cohort-selection">Cohort selection</NavLink>
-        <NavLink href="/rewards">Rewards</NavLink>
+        <NavLink href="/" icon={Butterfly}>
+          Mint
+        </NavLink>
+        <NavLink href="/yield" icon={ArrowsDownUp}>
+          Yield distribution
+        </NavLink>
+        <NavLink href="/cohort-selection" icon={UsersThree}>
+          Cohort selection
+        </NavLink>
+        <NavLink href="/rewards" icon={Gift}>
+          Rewards
+        </NavLink>
       </div>
       <div className="flex items-center gap-2">
         <ConnectWalletButton />
