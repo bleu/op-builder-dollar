@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ChainIcon, ConnectKitButton } from "connectkit";
+import Image from "next/image";
 import {
   ArrowSquareOut,
   ChartLineUp,
@@ -14,6 +15,7 @@ import {
 import type { ReactNode } from "react";
 import { formatEther } from "viem";
 import { useAccount, useBalance, useEnsName } from "wagmi";
+import logo from "../../public/icons/logo.svg";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 export const ConnectWalletButton = () => {

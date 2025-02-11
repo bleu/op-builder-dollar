@@ -2,22 +2,27 @@
 
 import { useThemeStore } from "@/store/useThemeStore";
 import { Moon, Sun } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowsDownUp, Butterfly, Gift, UsersThree } from "phosphor-react";
+import logo from "../../public/icons/logo.svg";
 import { ConnectWalletButton } from "./connect-wallet-button";
 import NavLink from "./nav-link";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+
 const themeButtonStyle =
   "py-2 pl-3 hover:bg-secondary/10 flex-1 w-full items-center justify-start";
+
 const Header = () => {
   const { setTheme, theme } = useThemeStore();
 
   return (
     <header className="flex relative h-14 items-center justify-between bg-content mx-5 mt-6 px-5 rounded-3xl shadow-lg ">
-      <Link href="/">
-        <h1 className="text-primary font-bold text-lg font-roboto-mono text-center">
-          Bleu
+      <Link href="/" className="flex items-center gap-2">
+        <Image src={logo} alt="obusd logo" />
+        <h1 className="text-content-foreground font-bold text-lg font-roboto-mono text-center">
+          obUSD
         </h1>
       </Link>
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-7 text-lg">
