@@ -13,8 +13,10 @@ import {
 } from "phosphor-react";
 import { type ReactNode, useState } from "react";
 import { formatEther } from "viem";
-import { useAccount, useBalance, useEnsName } from "wagmi";
+import { useAccount, useBalance, useDisconnect, useEnsName } from "wagmi";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+
+const isMobile = window.innerWidth <= 768;
 
 export const ConnectWalletButton = () => {
   const { address } = useAccount();
@@ -23,10 +25,12 @@ export const ConnectWalletButton = () => {
   const [open, setOpen] = useState(false);
 
   const handleMouseEnter = () => {
+    if (isMobile) return;
     setOpen(true);
   };
 
   const handleMouseLeave = () => {
+    if (isMobile) return;
     setOpen(false);
   };
 
@@ -44,13 +48,15 @@ export const ConnectWalletButton = () => {
                 >
                   <PopoverTrigger
                     onClick={(e) => {
-                      e.preventDefault();
+                      !isMobile && e.preventDefault();
                     }}
                   >
-                    <div className="flex items-center justify-center gap-2 border border-card-border rounded-2xl pl-3">
-                      <ChainIcon id={chain?.id} size={24} />
-                      <span className="text-lg">{chain?.name}</span>
-                      <div className="flex items-center gap-1.5 bg-background text-foreground rounded-2xl py-2 px-1.5">
+                    <div className="flex items-center justify-center gap-2 border border-card-border rounded-2xl md:pl-3">
+                      <div className="hidden md:flex items-center gap-1.5">
+                        <ChainIcon id={chain?.id} size={24} />
+                        <span className="text-lg">{chain?.name}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 md:bg-background text-foreground rounded-2xl py-2 px-1.5">
                         <div className="w-6 h-6 rounded-full bg-primary" />
                         <span>{ensName ?? truncatedAddress ?? ""}</span>
                       </div>
@@ -62,10 +68,9 @@ export const ConnectWalletButton = () => {
                   )}
                 </div>
                 <PopoverContent
-                  align="end"
                   side="top"
                   sideOffset={20}
-                  className="w-[400px] h-[318px]"
+                  className="w-[400px] md:w-[400px] md:h-[318px] mx-5"
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
                 >
@@ -107,6 +112,8 @@ const WalletAccountDetails = ({
   accountIdentifier: string;
   balance: string;
 }) => {
+  const { disconnect } = useDisconnect();
+
   return (
     <div className="flex flex-col justify-between h-full">
       <h1 className="font-bold text-2xl">Account</h1>
@@ -152,9 +159,17 @@ const WalletAccountDetails = ({
           }
         />
       </div>
-      <Button className="flex justify-center items-center rounded-2xl font-bold text-xl w-full">
+      <Button
+        className="flex justify-center items-center rounded-2xl font-normal md:font-bold text-xl w-full my-4"
+        onClick={() => {
+          disconnect();
+        }}
+      >
         <SignOut weight="bold" className="min-w-6 min-h-6" />
         Disconnect
+      </Button>
+      <Button className="md:hidden rounded-2xl font-normal text-xl w-full bg-primary/10 text-primary">
+        Close Menu
       </Button>
     </div>
   );

@@ -15,7 +15,10 @@ export default {
           DEFAULT: "rgb(var(--primary))",
           foreground: "rgb(var(--primary-foreground))",
         },
-        secondary: "rgb(var(--secondary))",
+        secondary: {
+          DEFAULT: "rgb(var(--secondary))",
+          foreground: "rgb(var(--foreground))",
+        },
         content: {
           DEFAULT: "rgb(var(--content))",
           foreground: "rgb(var(--content-foreground))",
