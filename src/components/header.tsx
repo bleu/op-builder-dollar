@@ -105,7 +105,7 @@ const Header = () => {
         >
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger
-              className="flex items-center justify-center rounded-full bg-primary/10 p-1 w-8 h-8"
+              className="flex items-center justify-center rounded-full bg-primary/10 p-1 w-8 h-8 focus:outline-none"
               onClick={(e) => {
                 e.preventDefault();
               }}

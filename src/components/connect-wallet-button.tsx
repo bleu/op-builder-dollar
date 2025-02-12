@@ -1,9 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ChainIcon, ConnectKitButton } from "connectkit";
+import { ChainIcon, ConnectKitButton, useModal } from "connectkit";
+import Link from "next/link";
 import {
   ArrowSquareOut,
+  ArrowsCounterClockwise,
   ChartLineUp,
   Copy,
   Graph,
@@ -24,6 +26,8 @@ export const ConnectWalletButton = () => {
   const { data: balance } = useBalance({ address });
   const { data: ensName } = useEnsName({ address, chainId: 1 });
   const [open, setOpen] = useState(false);
+
+  const { openSwitchNetworks } = useModal();
 
   const handleMouseEnter = () => {
     if (isMobile) return;
@@ -51,6 +55,7 @@ export const ConnectWalletButton = () => {
                     onClick={(e) => {
                       !isMobile && e.preventDefault();
                     }}
+                    className="focus:outline-none"
                   >
                     <div className="flex items-center justify-center gap-2 border border-card-border rounded-2xl md:pl-3">
                       <div className="hidden md:flex items-center gap-1.5">
@@ -80,10 +85,14 @@ export const ConnectWalletButton = () => {
                     chainName={chain?.name}
                     accountIdentifier={ensName ?? truncatedAddress ?? ""}
                     balance={
-                      balance?.value
-                        ? Number(formatEther(balance.value)).toFixed(4)
-                        : "..."
+                      balance?.value !== undefined
+                        ? balance.value.toString() === "0"
+                          ? "0.0"
+                          : Number(formatEther(balance.value)).toFixed(4)
+                        : ""
                     }
+                    openSwitchNetworks={openSwitchNetworks}
+                    address={address}
                   />
                 </PopoverContent>
               </Popover>
@@ -107,11 +116,15 @@ const WalletAccountDetails = ({
   chainName,
   accountIdentifier,
   balance,
+  openSwitchNetworks,
+  address,
 }: {
   chainId: number | undefined;
   chainName: string | undefined;
   accountIdentifier: string;
   balance: string;
+  openSwitchNetworks: (() => void) | undefined;
+  address: string | undefined;
 }) => {
   const { disconnect } = useDisconnect();
 
@@ -124,12 +137,21 @@ const WalletAccountDetails = ({
           leftText={accountIdentifier}
           rightContent={
             <div className="flex gap-2">
-              <div className="w-7 h-7 flex justify-center items-center rounded-md hover:bg-card-border hover:cursor-pointer">
+              <div
+                onClick={() => {
+                  if (address) navigator.clipboard.writeText(address);
+                }}
+                className="w-7 h-7 flex justify-center items-center rounded-md hover:bg-card-border hover:cursor-pointer"
+              >
                 <Copy className="text-sub-text-2" size={24} />
               </div>
-              <div className="w-7 h-7 flex justify-center items-center rounded-md hover:bg-card-border hover:cursor-pointer">
+              <Link
+                href={`https://etherscan.io/address/${address}`}
+                target="_blank"
+                className="w-7 h-7 flex justify-center items-center rounded-md hover:bg-card-border hover:cursor-pointer"
+              >
                 <ArrowSquareOut className="text-sub-text-2" size={24} />
-              </div>
+              </Link>
             </div>
           }
         />
@@ -142,6 +164,12 @@ const WalletAccountDetails = ({
                 <ChainIcon id={chainId} size={24} />
               </div>
               <span>{chainName}</span>
+              <div
+                onClick={openSwitchNetworks}
+                className="flex items-center justify-center w-6 h-6 ml-2 rounded-md hover:bg-card-border hover:cursor-pointer"
+              >
+                <ArrowsCounterClockwise className="text-secondary" size={16} />
+              </div>
             </div>
           }
         />
@@ -161,7 +189,7 @@ const WalletAccountDetails = ({
         />
       </div>
       <Button
-        className="flex justify-center items-center rounded-2xl font-normal md:font-bold text-xl w-full my-4"
+        className="flex justify-center items-center rounded-2xl font-normal md:font-bold text-xl w-full"
         onClick={() => {
           disconnect();
         }}
