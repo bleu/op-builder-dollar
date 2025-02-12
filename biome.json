@@ -9,9 +9,27 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
-    },
-    "ignore": [".next/**/*", "node_modules/**/*"]
+      "recommended": true,
+      "a11y": {
+        "useKeyWithClickEvents": "off"
+      },
+      "complexity": {
+        "noStaticOnlyClass": "off"
+      },
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error"
+      },
+      "suspicious": {
+        "noConsole": {
+          "level": "info",
+          "options": { "allow": ["warn", "error"] }
+        }
+      },
+      "style": {
+        "useImportType": "error"
+      }
+    }
   },
   "formatter": {
     "enabled": true,
