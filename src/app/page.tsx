@@ -1,3 +1,5 @@
+import YieldPage from "./yield/page";
+
 export default function Home() {
-  return <></>;
+  return <YieldPage />;
 }
