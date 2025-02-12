@@ -22,7 +22,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 const themeButtonStyle =
   "py-2 pl-3 hover:bg-secondary/10 flex-1 w-full items-center justify-start text-lg";
 
-const isMobile = window.innerWidth <= 1200;
+const isWindow = typeof window !== "undefined";
+
+const isMobile = isWindow ? window.innerWidth <= 1200 : undefined;
 
 const Header = () => {
   const { setTheme, theme } = useThemeStore();

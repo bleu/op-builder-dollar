@@ -16,7 +16,8 @@ import { formatEther } from "viem";
 import { useAccount, useBalance, useDisconnect, useEnsName } from "wagmi";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
-const isMobile = window.innerWidth <= 768;
+const isWindow = typeof window !== "undefined";
+const isMobile = isWindow ? window.innerWidth <= 1200 : undefined;
 
 export const ConnectWalletButton = () => {
   const { address } = useAccount();
