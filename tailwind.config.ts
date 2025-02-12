@@ -15,11 +15,17 @@ export default {
           DEFAULT: "rgb(var(--primary))",
           foreground: "rgb(var(--primary-foreground))",
         },
+        secondary: {
+          DEFAULT: "rgb(var(--secondary))",
+          foreground: "rgb(var(--foreground))",
+        },
         content: {
           DEFAULT: "rgb(var(--content))",
           foreground: "rgb(var(--content-foreground))",
         },
+        "card-border": "rgb(var(--card-border))",
         "sub-text": "rgb(var(--sub-text))",
+        "sub-text-2": "rgb(var(--sub-text-2))",
         success: "rgb(var(--success))",
         important: "rgb(var(--important))",
         caution: "rgb(var(--caution))",
