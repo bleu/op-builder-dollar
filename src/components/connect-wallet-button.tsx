@@ -91,9 +91,9 @@ export const ConnectWalletButton = () => {
           ) : (
             <Button
               onClick={isConnecting ? () => {} : show}
-              className="h-6 rounded-2xl"
+              className="flex items-center gap-1.5 rounded-2xl py-2 px-6 text-lg font-normal"
             >
-              {isConnecting ? "Loading..." : "Sign in"}
+              <span>{isConnecting ? "Loading..." : "Sign in"}</span>
             </Button>
           )}
         </>
