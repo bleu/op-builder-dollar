@@ -28,7 +28,7 @@ export const TopSection = () => {
             </h5>
             <div className="flex flex-row items-center gap-2">
               <div className="size-6 bg-primary rounded-full flex items-center justify-center">
-                <LogoComponent fill="white" width={18} height={18} />
+                <LogoComponent className="text-white" width={18} height={18} />
               </div>
               <span className="font-extrabold italic text-4xl">
                 {getFormattedTotalYield(400000.45)}

@@ -1,7 +1,6 @@
 "use client";
 
 import { useThemeStore } from "@/store/useThemeStore";
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowsDownUp,
@@ -13,8 +12,8 @@ import {
   UsersThree,
 } from "phosphor-react";
 import { useState } from "react";
-import logo from "../../public/icons/logo.svg";
 import { ConnectWalletButton } from "./connect-wallet-button";
+import LogoComponent from "./logo";
 import NavLink from "./nav-link";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -41,7 +40,7 @@ const Header = () => {
   return (
     <header className="flex relative h-14 items-center justify-between bg-content mx-5 mt-6 px-5 rounded-3xl shadow-lg">
       <Link href="/" className="flex items-center gap-2">
-        <Image src={logo} alt="obusd logo" />
+        <LogoComponent className="text-primary" />
         <h1 className="text-content-foreground font-bold text-lg font-roboto-mono text-center">
           obUSD
         </h1>
