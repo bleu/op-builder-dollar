@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import type { ComponentProps } from "react";
+import LogoComponent from "./logo";
 
 export const TopSection = () => {
   return (
@@ -11,7 +12,7 @@ export const TopSection = () => {
           background: "radial-gradient(circle at center, #FF0420, #7D1AFF)",
         }}
       >
-        <Card className="justify-center gap-2 w-full border-none relative rounded-[29px]">
+        <Card className="w-full border-none relative rounded-[29px]">
           <div className="bg-background absolute inset-0 rounded-[29px] size-full" />
           <Image
             src="/total_yield_bg.png"
@@ -20,20 +21,16 @@ export const TopSection = () => {
             height={1000}
             className="absolute inset-0 object-cover rounded-[29px] size-full opacity-40"
           />
-          <div className="z-10">
-            <h5 className="text-sub-text">Total yield to distribute</h5>
+          <div className="z-10 justify-center gap-2 items-center h-full flex flex-col">
+            <h5 className="text-sub-text text-2xl">
+              Total yield to distribute
+            </h5>
             <div className="flex flex-row items-center gap-2">
               <div className="size-6 bg-primary rounded-full flex items-center justify-center">
-                <Image
-                  src="/icons/logo.svg"
-                  width={24}
-                  height={24}
-                  alt="obUSD_logo"
-                />
+                <LogoComponent fill="white" width={18} height={18} />
               </div>
               <span className="font-extrabold italic text-4xl">
-                400,000.
-                <span className="text-3xl font-normal not-italic">45</span>
+                {getFormattedTotalYield(400000.45)}
               </span>
             </div>
           </div>
@@ -76,5 +73,18 @@ const Card = ({ children, className }: CardProps) => {
     >
       {children}
     </div>
+  );
+};
+
+const getFormattedTotalYield = (totalYield: number) => {
+  const [whole, decimal] = totalYield.toFixed(2).split(".");
+
+  const wholeWithCommas = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  return (
+    <>
+      {wholeWithCommas}.
+      <span className="text-3xl font-normal not-italic">{decimal}</span>
+    </>
   );
 };
