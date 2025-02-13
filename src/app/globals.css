@@ -19,6 +19,8 @@
     --diamond-blue: 125 26 255;
 
     --card-border: 184, 184, 184; /* RGB values for #b8b8b8 */
+    --card-bg: 222 241 211;
+    --card-bg-2: 255 255 255;
     --success: 92 187 37; /* RGB values for #5cbb25 */
     --important: 255 222 8; /* RGB values for #ffde08 */
     --caution: 254 157 1; /* RGB values for #fe9d01 */
@@ -40,5 +42,7 @@
     --disclaimer-text: 255 154 166; /* RBG values for #ff9aa6 */
 
     --card-border: 44, 44, 44; /* RGB values for #2c2c2c */
+    --card-bg: 32 42 27;
+    --card-bg-2: 64 64 64;
   }
 }

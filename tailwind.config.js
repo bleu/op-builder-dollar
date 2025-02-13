@@ -27,6 +27,8 @@ export default {
         "sub-text-2": "rgb(var(--sub-text-2))",
         "disclaimer-text": "rgb(var(--disclaimer-text))",
         "diamond-blue": "rgb(var(--diamond-blue))",
+        "card-bg": "rgb(var(--card-bg))",
+        "card-bg-2": "rgb(var(--card-bg-2))",
         success: "rgb(var(--success))",
         important: "rgb(var(--important))",
         caution: "rgb(var(--caution))",
@@ -38,7 +40,7 @@ export default {
     ({ addComponents }) => {
       addComponents({
         ".diamond": {
-          "@apply bg-gradient-to-r from-diamond-blue to-primary inline-block text-transparent bg-clip-text":
+          "@apply bg-gradient-to-r from-diamond-blue via-primary to-diamond-blue inline-block text-transparent bg-clip-text":
             {},
         },
       });
