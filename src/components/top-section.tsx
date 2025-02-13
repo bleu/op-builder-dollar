@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import type { ComponentProps } from "react";
 import LogoComponent from "./logo";
+import { ProgressBar } from "./ui/progress-bar";
 
 export const TopSection = () => {
   return (
@@ -56,7 +57,12 @@ export const TopSection = () => {
           <span className="font-bold italic">6</span>
         </div>
       </Card>
-      <div className="col-span-4 md:col-span-8">Distributing in 20 days</div>
+      <div className="col-span-4 md:col-span-8 flex flex-col gap-4">
+        <span className="text-xl text-sub-text font-semibold">
+          Distributing in 20 days
+        </span>
+        <ProgressBar progress={25} />
+      </div>
     </div>
   );
 };
