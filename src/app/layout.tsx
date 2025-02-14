@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={cn(rubik.className, "bg-background text-foreground")}>
         <Providers>
           <Header />
-          <div className="max-w-[760px] mx-auto px-4">{children}</div>
+          {children}
         </Providers>
       </body>
     </html>
