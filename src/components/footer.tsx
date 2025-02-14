@@ -18,7 +18,7 @@ const linkSections = [
     ],
   },
   {
-    title: "Docs",
+    title: "Documentation",
     links: [
       { name: "Github", href: "https://github.com" },
       { name: "Gitbook", href: "https://gitbook.com" },
@@ -28,15 +28,15 @@ const linkSections = [
 
 export const Footer = () => {
   return (
-    <footer className="flex flex-row justify-between items-center p-8 bg-card-bg-1 rounded-t-[30px]">
-      <div className="flex flex-col gap-1">
+    <footer className="flex flex-col md:flex-row gap-8 justify-between items-center p-8 bg-card-bg-1 rounded-t-[30px] absolute bottom-0 w-full text-center md:text-start">
+      <div className="flex flex-col gap-1 items-center md:items-start">
         <LogoComponent className="text-primary" />
         <span className="italic font-semibold text-xl">
           Optimistic Builder USD
         </span>
         <span className="text-lg text-sub-text">All yield to OP builders.</span>
       </div>
-      <div className="flex flex-row gap-8 items-start">
+      <div className="flex flex-col items-center text-center md:text-start md:flex-row gap-8 md:items-start">
         {linkSections.map((section) => (
           <div key={section.title} className="flex flex-col gap-3">
             <h4 className="text-sub-text font-bold">{section.title}</h4>
@@ -50,7 +50,9 @@ export const Footer = () => {
           </div>
         ))}
       </div>
-      <span className="font-medium text-sm">A Breadchain co-op product</span>
+      <span className="font-medium text-sm text-sub-text">
+        A Breadchain co-op product
+      </span>
     </footer>
   );
 };
