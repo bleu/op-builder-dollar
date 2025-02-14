@@ -40,16 +40,19 @@ export default function BenefitsSection() {
           <BenefitCard
             number={1}
             text="Driven by attestations from the Optimism Grant Council—nothing more."
+            backgroundPosition="left 0% top 0%"
           />
           <BenefitCard
             number={2}
             text="Get monthly funding on Optimism, enabling stress-free building despite the 12-month OP token lock-up."
+            backgroundPosition="left 40% top 0%"
           />
         </div>
         <div className="h-4" />
         <BenefitCard
           number={3}
           text="Automate the entire process from cohort membership to expiration—no gatekeepers involved."
+          backgroundPosition="left 0% top 30%"
         />
       </div>
       <div className="h-16 md:h-20" />
@@ -96,7 +99,15 @@ export default function BenefitsSection() {
   );
 }
 
-const BenefitCard = ({ number, text }: { number: number; text: string }) => {
+const BenefitCard = ({
+  number,
+  text,
+  backgroundPosition,
+}: {
+  number: number;
+  text: string;
+  backgroundPosition: string;
+}) => {
   const { theme } = useThemeStore();
   return (
     <div
@@ -104,6 +115,10 @@ const BenefitCard = ({ number, text }: { number: number; text: string }) => {
         "w-full h-[168px] bg-content flex justify-center items-center gap-4 md:gap-6 rounded-2xl md:rounded-4xl px-4 md:px-8 py-8 md:py-12",
         { "border-[1px] border-card-border": theme === "light" },
       )}
+      style={{
+        backgroundImage: "url(/images/texture.png)",
+        backgroundPosition,
+      }}
     >
       <span className="diamond font-extrabold text-4xl md:text-6xl px-2 italic">
         {number}

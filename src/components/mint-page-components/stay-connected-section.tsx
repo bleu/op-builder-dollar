@@ -20,21 +20,21 @@ export default function StayConnectedSection() {
           subtitle="Github repo"
           image={githubSrc}
           link="https://github.com/BreadchainCoop/builders-dollar"
-          className="bg-[right_100%_top_45%]"
+          backgroundPosition="left 0% top 0%"
         />
         <StayConnectedCard
           title="Follow us on"
           subtitle="Farcaster"
           image={warpcastSrc}
           link="https://warpcast.com/optimisticusd"
-          className="bg-[left_0%_top_0%]"
+          backgroundPosition="left 30% top 0%"
         />
         <StayConnectedCard
           title="Follow us on"
           subtitle="X"
           image={xSrc}
           link="https://x.com/optimisticUSD"
-          className="bg-[left_60%_top_55%]"
+          backgroundPosition="left 60% top 0%"
         />
       </div>
       <div className="h-16 md:h-[100px]" />
@@ -47,13 +47,13 @@ const StayConnectedCard = ({
   subtitle,
   image,
   link,
-  className,
+  backgroundPosition,
 }: {
   title: string;
   subtitle: string;
   image: StaticImageData;
   link: string;
-  className?: string;
+  backgroundPosition: string;
 }) => {
   const { theme } = useThemeStore();
 
@@ -63,10 +63,9 @@ const StayConnectedCard = ({
       target="_blank"
       className={cn(
         "w-[350px] h-[168px] flex justify-between bg-content rounded-4xl",
-        className,
         { "bg-[#191919] text-white": theme === "light" },
       )}
-      style={{ backgroundImage: `url(${texture.src})` }}
+      style={{ backgroundImage: `url(${texture.src})`, backgroundPosition }}
     >
       <div className="pt-5 pl-5">
         <p className="text-xl font-semibold text-sub-text mb-2">{title}</p>
