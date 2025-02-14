@@ -1,8 +1,7 @@
-import { cn } from "@/lib/utils";
 import Image from "next/image";
-import type { ComponentProps } from "react";
-import LogoComponent from "./logo";
-import { ProgressBar } from "./ui/progress-bar";
+import LogoComponent from "../logo";
+import { Card } from "../ui/card";
+import { ProgressBar } from "../ui/progress-bar";
 
 export const TopSection = () => {
   return (
@@ -13,7 +12,7 @@ export const TopSection = () => {
           background: "radial-gradient(circle at center, #FF0420, #7D1AFF)",
         }}
       >
-        <Card className="w-full border-none relative rounded-[29px]">
+        <Card className="w-full border-none relative rounded-[29px] h-40">
           <div className="bg-background absolute inset-0 rounded-[29px] size-full" />
           <Image
             src="/total_yield_bg.png"
@@ -30,14 +29,14 @@ export const TopSection = () => {
               <div className="size-6 bg-primary rounded-full flex items-center justify-center">
                 <LogoComponent className="text-white" width={18} height={18} />
               </div>
-              <span className="font-extrabold italic text-4xl">
-                {getFormattedTotalYield(400000.45)}
+              <span className="font-extrabold italic text-4xl [&>span]:text-3xl">
+                <FormattedYield yieldNumber={400000.45} />
               </span>
             </div>
           </div>
         </Card>
       </div>
-      <Card>
+      <Card className="h-40">
         <div className="w-full flex justify-between">
           <span className="text-sub-text font-normal">APY</span>
           <span className="font-bold italic">0.0%</span>
@@ -67,30 +66,14 @@ export const TopSection = () => {
   );
 };
 
-interface CardProps extends ComponentProps<"div"> {}
-
-const Card = ({ children, className }: CardProps) => {
-  return (
-    <div
-      className={cn(
-        "col-span-4 h-40 justify-between items-center flex flex-col py-4 px-8 border-card-border border rounded-[30px]",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
-};
-
-const getFormattedTotalYield = (totalYield: number) => {
-  const [whole, decimal] = totalYield.toFixed(2).split(".");
+export const FormattedYield = ({ yieldNumber }: { yieldNumber: number }) => {
+  const [whole, decimal] = yieldNumber.toFixed(2).split(".");
 
   const wholeWithCommas = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   return (
     <>
-      {wholeWithCommas}.
-      <span className="text-3xl font-normal not-italic">{decimal}</span>
+      {wholeWithCommas}.<span className="font-normal">{decimal}</span>
     </>
   );
 };

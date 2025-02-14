@@ -25,6 +25,8 @@ export default {
         "card-border": "rgb(var(--card-border))",
         "sub-text": "rgb(var(--sub-text))",
         "sub-text-2": "rgb(var(--sub-text-2))",
+        "card-bg-1": "rgb(var(--card-bg-1))",
+        "card-bg-2": "rgb(var(--card-bg-2))",
         success: "rgb(var(--success))",
         important: "rgb(var(--important))",
         caution: "rgb(var(--caution))",
