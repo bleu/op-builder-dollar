@@ -6,32 +6,24 @@ import { ProgressBar } from "../ui/progress-bar";
 export const TopSection = () => {
   return (
     <div className="grid grid-cols-4 md:grid-cols-8 gap-x-6 gap-y-4">
-      <div
-        className="p-[1px] col-span-4 rounded-[30px] overflow-hidden"
-        style={{
-          background: "radial-gradient(circle at center, #FF0420, #7D1AFF)",
-        }}
+      <Card
+        className="w-full col-span-4 relative h-40 bg-background"
+        variant="flunkyBorder"
+        style={{ backgroundImage: "url('/images/texture.png')" }}
       >
-        <Card
-          className="w-full border-none relative rounded-[29px] h-40 bg-background"
-          style={{ backgroundImage: "url('/images/texture.png')" }}
-        >
-          <div className="z-10 justify-center gap-2 items-center h-full flex flex-col">
-            <h5 className="text-sub-text text-2xl">
-              Total yield to distribute
-            </h5>
-            <div className="flex flex-row items-center gap-2">
-              <div className="size-6 bg-primary rounded-full flex items-center justify-center">
-                <LogoComponent className="text-white" width={18} height={18} />
-              </div>
-              <span className="font-extrabold italic text-4xl [&>span]:text-">
-                <FormattedYield yieldNumber={400000.45} />
-              </span>
+        <div className="z-10 justify-center gap-2 items-center h-full flex flex-col">
+          <h5 className="text-sub-text text-2xl">Total yield to distribute</h5>
+          <div className="flex flex-row items-center gap-2">
+            <div className="size-6 bg-primary rounded-full flex items-center justify-center">
+              <LogoComponent className="text-white" width={18} height={18} />
             </div>
+            <span className="font-extrabold italic text-4xl [&>span]:text-">
+              <FormattedYield yieldNumber={400000.45} />
+            </span>
           </div>
-        </Card>
-      </div>
-      <Card className="h-40">
+        </div>
+      </Card>
+      <Card className="h-40 col-span-4 bg-background flex flex-col justify-between">
         <div className="w-full flex justify-between">
           <span className="text-sub-text font-normal">APY</span>
           <span className="font-bold italic">0.0%</span>
