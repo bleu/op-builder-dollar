@@ -1,9 +1,3 @@
-import React from "react";
-
 export default function YieldPage() {
-  return (
-    <div>
-      <h1>Yield</h1>
-    </div>
-  );
+  return <h1>YieldPage</h1>;
 }

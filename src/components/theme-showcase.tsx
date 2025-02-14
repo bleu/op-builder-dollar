@@ -1,7 +1,6 @@
 "use client";
 
-import { useThemeStore } from "@/store/useThemeStore";
-import React from "react";
+import { useThemeStore } from "@/store/use-theme-store";
 import { Button } from "./ui/button";
 
 export default function ThemeShowcase() {

@@ -1,6 +1,9 @@
 "use client";
 
-import { WagmiProvider, createConfig, http } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+import type { ReactNode } from "react";
+import { http, WagmiProvider, createConfig } from "wagmi";
 import {
   arbitrum,
   base,
@@ -9,9 +12,6 @@ import {
   polygon,
   sepolia,
 } from "wagmi/chains";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConnectKitProvider, getDefaultConfig } from "connectkit";
-import type { ReactNode } from "react";
 
 const walletConnectProjectId = "";
 
