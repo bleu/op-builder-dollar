@@ -1,6 +1,6 @@
 import texture from "@/../public/images/texture.png";
 import { cn } from "@/lib/utils";
-import { useThemeStore } from "@/store/useThemeStore";
+import { useThemeStore } from "@/store/use-theme-store";
 import type { ReactNode } from "react";
 import ObUsd from "../ui/obusd";
 

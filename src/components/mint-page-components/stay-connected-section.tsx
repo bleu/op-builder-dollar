@@ -3,7 +3,7 @@ import warpcastSrc from "@/../public/icons/warpcast.png";
 import xSrc from "@/../public/icons/x.png";
 import texture from "@/../public/images/texture.png";
 import { cn } from "@/lib/utils";
-import { useThemeStore } from "@/store/useThemeStore";
+import { useThemeStore } from "@/store/use-theme-store";
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 

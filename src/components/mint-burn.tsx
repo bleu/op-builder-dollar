@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { ArrowDown, Butterfly, Fire } from "phosphor-react";
 import { useState } from "react";
-import { TokenAmountContainer } from "./ui/TokenAmountContainer";
 import { Button } from "./ui/button";
+import { TokenAmountContainer } from "./ui/token-amount-container";
 
 export default function MintBurn() {
   const [isMint, setIsMint] = useState<boolean>(true);

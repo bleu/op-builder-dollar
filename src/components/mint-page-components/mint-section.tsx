@@ -1,7 +1,7 @@
 import texture from "@/../public/images/texture.png";
-import MintBurn from "@/components/MintBurn";
+import MintBurn from "@/components/mint-burn";
 import { cn } from "@/lib/utils";
-import { useThemeStore } from "@/store/useThemeStore";
+import { useThemeStore } from "@/store/use-theme-store";
 import ObUsd from "../ui/obusd";
 
 export default function MintSection() {

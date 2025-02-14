@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { useThemeStore } from "@/store/useThemeStore";
+import { useThemeStore } from "@/store/use-theme-store";
 import {
   ArrowSquareOut,
   Butterfly,

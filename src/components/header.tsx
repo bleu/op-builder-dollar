@@ -1,6 +1,6 @@
 "use client";
 
-import { useThemeStore } from "@/store/useThemeStore";
+import { useThemeStore } from "@/store/use-theme-store";
 import Image from "next/image";
 import Link from "next/link";
 import {
