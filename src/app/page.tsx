@@ -1,5 +1,5 @@
-import YieldPage from "./yield/page";
+import MintPage from "./mint/page";
 
 export default function Home() {
-  return <YieldPage />;
+  return <MintPage />;
 }
