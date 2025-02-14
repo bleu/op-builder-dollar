@@ -30,21 +30,21 @@ export default function YieldPage() {
   return (
     <div className="flex flex-col w-full justify-center items-center">
       <div
-        className="flex flex-col w-full justify-center items-center bg-cover pt-32 rounded-b-[60px] border-b-[1px] border-card-border"
+        className="flex flex-col w-full justify-center items-center bg-cover pt-16 md:pt-32 px-4 md:px-0 rounded-b-[30px] md:rounded-b-[60px] border-b-[1px] border-card-border"
         style={{ backgroundImage: `url(${texture.src})` }}
       >
-        <h1 className="text-center italic font-bold text-2xl mt-5">
+        <h1 className="text-center italic font-bold text-xl md:text-2xl mt-5 px-4">
           OPTIMISTIC BUILDER DOLLAR
         </h1>
-        <h2 className="text-center text-sub-text italic mb-4">
+        <h2 className="text-center text-sub-text italic mb-4 px-4 text-sm md:text-base">
           Mint obUSD to generate funds for builder grantees of Optimism
         </h2>
         <MintBurn />
-        <div className="h-16" />
-        <div className="w-[636px] h-[89px] flex justify-between">
+        <div className="h-8 md:h-16" />
+        <div className="w-full md:w-[636px] flex flex-col md:flex-row gap-4 md:gap-6">
           <div
             className={cn(
-              "w-[306px] h-[89px] bg-content rounded-4xl px-8 py-4 shadow-lg",
+              "w-full md:w-[306px] h-[89px] bg-content rounded-2xl md:rounded-4xl px-4 md:px-8 py-4 shadow-lg",
               lightBorderClass,
             )}
           >
@@ -58,7 +58,7 @@ export default function YieldPage() {
           </div>
           <div
             className={cn(
-              "flex flex-col w-[306px] h-[89px] bg-content rounded-4xl px-8 py-4 shadow-lg",
+              "flex flex-col w-full md:w-[306px] h-[89px] bg-content rounded-2xl md:rounded-4xl px-4 md:px-8 py-4 shadow-lg",
               lightBorderClass,
             )}
           >
@@ -68,7 +68,7 @@ export default function YieldPage() {
             <span className="text-2xl font-bold">100</span>
           </div>
         </div>
-        <div className="h-[58px]" />
+        <div className="h-8 md:h-[58px]" />
       </div>
       <div className="h-6" />
       <span className="text-sm text-disclaimer-text font-medium mb-1">
@@ -76,23 +76,23 @@ export default function YieldPage() {
       </span>
       <CaretDown className="text-primary" size={24} />
       <div className="h-4" />
-      <div className="flex justify-around w-[400px]">
-        <div className="w-40 h-[55px] flex flex-col justify-between">
+      <div className="grid grid-cols-2 w-[400px]">
+        <div className="w-40 h-[55px] flex flex-col justify-between ml-4">
           <span className="diamond">Trusted by</span>
           <span className="text-3xl font-bold">OPTIMISM</span>
         </div>
-        <div className="w-40 h-[55px] ml-24 flex flex-col justify-between">
+        <div className="w-32 h-[55px] ml-10 flex flex-col justify-between">
           <span className="diamond">Audited by</span>
           <span className="text-3xl font-bold">xyz firm</span>
         </div>
       </div>
-      <div className="h-[58px]" />
+      <div className="h-12 md:h-[58px]" />
       {/* Benefits */}
-      <div>
-        <p className="text-2xl font-bold italic mb-8">
+      <div className="px-4 md:px-0">
+        <p className="text-xl md:text-2xl font-bold italic mb-6 md:mb-8 text-center md:text-left">
           BENEFITS FOR SUPERCHAIN BUILDERS
         </p>
-        <div className="grid grid-cols-2 w-[744px] gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full md:w-[744px] gap-4">
           <BenefitCard
             number={1}
             text="Driven by attestations from the Optimism Grant Council—nothing more."
@@ -108,14 +108,16 @@ export default function YieldPage() {
           text="Automate the entire process from cohort membership to expiration—no gatekeepers involved."
         />
       </div>
-      <div className="h-20" />
+      <div className="h-16 md:h-20" />
       {/* Funding informations */}
-      <div className="w-[738px] flex flex-col gap-4 mb-20">
-        <p className="text-2xl font-bold italic">
+      <div className="w-full px-4 md:px-0 md:w-[738px] flex flex-col gap-4 mb-20">
+        <p className="text-xl md:text-2xl font-bold italic text-center md:text-left">
           AUTOMATED FUNDING FOR OPTIMISM BUILDERS
         </p>
-        <p className="tex-xl text-sub-text italic">How does it work?</p>
-        <div className="flex flex-col w-[738px] gap-12 mb-4">
+        <p className="text-lg md:text-xl text-sub-text italic text-center md:text-left">
+          How does it work?
+        </p>
+        <div className="flex flex-col w-full md:w-[738px] gap-8 md:gap-12 mb-4">
           <FundingCard
             logo={<Butterfly className="text-primary" size={32} />}
             title="Mint obUSD"
@@ -142,22 +144,24 @@ export default function YieldPage() {
             text="Active cohort projects receive yield for 6 months before being ejected."
           />
         </div>
-        <p className="w-full flex justify-center items-center gap-2 text-primary font-semibold text-xl hover:cursor-pointer hover:text-error">
+        <p className="w-full flex justify-center items-center gap-2 text-primary font-semibold text-lg md:text-xl hover:cursor-pointer hover:text-error">
           Full documentation <ArrowSquareOut weight="bold" size={24} />
         </p>
       </div>
       {/* Our impact */}
       <div
-        className="flex flex-col w-full justify-center items-center bg-cover pt-32 rounded-[60px] border-b-[1px] border-t-[1px] border-card-border"
+        className="flex flex-col w-full justify-center items-center bg-cover pt-16 md:pt-32 rounded-[30px] md:rounded-[60px] border-b-[1px] border-t-[1px] border-card-border"
         style={{ backgroundImage: `url(${texture.src})` }}
       >
-        <div className=" flex flex-col py-20 gap-4 w-[738px]">
-          <p className="text-2xl font-bold italic mb-2">OUR IMPACT</p>
-          <div className="grid grid-cols-[2fr_1fr] w-[738px] gap-4">
+        <div className="flex flex-col py-12 md:py-20 gap-4 w-full px-4 md:px-0 md:w-[738px]">
+          <p className="text-xl md:text-2xl font-bold italic mb-2 text-center md:text-left">
+            OUR IMPACT
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] w-full md:w-[738px] gap-4">
             <ImpactCard
               title="Total yield generated overtime"
               content={
-                <span className="text-4xl text-success font-bold italic">
+                <span className="text-3xl md:text-4xl text-success font-bold italic">
                   $40,678.56
                 </span>
               }
@@ -165,14 +169,22 @@ export default function YieldPage() {
             />
             <ImpactCard
               title="Total teams funded"
-              content={<span className="text-4xl font-bold italic">300</span>}
+              content={
+                <span className="text-3xl md:text-4xl font-bold italic">
+                  300
+                </span>
+              }
               className={lightBorderClass}
             />
           </div>
-          <div className="grid grid-cols-[1fr_2fr] w-[738px] gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] w-full md:w-[738px] gap-4">
             <ImpactCard
               title="Current APY"
-              content={<span className="text-4xl font-bold italic">4.5%</span>}
+              content={
+                <span className="text-3xl md:text-4xl font-bold italic">
+                  4.5%
+                </span>
+              }
               className={lightBorderClass}
             />
             <ImpactCard
@@ -180,7 +192,7 @@ export default function YieldPage() {
               content={
                 <div className="flex gap-2">
                   <ObUsd size={32} />
-                  <span className="text-4xl font-bold italic">
+                  <span className="text-3xl md:text-4xl font-bold italic">
                     2,000,010.87
                   </span>
                 </div>
@@ -188,16 +200,22 @@ export default function YieldPage() {
               className={lightBorderClass}
             />
           </div>
-          <div className="grid grid-cols-[1fr_2fr] w-[738px] gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] w-full md:w-[738px] gap-4">
             <ImpactCard
               title="Total users"
-              content={<span className="text-4xl font-bold italic">2,000</span>}
+              content={
+                <span className="text-3xl md:text-4xl font-bold italic">
+                  2,000
+                </span>
+              }
               className={lightBorderClass}
             />
             <ImpactCard
               title="Total obUSD transactions"
               content={
-                <span className="text-4xl font-bold italic">20,000,010</span>
+                <span className="text-3xl md:text-4xl font-bold italic">
+                  20,000,010
+                </span>
               }
               className={lightBorderClass}
             />
@@ -214,14 +232,14 @@ const BenefitCard = ({ number, text }: { number: number; text: string }) => {
   return (
     <div
       className={cn(
-        "w-full h-[168px] bg-content flex justify-center items-center gap-6 rounded-4xl px-8 py-12",
+        "w-full h-[168px] bg-content flex justify-center items-center gap-4 md:gap-6 rounded-2xl md:rounded-4xl px-4 md:px-8 py-8 md:py-12",
         { "border-[1px] border-card-border": theme === "light" },
       )}
     >
-      <span className="diamond font-extrabold text-6xl px-2 italic">
+      <span className="diamond font-extrabold text-4xl md:text-6xl px-2 italic">
         {number}
       </span>
-      <span className="max-w-[227px]">{text}</span>
+      <span className="max-w-[227px] text-sm md:text-base">{text}</span>
     </div>
   );
 };
@@ -232,13 +250,13 @@ const FundingCard = ({
   text,
 }: { logo: ReactNode; title: string; text: string }) => {
   return (
-    <div className={"flex w-[738px] h-20 gap-3"}>
-      <div className="flex justify-center items-center w-[52px] h-20 bg-primary/10 border-[1px] border-card-border rounded-[20px]">
+    <div className="flex w-full md:w-[738px] min-h-[80px] gap-3">
+      <div className="flex-shrink-0 flex justify-center items-center w-[52px] h-20 bg-primary/10 border-[1px] border-card-border rounded-[20px]">
         {logo}
       </div>
-      <div className="flex flex-col justify-between h-20">
-        <p className="text-2xl font-bold">{title}</p>
-        <p className="text-sub-text">{text}</p>
+      <div className="flex flex-col justify-between h-full">
+        <p className="text-xl md:text-2xl font-bold">{title}</p>
+        <p className="text-sub-text text-sm md:text-base">{text}</p>
       </div>
     </div>
   );
@@ -253,13 +271,13 @@ const ImpactCard = ({
     <div className="h-[168px]">
       <div
         className={cn(
-          "w-full h-[168px] bg-content flex justify-center items-center gap-6 rounded-3xl px-8 py-12",
+          "w-full h-[168px] bg-content flex justify-center items-center gap-6 rounded-2xl md:rounded-3xl px-4 md:px-8 py-8 md:py-12",
           className,
         )}
       >
         {content}
       </div>
-      <span className="max-w-[227px] relative top-[-148px] left-6 text-sub-text">
+      <span className="max-w-[227px] relative top-[-148px] left-6 text-sub-text text-sm md:text-base">
         {title}
       </span>
     </div>
@@ -269,9 +287,11 @@ const ImpactCard = ({
 const StayConnected = () => {
   return (
     <>
-      <div className="h-[100px]" />
-      <p className="text-2xl font-bold italic mb-6">STAY CONNECTED</p>
-      <div className="grid grid-cols-3 gap-5">
+      <div className="h-16 md:h-[100px]" />
+      <p className="text-xl md:text-2xl font-bold italic mb-6 text-center">
+        STAY CONNECTED
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 px-4 md:px-0">
         <StayConnectedCard
           title="Inspect our"
           subtitle="Github repo"
@@ -294,7 +314,7 @@ const StayConnected = () => {
           className="bg-[left_60%_top_55%]"
         />
       </div>
-      <div className="h-[100px]" />
+      <div className="h-16 md:h-[100px]" />
     </>
   );
 };

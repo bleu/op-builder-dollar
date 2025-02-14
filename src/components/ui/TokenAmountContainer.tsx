@@ -31,7 +31,7 @@ export const TokenAmountContainer = ({
   return (
     <div
       className={cn(
-        "flex flex-col justify-between w-[384px] h-[104px] rounded-3xl border-[1px] border-card-border p-3",
+        "flex flex-col justify-between w-full max-w-[384px] h-[104px] rounded-3xl border-[1px] border-card-border p-3",
         className,
       )}
     >
