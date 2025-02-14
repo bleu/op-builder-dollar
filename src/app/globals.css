@@ -15,15 +15,16 @@
 
     --sub-text: 122 122 122; /* RGB values for #7a7a7a */
     --sub-text-2: 184, 184, 184; /* RGB values for #b8b8b8 */
+    --disclaimer-text: 122 122 122; /* RBG values for #7a7a7a */
+    --diamond-blue: 125 26 255;
 
     --card-border: 184, 184, 184; /* RGB values for #b8b8b8 */
+    --card-bg: 222 241 211;
+    --card-bg-2: 255 255 255;
     --success: 92 187 37; /* RGB values for #5cbb25 */
     --important: 255 222 8; /* RGB values for #ffde08 */
     --caution: 254 157 1; /* RGB values for #fe9d01 */
     --error: 204 0 23; /* RGB values for #cc0017 */
-
-    --card-border: 212 212 212;
-    --card-bg-2: 255 255 255; /* RGB values for #ffffff */
   }
 
   .dark {
@@ -38,8 +39,10 @@
 
     --sub-text: 184 184 184; /* RGB values for #b8b8b8 */
     --sub-text-2: 122, 122, 122; /* RGB values for #7a7a7a */
+    --disclaimer-text: 255 154 166; /* RBG values for #ff9aa6 */
 
     --card-border: 44, 44, 44; /* RGB values for #2c2c2c */
-    --card-bg-2: 64 64 64; /* RGB values for #404040 */
+    --card-bg: 32 42 27;
+    --card-bg-2: 64 64 64;
   }
 }
