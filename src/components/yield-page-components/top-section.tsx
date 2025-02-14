@@ -1,15 +1,9 @@
 "use client";
-
-import { cn } from "@/lib/utils";
-import { useThemeStore } from "@/store/useThemeStore";
-import Image from "next/image";
 import LogoComponent from "../logo";
 import { Card } from "../ui/card";
 import { ProgressBar } from "../ui/progress-bar";
 
 export const TopSection = () => {
-  const theme = useThemeStore((state) => state.theme);
-
   return (
     <div className="grid grid-cols-4 md:grid-cols-8 gap-x-6 gap-y-4">
       <div
@@ -18,18 +12,10 @@ export const TopSection = () => {
           background: "radial-gradient(circle at center, #FF0420, #7D1AFF)",
         }}
       >
-        <Card className="w-full border-none relative rounded-[29px] h-40">
-          <div className="bg-background absolute inset-0 rounded-[29px] size-full" />
-          <Image
-            src="/total_yield_bg.png"
-            alt="bg"
-            width={1000}
-            height={1000}
-            className={cn(
-              "absolute inset-0 object-cover rounded-[29px] size-full opacity-40 [data-theme='light']:invert",
-              theme === "light" && "invert",
-            )}
-          />
+        <Card
+          className="w-full border-none relative rounded-[29px] h-40 bg-background"
+          style={{ backgroundImage: "url('/images/texture.png')" }}
+        >
           <div className="z-10 justify-center gap-2 items-center h-full flex flex-col">
             <h5 className="text-sub-text text-2xl">
               Total yield to distribute
