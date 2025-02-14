@@ -14,7 +14,7 @@ export const Card = ({
   const CardComponent = (
     <div
       className={cn(
-        "py-4 px-8 bg-card-bg-1 rounded-[30px] border border-card-border",
+        "py-4 px-8 bg-content rounded-[30px] border border-card-border",
         variant === "flunkyBorder" && "border-none rounded-[29px]",
         className,
       )}

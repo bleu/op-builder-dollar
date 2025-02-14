@@ -74,7 +74,7 @@ const ProjectCard = ({
   };
 
   return (
-    <Card className="bg-card-bg-1 p-4 items-start flex flex-col gap-4">
+    <Card className="p-4 items-start flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <h4 className="font-bold text-2xl italic">{project.name}</h4>
         <span className="italic text-sub-text line-clamp-6 md:line-clamp-3">

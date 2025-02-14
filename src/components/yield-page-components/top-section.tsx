@@ -1,4 +1,5 @@
 "use client";
+import { addCommasToInt } from "@/lib/utils";
 import LogoComponent from "../logo";
 import { Card } from "../ui/card";
 import { ProgressBar } from "../ui/progress-bar";
@@ -56,8 +57,7 @@ export const TopSection = () => {
 export const FormattedYield = ({ yieldNumber }: { yieldNumber: number }) => {
   const [whole, decimal] = yieldNumber.toFixed(2).split(".");
 
-  const wholeWithCommas = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
+  const wholeWithCommas = addCommasToInt(whole);
   return (
     <>
       {wholeWithCommas}.<span className="font-normal">{decimal}</span>

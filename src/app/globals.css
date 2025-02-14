@@ -23,7 +23,6 @@
     --error: 204 0 23; /* RGB values for #cc0017 */
 
     --card-border: 212 212 212;
-    --card-bg-1: 255 255 255; /* RGB values for #ffffff */
     --card-bg-2: 255 255 255; /* RGB values for #ffffff */
   }
 
@@ -41,7 +40,6 @@
     --sub-text-2: 122, 122, 122; /* RGB values for #7a7a7a */
 
     --card-border: 44, 44, 44; /* RGB values for #2c2c2c */
-    --card-bg-1: 25 25 25; /* RGB values for #191919 */
     --card-bg-2: 64 64 64; /* RGB values for #404040 */
   }
 }
