@@ -21,10 +21,20 @@ export const ProjectList = ({ totalYield }: { totalYield: number }) => {
       charmverseUrl: "/",
       treasuryUrl: "/",
     },
+    {
+      id: "1",
+      name: "Project title",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      shareOfYield: 400.45,
+      membershipExpiration: "2022-12-31",
+      charmverseUrl: "/",
+      treasuryUrl: "/",
+    },
   ];
 
   return (
-    <div>
+    <div className="space-y-6">
       <div className="flex flex-col gap-4">
         <h2 className="font-bold text-2xl">PROJECTS RECEIVING YIELD (100)</h2>
         <span className="text-sub-text text-lg">
@@ -33,7 +43,7 @@ export const ProjectList = ({ totalYield }: { totalYield: number }) => {
           basis.
         </span>
       </div>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="flex flex-col gap-3">
         {projects.map((project) => (
           <ProjectCard
             key={project.id}
