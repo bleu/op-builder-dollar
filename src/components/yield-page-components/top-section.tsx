@@ -1,9 +1,15 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { useThemeStore } from "@/store/useThemeStore";
 import Image from "next/image";
 import LogoComponent from "../logo";
 import { Card } from "../ui/card";
 import { ProgressBar } from "../ui/progress-bar";
 
 export const TopSection = () => {
+  const theme = useThemeStore((state) => state.theme);
+
   return (
     <div className="grid grid-cols-4 md:grid-cols-8 gap-x-6 gap-y-4">
       <div
@@ -19,7 +25,10 @@ export const TopSection = () => {
             alt="bg"
             width={1000}
             height={1000}
-            className="absolute inset-0 object-cover rounded-[29px] size-full opacity-40"
+            className={cn(
+              "absolute inset-0 object-cover rounded-[29px] size-full opacity-40 [data-theme='light']:invert",
+              theme === "light" && "invert",
+            )}
           />
           <div className="z-10 justify-center gap-2 items-center h-full flex flex-col">
             <h5 className="text-sub-text text-2xl">
@@ -29,7 +38,7 @@ export const TopSection = () => {
               <div className="size-6 bg-primary rounded-full flex items-center justify-center">
                 <LogoComponent className="text-white" width={18} height={18} />
               </div>
-              <span className="font-extrabold italic text-4xl [&>span]:text-3xl">
+              <span className="font-extrabold italic text-4xl [&>span]:text-">
                 <FormattedYield yieldNumber={400000.45} />
               </span>
             </div>

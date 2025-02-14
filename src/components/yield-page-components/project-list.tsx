@@ -36,7 +36,9 @@ export const ProjectList = ({ totalYield }: { totalYield: number }) => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4">
-        <h2 className="font-bold text-2xl">PROJECTS RECEIVING YIELD (100)</h2>
+        <h2 className="font-bold text-2xl">
+          PROJECTS RECEIVING YIELD ({projects.length})
+        </h2>
         <span className="text-sub-text text-lg">
           This list provides all projects or teams that are currently receiving
           yield. All yield is equally divided and distributed on a monthly
@@ -75,7 +77,7 @@ const ProjectCard = ({
     <Card className="bg-card-bg-1 p-4 items-start flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <h4 className="font-bold text-2xl italic">{project.name}</h4>
-        <span className="italic text-sub-text line-clamp-6">
+        <span className="italic text-sub-text line-clamp-6 md:line-clamp-3">
           {project.description}
         </span>
       </div>
@@ -93,7 +95,7 @@ const ProjectCard = ({
           </Button>
         </Link>
       </div>
-      <div className="flex flex-col gap-3 md:flex-row">
+      <div className="flex flex-col gap-y-3 gap-x-8 md:flex-row">
         <DetailedInfoLabel
           detailedInfo={`${getPercentageOfTotalYield(project.shareOfYield)}% of total`}
           label="Share of monthly yield"
