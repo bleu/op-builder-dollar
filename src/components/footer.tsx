@@ -13,15 +13,18 @@ const linkSections = [
   {
     title: "Socials",
     links: [
-      { name: "X", href: "https://twitter.com" },
-      { name: "Farcaster", href: "https://discord.com" },
+      { name: "X", href: "https://x.com/optimisticUSD" },
+      { name: "Farcaster", href: "https://warpcast.com/optimisticusd" },
     ],
   },
   {
     title: "Documentation",
     links: [
-      { name: "Github", href: "https://github.com" },
-      { name: "Gitbook", href: "https://gitbook.com" },
+      {
+        name: "Github",
+        href: "https://github.com/BreadchainCoop/builders-dollar",
+      },
+      // { name: "Gitbook", href: "https://gitbook.com" }, TODO - add link
     ],
   },
 ];
