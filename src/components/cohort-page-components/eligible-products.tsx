@@ -3,6 +3,7 @@
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { CheckCircle, ThumbsUp } from "phosphor-react";
+import { AccountName } from "../account-name";
 import { ProjectCard } from "../project-card";
 import { Button } from "../ui/button";
 
@@ -87,7 +88,7 @@ const EndorsementComponent = ({
         <ul className="list-disc list-inside ml-4">
           {endorsers?.map((endorser) => (
             <li key={endorser.address} className="italic text-foreground">
-              {endorser.address}
+              <AccountName address={endorser.address} />
             </li>
           ))}
           {endorsers && endorsers.length < 3 && (
