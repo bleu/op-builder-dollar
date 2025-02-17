@@ -5,6 +5,7 @@ export type Project = {
   shareOfYield: number;
   membershipExpiration: string;
   projectLinks: ProjectLink[];
+  endorsers?: { address: string }[];
 };
 
 type ProjectLink = {
