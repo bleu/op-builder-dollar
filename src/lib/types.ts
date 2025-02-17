@@ -3,9 +3,10 @@ export type Project = {
   name: string;
   description: string;
   shareOfYield: number;
+  membershipInitialization: string;
   membershipExpiration: string;
   projectLinks: ProjectLink[];
-  endorsers?: { address: string }[];
+  endorsers?: { address: `0x${string}` }[];
 };
 
 type ProjectLink = {
