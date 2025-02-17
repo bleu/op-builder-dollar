@@ -75,7 +75,7 @@ export const ActiveCohortMembers = () => {
           <ProjectCard
             key={project.id}
             project={project}
-            className="grid grid-cols-8 w-full gap-2"
+            className="grid grid-cols-4 md:grid-cols-8 w-full gap-2"
           >
             <Card className="rounded-[15px] flex flex-col justify-center gap-2 px-6 py-3 col-span-4">
               <span className="text-sub-text">Cohort member</span>
