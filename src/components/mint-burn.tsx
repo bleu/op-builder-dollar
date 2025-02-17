@@ -1,5 +1,6 @@
 import { useMint } from "@/hooks/use-mint";
 import { useTokenBalances } from "@/hooks/use-token-balances";
+import { tokenAmountStringToBigint } from "@/utils/formatting";
 import { ArrowDown } from "phosphor-react";
 import { useState } from "react";
 import { MintBurnButton } from "./mint-burn-card-components/mint-burn-button";
@@ -18,12 +19,7 @@ export default function MintBurn() {
 
   const amount =
     value && obusdDecimals
-      ? BigInt(
-          new Intl.NumberFormat("fullwide", {
-            useGrouping: false,
-            maximumFractionDigits: 0,
-          }).format(Number(value) * 10 ** obusdDecimals),
-        )
+      ? tokenAmountStringToBigint(value, obusdDecimals)
       : undefined;
 
   const { trigger, isLoading } = useMint({ amount });
