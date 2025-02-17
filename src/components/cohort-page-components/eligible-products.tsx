@@ -2,7 +2,9 @@
 
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { CheckCircle, ThumbsUp } from "phosphor-react";
 import { ProjectCard } from "../project-card";
+import { Button } from "../ui/button";
 
 export const EligibleProducts = () => {
   const projects: Project[] = [
@@ -23,6 +25,7 @@ export const EligibleProducts = () => {
           label: "Proof of endorsement",
         },
       ],
+      endorsers: [{ address: "0x123...678" }, { address: "0x123...5678" }],
     },
     {
       id: "2",
@@ -41,6 +44,7 @@ export const EligibleProducts = () => {
           label: "Proof of endorsement",
         },
       ],
+      endorsers: [{ address: "0x123...678" }, { address: "0x1234...5678" }],
     },
   ];
 
@@ -64,7 +68,7 @@ export const EligibleProducts = () => {
             project={project}
             className="grid grid-cols-8 w-full gap-2"
           >
-            <EndorsementComponent />
+            <EndorsementComponent endorsers={project.endorsers || []} />
           </ProjectCard>
         ))}
       </div>
@@ -72,29 +76,32 @@ export const EligibleProducts = () => {
   );
 };
 
-const EndorsementComponent = () => {
-  const endorsers = [
-    { address: "0x1234...5678" },
-    { address: "0x1234...5678" },
-  ];
+const EndorsementComponent = ({
+  endorsers,
+}: { endorsers: Project["endorsers"] }) => {
+  // TODO - const { account } = useAccount();
+  const account = "0x1234...5678";
 
   return (
-    <div className="w-full col-span-8 flex flex-col gap-2">
-      <h3 className="font-semibold text-xl">Cohort approval progress</h3>
-      <EndorseProgressBar votes={2} />
-      <span className="text-sub-text-2 italic">Endorsed by</span>
-      <ul className="list-disc list-inside ml-4">
-        {endorsers.map((endorser) => (
-          <li key={endorser.address} className="italic text-foreground">
-            {endorser.address}
-          </li>
-        ))}
-        {endorsers.length < 3 && (
-          <li className="italic text-sub-text">
-            {3 - endorsers.length} more endorsement missing
-          </li>
-        )}
-      </ul>
+    <div className="w-full col-span-8 flex flex-col gap-4">
+      <div className="w-full col-span-8 flex flex-col gap-2">
+        <h3 className="font-semibold text-xl">Cohort approval progress</h3>
+        <EndorseProgressBar votes={2} />
+        <span className="text-sub-text-2 italic">Endorsed by</span>
+        <ul className="list-disc list-inside ml-4">
+          {endorsers?.map((endorser) => (
+            <li key={endorser.address} className="italic text-foreground">
+              {endorser.address}
+            </li>
+          ))}
+          {endorsers && endorsers.length < 3 && (
+            <li className="italic text-sub-text">
+              {3 - endorsers.length} more endorsement missing
+            </li>
+          )}
+        </ul>
+      </div>
+      <EndorseButton userAddress={account} endorsers={endorsers} />
     </div>
   );
 };
@@ -114,5 +121,39 @@ const EndorseProgressBar = ({ votes }: { votes: number }) => {
         />
       ))}
     </div>
+  );
+};
+
+interface EndorseButtonProps {
+  userAddress: string;
+  endorsers: Project["endorsers"];
+}
+
+const EndorseButton = ({ userAddress, endorsers }: EndorseButtonProps) => {
+  const isEndorsed = endorsers?.some(
+    (endorser) => endorser.address === userAddress,
+  );
+
+  const buttonStyle = "w-full rounded-[16px] py-4 text-lg font-semibold";
+
+  if (isEndorsed) {
+    return (
+      <Button
+        className={cn(
+          buttonStyle,
+          "w-full bg-success/10 text-success disabled:opacity-100 rounded-[16px] py-4 text-lg font-semibold",
+        )}
+        disabled
+      >
+        <CheckCircle className="text-success" weight="bold" size={24} />
+        ENDORSED
+      </Button>
+    );
+  }
+
+  return (
+    <Button className={buttonStyle} variant="default">
+      <ThumbsUp weight="bold" size={24} /> ENDORSE PROJECT
+    </Button>
   );
 };
