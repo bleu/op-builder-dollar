@@ -35,11 +35,8 @@ export function useExecuteTransaction({
 
       const newTxHashes = [] as `0x${string}`[];
       for (const tx of txs) {
-        console.log("waiting for approval...");
         const txHash = await walletClient.sendTransaction(tx);
-        console.log("waiting for receipt...");
         await publicClient.waitForTransactionReceipt({ hash: txHash });
-        console.log("tx completed!");
         newTxHashes.push(txHash);
       }
       return newTxHashes;

@@ -12,7 +12,7 @@ const LogoComponent = ({
     viewBox="0 0 36 36"
     className={cn("fill-current", className)}
   >
-  <title>obUSD logo</title>
+    <title>obUSD logo</title>
     <g filter="url(#a)">
       <path
         fillRule="evenodd"
