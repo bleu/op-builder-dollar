@@ -2,11 +2,10 @@
 
 import type { Project } from "@/lib/types";
 import { DetailedInfoLabel } from "../detailed-info-label";
-import LogoComponent from "../logo";
 import { ProjectCard } from "../project-card";
-import { FormattedYield } from "./top-section";
+import { Card } from "../ui/card";
 
-export const ProjectList = ({ totalYield }: { totalYield: number }) => {
+export const ActiveCohortMembers = () => {
   const projects: Project[] = [
     {
       id: "1",
@@ -22,7 +21,7 @@ export const ProjectList = ({ totalYield }: { totalYield: number }) => {
         },
         {
           href: "/",
-          label: "Treasury",
+          label: "Proof of endorsement",
         },
       ],
     },
@@ -40,57 +39,50 @@ export const ProjectList = ({ totalYield }: { totalYield: number }) => {
         },
         {
           href: "/",
-          label: "Treasury",
+          label: "Proof of endorsement",
         },
       ],
     },
   ];
 
-  const getMonthsLeft = (date: string) => {
-    const currentDate = new Date();
-    const expirationDate = new Date(date);
-    const monthsLeft = expirationDate.getMonth() - currentDate.getMonth();
-    return monthsLeft;
-  };
-
-  const getPercentageOfTotalYield = (shareOfYield: number) => {
-    return ((shareOfYield / totalYield) * 100).toFixed(1);
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4">
         <h2 className="font-bold text-2xl">
-          PROJECTS RECEIVING YIELD ({projects.length})
+          ACTIVE COHORT MEMBERS ({projects.length})
         </h2>
         <span className="text-sub-text text-lg">
-          This list provides all projects or teams that are currently receiving
-          yield. All yield is equally divided and distributed on a monthly
-          basis.
+          This list features cohort projects endorsed by three Optimistic
+          citizens, with membership lasting eight months.
         </span>
       </div>
       <div className="flex flex-col gap-3">
         {projects.map((project) => (
-          <ProjectCard key={project.id} project={project}>
-            <DetailedInfoLabel
-              detailedInfo={`${getPercentageOfTotalYield(project.shareOfYield)}% of total`}
-              label="Share of monthly yield"
-              className="flex items-center gap-2 text-xl font-semibold"
-            >
-              <div className="size-6 bg-primary rounded-full flex items-center justify-center">
-                <LogoComponent className="text-white" width={18} height={18} />
-              </div>
-              <div className="[&>span]:text-[1rem] italic">
-                <FormattedYield yieldNumber={project.shareOfYield} />
-              </div>
-            </DetailedInfoLabel>
-            <DetailedInfoLabel
-              detailedInfo={`${getMonthsLeft(project.membershipExpiration)} months left`}
-              label="Membership expiration"
-              className="flex items-center gap-2 font-bold italic"
-            >
-              {project.membershipExpiration}
-            </DetailedInfoLabel>
+          <ProjectCard
+            key={project.id}
+            project={project}
+            className="grid grid-cols-8 w-full gap-2"
+          >
+            <Card className="rounded-[15px] flex flex-col justify-center gap-2 px-6 py-3 col-span-4">
+              <span className="text-sub-text">Cohort member</span>
+              Check
+            </Card>
+            <Card className="rounded-[15px] flex flex-col justify-center gap-2 px-6 py-3 col-span-4">
+              <span className="text-sub-text">Cohort member</span>
+              Check
+            </Card>
+            <Card className="rounded-[15px] flex flex-col justify-center gap-2 px-6 py-3 col-span-4">
+              <span className="text-sub-text">Cohort member</span>
+              Check
+            </Card>
+            <div className="col-span-4 flex flex-col justify-center items-end">
+              <DetailedInfoLabel
+                detailedInfo="5 months left"
+                label="Membership expiration"
+              >
+                05/25
+              </DetailedInfoLabel>
+            </div>
           </ProjectCard>
         ))}
       </div>
