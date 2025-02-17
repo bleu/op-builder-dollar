@@ -9,6 +9,8 @@ interface MintBurnButtonProps {
   amount: bigint | undefined;
   isLoading: boolean;
   trigger: () => void;
+  isInsufficientUsdc: boolean;
+  isInsufficientObusd: boolean;
 }
 
 export const MintBurnButton = ({
@@ -16,6 +18,8 @@ export const MintBurnButton = ({
   amount,
   isLoading,
   trigger,
+  isInsufficientUsdc,
+  isInsufficientObusd,
 }: MintBurnButtonProps) => {
   const { chainId, address } = useAccount();
   const { switchChain } = useSwitchChain();
@@ -58,6 +62,22 @@ export const MintBurnButton = ({
     return (
       <Button disabled className={buttonClassName}>
         ENTER AMOUNT
+      </Button>
+    );
+  }
+
+  if (isInsufficientObusd) {
+    return (
+      <Button disabled className={buttonClassName}>
+        INSUFFICIENT OBUSD
+      </Button>
+    );
+  }
+
+  if (isInsufficientUsdc) {
+    return (
+      <Button disabled className={buttonClassName}>
+        INSUFFICIENT USDC
       </Button>
     );
   }

@@ -12,6 +12,8 @@ export default function MintBurn() {
   const [value, setValue] = useState<string>("");
 
   const {
+    usdcBalance,
+    obusdBalance,
     usdcFormattedBalance: usdcBal,
     obusdFormattedBalance: obusdBal,
     obusdDecimals,
@@ -23,6 +25,13 @@ export default function MintBurn() {
       : undefined;
 
   const { trigger, isLoading } = useMint({ amount });
+
+  const isInsufficientUsdc = Boolean(
+    isMint && amount && usdcBalance && amount > usdcBalance,
+  );
+  const isInsufficientObusd = Boolean(
+    !isMint && amount && obusdBalance && amount > obusdBalance,
+  );
 
   return (
     <div className="w-full max-w-[416px] h-[364px] flex flex-col bg-content rounded-4xl border-[1px] border-card-border p-4 shadow-lg">
@@ -52,6 +61,8 @@ export default function MintBurn() {
         amount={amount}
         isLoading={isLoading}
         trigger={trigger}
+        isInsufficientObusd={isInsufficientObusd}
+        isInsufficientUsdc={isInsufficientUsdc}
       />
     </div>
   );
