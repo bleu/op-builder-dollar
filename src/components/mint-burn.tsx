@@ -1,3 +1,4 @@
+import { useTokenBalances } from "@/hooks/use-token-balances";
 import { cn } from "@/lib/utils";
 import { ArrowDown, Butterfly, Fire } from "phosphor-react";
 import { useState } from "react";
@@ -10,6 +11,8 @@ export default function MintBurn() {
   const { usdcFormattedBalance: usdcBal, obusdFormattedBalance: obusdBal } =
     useTokenBalances();
 
+  const [value, setValue] = useState<string>("");
+
   return (
     <div className="w-full max-w-[416px] h-[364px] flex flex-col bg-content rounded-4xl border-[1px] border-card-border p-4 shadow-lg">
       <MintBurnButtons isMint={isMint} setIsMint={setIsMint} />
@@ -17,11 +20,15 @@ export default function MintBurn() {
         <TokenAmountContainer
           token={isMint ? "USDC" : "obUSD"}
           balance={isMint ? usdcBal : obusdBal}
+          value={value}
+          onValueChange={(newValue: string) => setValue(newValue)}
           className="mb-2"
         />
         <TokenAmountContainer
           token={isMint ? "obUSD" : "USDC"}
           balance={isMint ? obusdBal : usdcBal}
+          value={value}
+          onValueChange={(newValue: string) => setValue(newValue)}
         />
         <div className="w-7 h-7 bg-content flex justify-center items-center rounded-md border-[1px] border-card-border mt-[-122px] mb-[96px]">
           <ArrowDown className="text-sub-text" size={20} />
