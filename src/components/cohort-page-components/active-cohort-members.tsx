@@ -1,9 +1,10 @@
 "use client";
-
+import { useAccountName } from "@/hooks/useAccountName";
 import type { Project } from "@/lib/types";
 import { DetailedInfoLabel } from "../detailed-info-label";
 import { ProjectCard } from "../project-card";
 import { Card } from "../ui/card";
+import SealCheck from "./seal-check";
 
 export const ActiveCohortMembers = () => {
   const projects: Project[] = [
@@ -13,6 +14,31 @@ export const ActiveCohortMembers = () => {
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
       shareOfYield: 400.45,
+      membershipInitialization: "2022-12-31",
+      membershipExpiration: "2025-12-31",
+      projectLinks: [
+        {
+          href: "/",
+          label: "View on Charmverse",
+        },
+        {
+          href: "/",
+          label: "Proof of endorsement",
+        },
+      ],
+      endorsers: [
+        { address: "0x123...678" },
+        { address: "0x123...5678" },
+        { address: "0x123...5678" },
+      ],
+    },
+    {
+      id: "2",
+      name: "Project title",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      shareOfYield: 400.45,
+      membershipInitialization: "2022-12-31",
       membershipExpiration: "2022-12-31",
       projectLinks: [
         {
@@ -24,23 +50,10 @@ export const ActiveCohortMembers = () => {
           label: "Proof of endorsement",
         },
       ],
-    },
-    {
-      id: "2",
-      name: "Project title",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-      shareOfYield: 400.45,
-      membershipExpiration: "2022-12-31",
-      projectLinks: [
-        {
-          href: "/",
-          label: "View on Charmverse",
-        },
-        {
-          href: "/",
-          label: "Proof of endorsement",
-        },
+      endorsers: [
+        { address: "0x123...678" },
+        { address: "0x123...5678" },
+        { address: "0x123...5678" },
       ],
     },
   ];
@@ -65,15 +78,24 @@ export const ActiveCohortMembers = () => {
           >
             <Card className="rounded-[15px] flex flex-col justify-center gap-2 px-6 py-3 col-span-4">
               <span className="text-sub-text">Cohort member</span>
-              Check
+              <SealCheck className="size-6 text-success" />
             </Card>
             <Card className="rounded-[15px] flex flex-col justify-center gap-2 px-6 py-3 col-span-4">
-              <span className="text-sub-text">Cohort member</span>
-              Check
+              <span className="text-sub-text">Endorsed by</span>
+              <div className="flex gap-1">
+                {project.endorsers?.map((endorser, index, array) => (
+                  <div className="font-bold italic" key={endorser.address}>
+                    <AddressName address={endorser.address} />
+                    {index !== array.length - 1 && ", "}
+                  </div>
+                ))}
+              </div>
             </Card>
             <Card className="rounded-[15px] flex flex-col justify-center gap-2 px-6 py-3 col-span-4">
-              <span className="text-sub-text">Cohort member</span>
-              Check
+              <span className="text-sub-text">Member since</span>
+              <span className="font-bold italic">
+                {project.membershipInitialization}
+              </span>
             </Card>
             <div className="col-span-4 flex flex-col justify-center items-end">
               <DetailedInfoLabel
@@ -88,4 +110,10 @@ export const ActiveCohortMembers = () => {
       </div>
     </div>
   );
+};
+
+const AddressName = ({ address }: { address: `0x${string}` }) => {
+  const name = useAccountName(address);
+
+  return <span className="font-bold italic">{name}</span>;
 };
