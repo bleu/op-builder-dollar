@@ -6,10 +6,12 @@ import { useState } from "react";
 import { MintBurnButton } from "./mint-burn-card-components/mint-burn-button";
 import { MintBurnSwitch } from "./mint-burn-card-components/mint-burn-switch";
 import { TokenAmountContainer } from "./mint-burn-card-components/token-amount-container";
+import { LoadingTxModal } from "./mint-page-components/loading-tx-modal";
 
 export default function MintBurn() {
   const [isMint, setIsMint] = useState<boolean>(true);
   const [value, setValue] = useState<string>("");
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const {
     usdcBalance,
@@ -24,7 +26,10 @@ export default function MintBurn() {
       ? tokenAmountStringToBigint(value, obusdDecimals)
       : undefined;
 
-  const { trigger, isLoading } = useMint({ amount });
+  const { txHashes, trigger, isLoading, loadingMessage, error, reset } =
+    useMint({
+      amount,
+    });
 
   const isInsufficientUsdc = Boolean(
     isMint && amount && usdcBalance && amount > usdcBalance,
@@ -32,6 +37,11 @@ export default function MintBurn() {
   const isInsufficientObusd = Boolean(
     !isMint && amount && obusdBalance && amount > obusdBalance,
   );
+
+  const handleMintBurnButton = () => {
+    setDialogOpen(true);
+    trigger();
+  };
 
   return (
     <div className="w-full max-w-[416px] h-[364px] flex flex-col bg-content rounded-4xl border-[1px] border-card-border p-4 shadow-lg">
@@ -60,9 +70,24 @@ export default function MintBurn() {
         isMint={isMint}
         amount={amount}
         isLoading={isLoading}
-        trigger={trigger}
+        trigger={handleMintBurnButton}
         isInsufficientObusd={isInsufficientObusd}
         isInsufficientUsdc={isInsufficientUsdc}
+      />
+      <LoadingTxModal
+        isOpen={dialogOpen}
+        title="Mint status"
+        trigger={trigger}
+        reset={reset}
+        txHash={
+          txHashes && txHashes.length > 0
+            ? txHashes[txHashes.length - 1]
+            : undefined
+        }
+        loadingMessage={loadingMessage}
+        onClose={() => setDialogOpen(false)}
+        error={error}
+        amount={value}
       />
     </div>
   );
