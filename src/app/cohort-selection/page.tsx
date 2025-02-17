@@ -1,5 +1,5 @@
 import { CohortSelectionTabs } from "@/components/cohort-page-components/cohort-selection-tabs";
-import { TopSection } from "@/components/yield-page-components/top-section";
+import { TopSection } from "@/components/cohort-page-components/top-section";
 
 export default function CohortSelectionPage() {
   const totalYield = 400000.45;

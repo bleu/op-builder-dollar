@@ -18,11 +18,7 @@ export const EligibleProducts = () => {
       projectLinks: [
         {
           href: "/",
-          label: "View on Charmverse",
-        },
-        {
-          href: "/",
-          label: "Proof of endorsement",
+          label: "Read full description on Charmverse",
         },
       ],
       endorsers: [{ address: "0x123...678" }, { address: "0x123...5678" }],
@@ -37,11 +33,7 @@ export const EligibleProducts = () => {
       projectLinks: [
         {
           href: "/",
-          label: "View on Charmverse",
-        },
-        {
-          href: "/",
-          label: "Proof of endorsement",
+          label: "Read full description on Charmverse",
         },
       ],
       endorsers: [{ address: "0x123...678" }, { address: "0x1234...5678" }],
@@ -61,15 +53,17 @@ export const EligibleProducts = () => {
           with membership typically lasting eight months.
         </span>
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="grid grid-cols-4 md:grid-cols-8 gap-y-4 gap-x-6">
         {projects.map((project) => (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            className="grid grid-cols-8 w-full gap-2"
-          >
-            <EndorsementComponent endorsers={project.endorsers || []} />
-          </ProjectCard>
+          <div key={project.id} className="col-span-4">
+            <ProjectCard
+              key={project.id}
+              project={project}
+              className="grid grid-cols-8 w-full gap-2"
+            >
+              <EndorsementComponent endorsers={project.endorsers || []} />
+            </ProjectCard>
+          </div>
         ))}
       </div>
     </div>
