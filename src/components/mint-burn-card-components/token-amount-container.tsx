@@ -1,4 +1,4 @@
-import { TokenAmountInput } from "@/components/token-amount-input";
+import { TokenAmountInput } from "@/components/mint-burn-card-components/token-amount-input";
 import ObUsd from "@/components/ui/obusd";
 import Usdc from "@/components/ui/usdc";
 import { cn } from "@/lib/utils";
@@ -27,12 +27,14 @@ const tokenCardMap: Record<TradeToken, ReactNode> = {
 export const TokenAmountContainer = ({
   token,
   balance,
+  title,
   value,
   onValueChange,
   className,
 }: {
   token: TradeToken;
   balance: string;
+  title: string;
   className?: string;
   value: string;
   onValueChange: (value: string) => void;
@@ -48,7 +50,7 @@ export const TokenAmountContainer = ({
         className,
       )}
     >
-      <span className="text-sm text-sub-text">You burn</span>
+      <span className="text-sm text-sub-text">{title}</span>
       <div className="flex justify-between items-center">
         <TokenAmountInput value={value} onValueChange={onValueChange} />
         {tokenCardMap[token]}

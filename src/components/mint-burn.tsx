@@ -1,25 +1,36 @@
+import { useMint } from "@/hooks/use-mint";
 import { useTokenBalances } from "@/hooks/use-token-balances";
-import { cn } from "@/lib/utils";
-import { ArrowDown, Butterfly, Fire } from "phosphor-react";
+import { ArrowDown } from "phosphor-react";
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { TokenAmountContainer } from "./ui/token-amount-container";
+import { MintBurnButton } from "./mint-burn-card-components/mint-burn-button";
+import { MintBurnSwitch } from "./mint-burn-card-components/mint-burn-switch";
+import { TokenAmountContainer } from "./mint-burn-card-components/token-amount-container";
 
 export default function MintBurn() {
   const [isMint, setIsMint] = useState<boolean>(true);
-
-  const { usdcFormattedBalance: usdcBal, obusdFormattedBalance: obusdBal } =
-    useTokenBalances();
-
   const [value, setValue] = useState<string>("");
+
+  const {
+    usdcFormattedBalance: usdcBal,
+    obusdFormattedBalance: obusdBal,
+    obusdDecimals,
+  } = useTokenBalances();
+
+  const amount =
+    value && obusdDecimals
+      ? BigInt((Number(value) * 10 ** obusdDecimals).toFixed(0))
+      : undefined;
+
+  const { trigger, isLoading } = useMint({ amount });
 
   return (
     <div className="w-full max-w-[416px] h-[364px] flex flex-col bg-content rounded-4xl border-[1px] border-card-border p-4 shadow-lg">
-      <MintBurnButtons isMint={isMint} setIsMint={setIsMint} />
+      <MintBurnSwitch isMint={isMint} setIsMint={setIsMint} />
       <div className="flex flex-col items-center mb-6">
         <TokenAmountContainer
           token={isMint ? "USDC" : "obUSD"}
           balance={isMint ? usdcBal : obusdBal}
+          title={isMint ? "You send" : "You burn"}
           value={value}
           onValueChange={(newValue: string) => setValue(newValue)}
           className="mb-2"
@@ -27,6 +38,7 @@ export default function MintBurn() {
         <TokenAmountContainer
           token={isMint ? "obUSD" : "USDC"}
           balance={isMint ? obusdBal : usdcBal}
+          title="You receive"
           value={value}
           onValueChange={(newValue: string) => setValue(newValue)}
         />
@@ -34,46 +46,12 @@ export default function MintBurn() {
           <ArrowDown className="text-sub-text" size={20} />
         </div>
       </div>
-      <Button className="w-full max-w-[384px] h-[56px] bg-primary hover:bg-error rounded-2xl flex justify-center items-center gap-2 text-2xl font-bold">
-        {isMint ? (
-          <Butterfly className="min-w-6 min-h-6" />
-        ) : (
-          <Fire className="min-w-6 min-h-6" />
-        )}
-        <span>{isMint ? "MINT" : "BURN"}</span>
-      </Button>
+      <MintBurnButton
+        isMint={isMint}
+        amount={amount}
+        isLoading={isLoading}
+        trigger={trigger}
+      />
     </div>
   );
 }
-
-const MintBurnButtons = ({
-  isMint,
-  setIsMint,
-}: { isMint: boolean; setIsMint: (newMint: boolean) => void }) => {
-  return (
-    <div className="flex gap-2 mb-4">
-      <button
-        onClick={() => {
-          setIsMint(true);
-        }}
-        type="button"
-        className={cn("font-normal text-sub-text hover:cursor-pointer", {
-          "font-bold text-foreground": isMint,
-        })}
-      >
-        Mint
-      </button>
-      <button
-        onClick={() => {
-          setIsMint(false);
-        }}
-        type="button"
-        className={cn("font-normal text-sub-text hover:cursor-pointer", {
-          "font-bold text-foreground": !isMint,
-        })}
-      >
-        Burn
-      </button>
-    </div>
-  );
-};

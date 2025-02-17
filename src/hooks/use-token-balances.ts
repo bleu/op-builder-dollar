@@ -115,5 +115,7 @@ export function useTokenBalances() {
     obusdBalance,
     obusdFormattedBalance,
     obusdTotalSupplyFormatted,
+    obusdDecimals,
+    usdcDecimals,
   };
 }
