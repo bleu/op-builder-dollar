@@ -1,10 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { ActiveCohortMembers } from "./active-cohort-members";
+import { EligibleProducts } from "./eligible-products";
 
 export const CohortSelectionTabs = () => {
   return (
     <Tabs defaultValue="active" className="w-full">
-      <TabsList className="w-full gap-1">
+      <TabsList className="w-full gap-1 mb-10">
         <TabsTrigger
           value="active"
           className="w-full rounded-r-none rounded-l-xl"
@@ -18,10 +19,12 @@ export const CohortSelectionTabs = () => {
           Eligible Products
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="active" className="mt-10">
+      <TabsContent value="active">
         <ActiveCohortMembers />
       </TabsContent>
-      <TabsContent value="password">Change your password here.</TabsContent>
+      <TabsContent value="eligible">
+        <EligibleProducts />
+      </TabsContent>
     </Tabs>
   );
 };
