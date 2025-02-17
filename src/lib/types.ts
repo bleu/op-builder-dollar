@@ -4,6 +4,10 @@ export type Project = {
   description: string;
   shareOfYield: number;
   membershipExpiration: string;
-  charmverseUrl: string;
-  treasuryUrl: string;
+  projectLinks: ProjectLink[];
+};
+
+type ProjectLink = {
+  href: string;
+  label: string;
 };
