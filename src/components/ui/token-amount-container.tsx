@@ -28,6 +28,10 @@ export const TokenAmountContainer = ({
   balance,
   className,
 }: { token: TradeToken; balance: string; className?: string }) => {
+  const fiatBalance = balance.includes("<")
+    ? balance.replace("< ", "~")
+    : `~${balance}`;
+
   return (
     <div
       className={cn(
@@ -41,7 +45,9 @@ export const TokenAmountContainer = ({
         {tokenCardMap[token]}
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-xs text-sub-text-2 font-medium">~$0.00</span>
+        <span className="text-xs text-sub-text-2 font-medium">
+          {fiatBalance}
+        </span>
         <span className="text-xs text-sub-text-2 font-medium">
           {`Balance: ${balance} ${token}`}
         </span>

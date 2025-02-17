@@ -7,18 +7,21 @@ import { TokenAmountContainer } from "./ui/token-amount-container";
 export default function MintBurn() {
   const [isMint, setIsMint] = useState<boolean>(true);
 
+  const { usdcFormattedBalance: usdcBal, obusdFormattedBalance: obusdBal } =
+    useTokenBalances();
+
   return (
     <div className="w-full max-w-[416px] h-[364px] flex flex-col bg-content rounded-4xl border-[1px] border-card-border p-4 shadow-lg">
       <MintBurnButtons isMint={isMint} setIsMint={setIsMint} />
       <div className="flex flex-col items-center mb-6">
         <TokenAmountContainer
           token={isMint ? "USDC" : "obUSD"}
-          balance="50,000.00"
+          balance={isMint ? usdcBal : obusdBal}
           className="mb-2"
         />
         <TokenAmountContainer
           token={isMint ? "obUSD" : "USDC"}
-          balance="0.00"
+          balance={isMint ? obusdBal : usdcBal}
         />
         <div className="w-7 h-7 bg-content flex justify-center items-center rounded-md border-[1px] border-card-border mt-[-122px] mb-[96px]">
           <ArrowDown className="text-sub-text" size={20} />
