@@ -31,7 +31,7 @@ const linkSections = [
 
 export const Footer = () => {
   return (
-    <footer className="flex flex-col md:flex-row gap-8 justify-between items-center p-8 bg-card-bg-1 rounded-t-[30px] absolute bottom-0 w-full text-center md:text-start">
+    <footer className="flex flex-col md:flex-row gap-8 justify-between items-center p-8 bg-content shadow-2xl rounded-t-[30px] w-full text-center md:text-start">
       <div className="flex flex-col gap-1 items-center md:items-start">
         <LogoComponent className="text-primary" />
         <span className="italic font-semibold text-xl">
