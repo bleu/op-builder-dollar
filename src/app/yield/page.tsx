@@ -6,7 +6,7 @@ export default function YieldPage() {
 
   return (
     <div className="my-20 md:pt-20 pt-4 space-y-16 max-w-[760px] mx-auto px-4">
-      <TopSection />
+      <TopSection totalYield={totalYield} />
       <ProjectList totalYield={totalYield} />
     </div>
   );

@@ -4,7 +4,7 @@ import LogoComponent from "../logo";
 import { Card } from "../ui/card";
 import { ProgressBar } from "../ui/progress-bar";
 
-export const TopSection = () => {
+export const TopSection = ({ totalYield }: { totalYield: number }) => {
   return (
     <div className="grid grid-cols-4 md:grid-cols-8 gap-x-6 gap-y-4">
       <Card
@@ -19,7 +19,7 @@ export const TopSection = () => {
               <LogoComponent className="text-white" width={18} height={18} />
             </div>
             <span className="font-extrabold italic text-4xl [&>span]:text-">
-              <FormattedYield yieldNumber={400000.45} />
+              <FormattedYield yieldNumber={totalYield} />
             </span>
           </div>
         </div>
