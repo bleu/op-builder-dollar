@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import "./globals.css";
+import { Footer } from "@/components/footer";
 import Header from "@/components/header";
 import { cn } from "@/lib/utils";
 import { Providers } from "@/providers";
@@ -26,6 +27,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>
