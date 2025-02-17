@@ -39,9 +39,7 @@ export const TokenAmountContainer = ({
   value: string;
   onValueChange: (value: string) => void;
 }) => {
-  const fiatBalance = balance.includes("<")
-    ? balance.replace("< ", "~")
-    : `~${balance}`;
+  const fiatBalance = value ? `~ $${Number(value).toFixed(2)}` : "$0.00";
 
   return (
     <div

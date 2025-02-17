@@ -18,7 +18,12 @@ export default function MintBurn() {
 
   const amount =
     value && obusdDecimals
-      ? BigInt((Number(value) * 10 ** obusdDecimals).toFixed(0))
+      ? BigInt(
+          new Intl.NumberFormat("fullwide", {
+            useGrouping: false,
+            maximumFractionDigits: 0,
+          }).format(Number(value) * 10 ** obusdDecimals),
+        )
       : undefined;
 
   const { trigger, isLoading } = useMint({ amount });
