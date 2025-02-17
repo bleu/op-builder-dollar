@@ -1,6 +1,7 @@
 "use client";
-import { useAccountName } from "@/hooks/useAccountName";
+
 import type { Project } from "@/lib/types";
+import { AccountName } from "../account-name";
 import { DetailedInfoLabel } from "../detailed-info-label";
 import { ProjectCard } from "../project-card";
 import { Card } from "../ui/card";
@@ -85,7 +86,7 @@ export const ActiveCohortMembers = () => {
               <div className="flex gap-1">
                 {project.endorsers?.map((endorser, index, array) => (
                   <div className="font-bold italic" key={endorser.address}>
-                    <AddressName address={endorser.address} />
+                    <AccountName address={endorser.address} />
                     {index !== array.length - 1 && ", "}
                   </div>
                 ))}
@@ -110,10 +111,4 @@ export const ActiveCohortMembers = () => {
       </div>
     </div>
   );
-};
-
-const AddressName = ({ address }: { address: `0x${string}` }) => {
-  const name = useAccountName(address);
-
-  return <span className="font-bold italic">{name}</span>;
 };
