@@ -69,7 +69,7 @@ export const ProjectList = ({ totalYield }: { totalYield: number }) => {
           basis.
         </span>
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project}>
             <DetailedInfoLabel
