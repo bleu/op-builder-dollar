@@ -6,7 +6,7 @@ import LogoComponent from "../logo";
 import { ProjectCard } from "../project-card";
 import { FormattedYield } from "./top-section";
 
-export const ProjectList = ({ totalYield }: { totalYield: number }) => {
+export const ProjectList = () => {
   const projects: Project[] = [
     {
       id: "1",
@@ -47,6 +47,8 @@ export const ProjectList = ({ totalYield }: { totalYield: number }) => {
       ],
     },
   ];
+
+  const totalYield = 400000.45;
 
   const getMonthsLeft = (date: string) => {
     const currentDate = new Date();

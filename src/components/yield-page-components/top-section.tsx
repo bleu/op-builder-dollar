@@ -4,7 +4,9 @@ import LogoComponent from "../logo";
 import { Card } from "../ui/card";
 import { ProgressBar } from "../ui/progress-bar";
 
-export const TopSection = ({ totalYield }: { totalYield: number }) => {
+export const TopSection = () => {
+  const totalYield = 400000.45;
+
   return (
     <div className="grid grid-cols-4 md:grid-cols-8 gap-x-6 gap-y-4">
       <Card
