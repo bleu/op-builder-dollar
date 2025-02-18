@@ -1,4 +1,5 @@
 import { obusdAbi } from "@/lib/abis/obusd-abi";
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { type Address, encodeFunctionData } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
@@ -14,6 +15,7 @@ export function useBurn({
   const { address: signer } = useAccount();
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
+  const queryClient = useQueryClient();
 
   const buildTxFn = useCallback(async () => {
     if (!signer || !walletClient || !publicClient || !amount) {
@@ -35,5 +37,8 @@ export function useBurn({
 
   return useExecuteTransaction({
     buildTxFn,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userBalances", signer] });
+    },
   });
 }
