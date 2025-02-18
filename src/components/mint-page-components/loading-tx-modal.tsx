@@ -47,7 +47,7 @@ export function LoadingTxModal({
 }: ModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="flex max-w-[92%] top-[350px] md:top-[400px] flex-col gap-4 flex-1 sm:max-w-[600px] bg-content border-none rounded-3xl p-6 sm:p-8">
+      <DialogContent className="flex max-w-[calc(100%-2rem)] top-[350px] md:top-[400px] flex-col gap-4 flex-1 sm:max-w-[600px] bg-content border-none rounded-3xl p-6 sm:p-8">
         <div className="flex flex-col gap-8">
           <div>
             <DialogHeader className="gap-4">
