@@ -83,7 +83,7 @@ export const ActiveCohortMembers = () => {
             </Card>
             <Card className="rounded-[15px] flex flex-col justify-center gap-2 px-6 py-3 col-span-4">
               <span className="text-sub-text">Endorsed by</span>
-              <div className="flex gap-1">
+              <div className="flex gap-1 flex-wrap">
                 {project.endorsers?.map((endorser, index, array) => (
                   <div className="font-bold italic" key={endorser.address}>
                     <AccountName address={endorser.address} />
