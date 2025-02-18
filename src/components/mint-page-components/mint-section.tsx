@@ -1,10 +1,12 @@
 import texture from "@/../public/images/texture.png";
 import MintBurn from "@/components/mint-burn";
+import { useTokenBalances } from "@/hooks/use-token-balances";
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
 import ObUsd from "../ui/obusd";
 
 export default function MintSection() {
+  const { obusdTotalSupplyFormatted } = useTokenBalances();
   const { theme } = useThemeStore();
 
   const lightBorderClass = cn({
@@ -34,7 +36,9 @@ export default function MintSection() {
           <span className="font-normal text-sub-text">Total obUSD minted</span>
           <div className="flex w-fit justify-center items-center gap-2">
             <ObUsd size={24} />
-            <span className="text-2xl font-bold">0.0</span>
+            <span className="text-2xl font-bold">
+              {obusdTotalSupplyFormatted}
+            </span>
           </div>
         </div>
         <div
