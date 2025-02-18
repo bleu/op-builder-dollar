@@ -27,7 +27,7 @@ const config = createConfig(
       [polygon.id]: http(process.env.NEXT_PUBLIC_POLYGON_RPC_URL ?? ""),
       [sepolia.id]: process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL
         ? http(process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL)
-        : http("https://rpc.sepolia.org"),
+        : http("https://sepolia.gateway.tenderly.co"),
     },
 
     // Required API Keys
