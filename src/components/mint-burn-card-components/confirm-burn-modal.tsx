@@ -26,7 +26,7 @@ export function ConfirmBurnModal({
 }: ModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="flex top-[400px] flex-col gap-4 flex-1 max-w-[600px] bg-content border-none rounded-3xl p-8">
+      <DialogContent className="flex max-w-[92%] top-[350px] md:top-[400px] flex-col gap-4 flex-1 sm:max-w-[600px] bg-content border-none rounded-3xl p-6 sm:p-8">
         <div className="flex flex-col gap-8">
           <div>
             <DialogHeader className="gap-4">
@@ -35,7 +35,7 @@ export function ConfirmBurnModal({
               </DialogTitle>
               <div className="flex flex-col justify-center items-center text-base gap-6 overflow-hidden">
                 <div className="flex flex-col justify-between w-full border-[1px] border-card-border rounded-2xl p-6 gap-6">
-                  <div className="flex items-center justify-between w-full">
+                  <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-between w-full">
                     <span className="text-sub-text">You are about to burn</span>
                     <div className="flex gap-2 items-center">
                       <ObUsd size={24} />
@@ -44,7 +44,7 @@ export function ConfirmBurnModal({
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between w-full">
+                  <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-between w-full">
                     <span className="text-sub-text">You will receive</span>
                     <div className="flex gap-2 items-center">
                       <Usdc size={24} />

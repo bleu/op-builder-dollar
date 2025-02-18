@@ -47,7 +47,7 @@ export function LoadingTxModal({
 }: ModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="flex top-[400px] flex-col gap-4 flex-1 max-w-[600px] bg-content border-none rounded-3xl p-8">
+      <DialogContent className="flex max-w-[92%] top-[350px] md:top-[400px] flex-col gap-4 flex-1 sm:max-w-[600px] bg-content border-none rounded-3xl p-6 sm:p-8">
         <div className="flex flex-col gap-8">
           <div>
             <DialogHeader className="gap-4">
@@ -80,7 +80,7 @@ export function LoadingTxModal({
                   )}
                 </div>
 
-                <div className="flex justify-between w-full border-[1px] border-card-border rounded-2xl p-6">
+                <div className="flex flex-col gap-4 justify-center sm:flex-row sm:gap-0 sm:justify-between items-center w-full border-[1px] border-card-border rounded-2xl p-6">
                   <div className="flex justify-center items-center w-52 gap-2">
                     {isMint ? <Usdc size={24} /> : <ObUsd size={24} />}
                     <span className="font-bold text-foreground text-lg">
