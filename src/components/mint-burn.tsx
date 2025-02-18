@@ -1,3 +1,4 @@
+import { useBurn } from "@/hooks/use-burn";
 import { useMint } from "@/hooks/use-mint";
 import { useTokenBalances } from "@/hooks/use-token-balances";
 import { tokenAmountStringToBigint } from "@/utils/formatting";
@@ -26,10 +27,12 @@ export default function MintBurn() {
       ? tokenAmountStringToBigint(value, obusdDecimals)
       : undefined;
 
-  const { txHashes, trigger, isLoading, loadingMessage, error, reset } =
-    useMint({
-      amount,
-    });
+  const mintHookOutput = useMint({ amount });
+  const burnHookOutput = useBurn({ amount });
+
+  const { txHashes, trigger, isLoading, loadingMessage, error, reset } = isMint
+    ? mintHookOutput
+    : burnHookOutput;
 
   const isInsufficientUsdc = Boolean(
     isMint && amount && usdcBalance && amount > usdcBalance,
@@ -76,7 +79,7 @@ export default function MintBurn() {
       />
       <LoadingTxModal
         isOpen={dialogOpen}
-        title="Mint status"
+        isMint={isMint}
         trigger={trigger}
         reset={reset}
         txHash={
