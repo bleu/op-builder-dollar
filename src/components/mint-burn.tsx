@@ -4,6 +4,7 @@ import { useTokenBalances } from "@/hooks/use-token-balances";
 import { tokenAmountStringToBigint } from "@/utils/formatting";
 import { ArrowDown } from "phosphor-react";
 import { useState } from "react";
+import { ConfirmBurnModal } from "./mint-burn-card-components/confirm-burn-modal";
 import { MintBurnButton } from "./mint-burn-card-components/mint-burn-button";
 import { MintBurnSwitch } from "./mint-burn-card-components/mint-burn-switch";
 import { TokenAmountContainer } from "./mint-burn-card-components/token-amount-container";
@@ -13,6 +14,7 @@ export default function MintBurn() {
   const [isMint, setIsMint] = useState<boolean>(true);
   const [value, setValue] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [confirmBurnOpen, setConfirmBurnOpen] = useState<boolean>(false);
 
   const {
     usdcBalance,
@@ -41,9 +43,17 @@ export default function MintBurn() {
     !isMint && amount && obusdBalance && amount > obusdBalance,
   );
 
-  const handleMintBurnButton = () => {
+  const handleStartMintBurn = () => {
     setDialogOpen(true);
     trigger();
+  };
+
+  const handleMintBurnButton = () => {
+    if (isMint) {
+      handleStartMintBurn();
+      return;
+    }
+    setConfirmBurnOpen(true);
   };
 
   return (
@@ -90,6 +100,12 @@ export default function MintBurn() {
         loadingMessage={loadingMessage}
         onClose={() => setDialogOpen(false)}
         error={error}
+        amount={value}
+      />
+      <ConfirmBurnModal
+        isOpen={confirmBurnOpen}
+        trigger={handleStartMintBurn}
+        onClose={() => setConfirmBurnOpen(false)}
         amount={value}
       />
     </div>
