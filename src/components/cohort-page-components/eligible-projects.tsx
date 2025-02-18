@@ -7,7 +7,7 @@ import { AccountName } from "../account-name";
 import { ProjectCard } from "../project-card";
 import { Button } from "../ui/button";
 
-export const EligibleProducts = () => {
+export const EligibleProjects = () => {
   const projects: Project[] = [
     {
       id: "1",

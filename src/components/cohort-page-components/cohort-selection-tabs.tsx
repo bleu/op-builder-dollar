@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { ActiveCohortMembers } from "./active-cohort-members";
-import { EligibleProducts } from "./eligible-products";
+import { EligibleProjects } from "./eligible-projects";
 
 export const CohortSelectionTabs = () => {
   return (
@@ -16,14 +16,14 @@ export const CohortSelectionTabs = () => {
           value="eligible"
           className="w-full rounded-l-none rounded-r-xl"
         >
-          Eligible Products
+          Eligible Projects
         </TabsTrigger>
       </TabsList>
       <TabsContent value="active">
         <ActiveCohortMembers />
       </TabsContent>
       <TabsContent value="eligible">
-        <EligibleProducts />
+        <EligibleProjects />
       </TabsContent>
     </Tabs>
   );
