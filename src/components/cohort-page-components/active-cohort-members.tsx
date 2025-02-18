@@ -28,9 +28,9 @@ export const ActiveCohortMembers = () => {
         },
       ],
       endorsers: [
-        { address: "0x123...678" },
-        { address: "0x123...5678" },
-        { address: "0x123...5678" },
+        { address: "0x29Ee17661f172424150d7AA6460F15edf47eDF6b" },
+        { address: "0x7A3b4F8D2c9E5f1B6a0D8e3C4d5E2F1a9B8C7D6E" },
+        { address: "0x3A1B4C2D5E6F7A8B9C0D1E2F3A4B5C6D7E8F9A0" },
       ],
     },
     {
@@ -52,9 +52,9 @@ export const ActiveCohortMembers = () => {
         },
       ],
       endorsers: [
-        { address: "0x123...678" },
-        { address: "0x123...5678" },
-        { address: "0x123...5678" },
+        { address: "0x29Ee17661f172424150d7AA6460F15edf47eDF6b" },
+        { address: "0x7A3b4F8D2c9E5f1B6a0D8e3C4d5E2F1a9B8C7D6E" },
+        { address: "0x3A1B4C2D5E6F7A8B9C0D1E2F3A4B5C6D7E8F9A0" },
       ],
     },
   ];
