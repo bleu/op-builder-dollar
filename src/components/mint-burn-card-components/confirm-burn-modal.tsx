@@ -67,7 +67,7 @@ export function ConfirmBurnModal({
           {children && <div className="flex-1">{children}</div>}
           <div className="flex flex-col w-full justify-center gap-[10px]">
             <Button
-              className="w-full h-[56px] bg-primary hover:bg-error rounded-2xl flex justify-center items-center gap-2 disabled:bg-sub-text-2 text-2xl font-medium"
+              className="w-full h-[56px] bg-primary hover:bg-error rounded-2xl flex justify-center items-center gap-2 disabled:bg-sub-text-2 disabled:opacity-100 text-2xl font-medium"
               onClick={() => {
                 onClose();
                 trigger();

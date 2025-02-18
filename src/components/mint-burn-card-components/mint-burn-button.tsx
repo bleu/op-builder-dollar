@@ -28,7 +28,7 @@ export const MintBurnButton = ({
     "w-full max-w-[384px] h-[56px]",
     "bg-primary hover:bg-error rounded-2xl",
     "flex justify-center items-center gap-2",
-    "disabled:bg-sub-text-2",
+    "disabled:bg-sub-text-2  disabled:opacity-100",
     "text-2xl font-medium",
   );
 
