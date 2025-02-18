@@ -3,7 +3,13 @@ export type Project = {
   name: string;
   description: string;
   shareOfYield: number;
+  membershipInitialization: string;
   membershipExpiration: string;
-  charmverseUrl: string;
-  treasuryUrl: string;
+  projectLinks: ProjectLink[];
+  endorsers?: { address: `0x${string}` }[];
+};
+
+type ProjectLink = {
+  href: string;
+  label: string;
 };
