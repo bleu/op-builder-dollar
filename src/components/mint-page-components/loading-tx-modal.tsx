@@ -31,7 +31,7 @@ interface ModalProps {
 }
 
 const buttonClassName =
-  "w-full bg-primary/10 text-primary hover:text-content disabled:bg-gray-100 disabled:text-content rounded-xl text-2xl font-medium shadow-lg py-7";
+  "w-full bg-primary/10 text-primary hover:text-content disabled:opacity-50 rounded-xl text-2xl font-medium shadow-lg py-7";
 
 export function LoadingTxModal({
   isOpen,
