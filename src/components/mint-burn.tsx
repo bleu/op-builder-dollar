@@ -84,8 +84,7 @@ export default function MintBurn() {
         amount={amount}
         isLoading={isLoading}
         trigger={handleMintBurnButton}
-        isInsufficientObusd={isInsufficientObusd}
-        isInsufficientUsdc={isInsufficientUsdc}
+        isInsufficientBalance={isInsufficientObusd || isInsufficientUsdc}
       />
       <LoadingTxModal
         isOpen={dialogOpen}
