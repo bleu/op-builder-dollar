@@ -21,10 +21,10 @@ export const ATTESTATION_QUERY = graphql(`
   }
 `);
 
-export const useAttestation = (where: { id: string }) => {
+export const useAttestation = (id: string) => {
   const [result, refetch] = useQuery({
     query: ATTESTATION_QUERY,
-    variables: { where },
+    variables: { where: { id } },
   });
 
   return { ...result, refetch };
