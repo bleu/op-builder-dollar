@@ -1,5 +1,6 @@
 "use client";
 
+import { useAttestation } from "@/hooks/use-attestation";
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { CheckCircle, ThumbsUp } from "phosphor-react";
@@ -48,6 +49,12 @@ export const EligibleProjects = () => {
       ],
     },
   ];
+
+  const { data, fetching, error } = useAttestation({
+    id: "0xa65c76163460382ee0f3faa55f2d8221ec55c20683e0526fb59ad88c01d3a5c7",
+  });
+
+  data?.getAttestation?.console.log(data, fetching, error);
 
   return (
     <div className="space-y-6">
