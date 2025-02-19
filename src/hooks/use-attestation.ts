@@ -1,25 +1,5 @@
-import { graphql } from "gql.tada";
+import { ATTESTATION_QUERY } from "@/graphql/attestation-query";
 import { useQuery } from "urql";
-
-export const ATTESTATION_QUERY = graphql(`
-  query Attestation($where: AttestationWhereUniqueInput!) {
-    getAttestation(where: $where) {
-      id
-      attester
-      recipient
-      data
-      decodedDataJson
-      time
-      expirationTime
-      revocationTime
-      refUID
-      revocable
-      revoked
-      txid
-      ipfsHash
-    }
-  }
-`);
 
 export const useAttestation = (id: string) => {
   const [result, refetch] = useQuery({
