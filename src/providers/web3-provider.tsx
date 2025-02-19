@@ -44,7 +44,7 @@ const config = createConfig(
 );
 
 const graphqlClient = new Client({
-  url: "https://easscan.org/graphql",
+  url: "https://optimism.easscan.org/graphql",
   exchanges: [cacheExchange, fetchExchange],
 });
 
