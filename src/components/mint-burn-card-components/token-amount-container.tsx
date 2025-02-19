@@ -1,3 +1,4 @@
+import { TokenAmountInput } from "@/components/mint-burn-card-components/token-amount-input";
 import ObUsd from "@/components/ui/obusd";
 import Usdc from "@/components/ui/usdc";
 import { cn } from "@/lib/utils";
@@ -26,8 +27,20 @@ const tokenCardMap: Record<TradeToken, ReactNode> = {
 export const TokenAmountContainer = ({
   token,
   balance,
+  title,
+  value,
+  onValueChange,
   className,
-}: { token: TradeToken; balance: string; className?: string }) => {
+}: {
+  token: TradeToken;
+  balance: string;
+  title: string;
+  className?: string;
+  value: string;
+  onValueChange: (value: string) => void;
+}) => {
+  const fiatBalance = value ? `~ $${Number(value).toFixed(2)}` : "$0.00";
+
   return (
     <div
       className={cn(
@@ -35,13 +48,15 @@ export const TokenAmountContainer = ({
         className,
       )}
     >
-      <span className="text-sm text-sub-text">You burn</span>
+      <span className="text-sm text-sub-text">{title}</span>
       <div className="flex justify-between items-center">
-        <span className="text-3xl">5000</span>
+        <TokenAmountInput value={value} onValueChange={onValueChange} />
         {tokenCardMap[token]}
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-xs text-sub-text-2 font-medium">~$0.00</span>
+        <span className="text-xs text-sub-text-2 font-medium">
+          {fiatBalance}
+        </span>
         <span className="text-xs text-sub-text-2 font-medium">
           {`Balance: ${balance} ${token}`}
         </span>
