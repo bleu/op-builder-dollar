@@ -9,7 +9,7 @@
     "lint": "biome lint .",
     "format": "biome format . --write",
     "check": "biome check --apply .",
-    "codegen": "graphql-codegen"
+    "generate-gql": "gql-tada generate-output"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",
