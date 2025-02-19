@@ -19,7 +19,7 @@ import Usdc from "../ui/usdc";
 
 interface ModalProps {
   isOpen: boolean;
-  title: string;
+  isMint: boolean;
   trigger: () => void;
   reset: () => void;
   txHash: string | undefined;
@@ -35,7 +35,7 @@ const buttonClassName =
 
 export function LoadingTxModal({
   isOpen,
-  title,
+  isMint,
   trigger,
   reset,
   txHash,
@@ -47,23 +47,29 @@ export function LoadingTxModal({
 }: ModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="flex top-[400px] flex-col gap-4 flex-1 max-w-[600px] bg-content border-none rounded-3xl p-8">
+      <DialogContent className="flex max-w-[calc(100%-2rem)] top-[350px] md:top-[400px] flex-col gap-4 flex-1 sm:max-w-[600px] bg-content border-none rounded-3xl p-6 sm:p-8">
         <div className="flex flex-col gap-8">
           <div>
             <DialogHeader className="gap-4">
-              <DialogTitle className="text-3xl font-bold">{title}</DialogTitle>
+              <DialogTitle className="text-3xl font-bold">
+                {isMint ? "Mint status" : "Burn status"}
+              </DialogTitle>
               <div className="flex flex-col justify-center items-center text-base font-medium gap-6 overflow-hidden">
                 <div className="flex flex-col justify-center items-center">
                   {txHash && (
                     <>
                       <CheckCircle className="text-success mb-2" size={48} />
-                      <span className="font-normal">Mint success!</span>
+                      <span className="font-normal text-sub-text">
+                        {isMint ? "Mint success!" : "Burn success!"}
+                      </span>
                     </>
                   )}
                   {loadingMessage && (
                     <>
                       <Spinner className="text-primary mb-2" />
-                      <span className="font-normal">{loadingMessage}</span>
+                      <span className="font-normal text-sub-text">
+                        {loadingMessage}
+                      </span>
                     </>
                   )}
                   {error && (
@@ -74,24 +80,24 @@ export function LoadingTxModal({
                   )}
                 </div>
 
-                <div className="flex justify-between w-full border-[1px] border-card-border rounded-2xl p-6">
+                <div className="flex flex-col gap-4 justify-center sm:flex-row sm:gap-0 sm:justify-between items-center w-full border-[1px] border-card-border rounded-2xl p-6">
                   <div className="flex justify-center items-center w-52 gap-2">
-                    <Usdc size={24} />
+                    {isMint ? <Usdc size={24} /> : <ObUsd size={24} />}
                     <span className="font-bold text-foreground text-lg">
                       {amount}
                     </span>
                     <span className="font-normal text-subtext text-lg">
-                      USDC
+                      {isMint ? "USDC" : "obUSD"}
                     </span>
                   </div>
                   <ArrowRight size={24} />
                   <div className="flex justify-center items-center w-52 gap-2">
-                    <ObUsd size={24} />
+                    {isMint ? <ObUsd size={24} /> : <Usdc size={24} />}
                     <span className="font-bold text-foreground text-lg">
                       {amount}
                     </span>
                     <span className="font-normal text-subtext text-lg">
-                      obUSD
+                      {isMint ? "obUSD" : "USDC"}
                     </span>
                   </div>
                 </div>

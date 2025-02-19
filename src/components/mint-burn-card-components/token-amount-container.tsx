@@ -1,8 +1,10 @@
 import { TokenAmountInput } from "@/components/mint-burn-card-components/token-amount-input";
 import ObUsd from "@/components/ui/obusd";
 import Usdc from "@/components/ui/usdc";
+import { useTokenBalances } from "@/hooks/use-token-balances";
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
+import { formatUnits } from "viem";
 
 type TradeToken = "USDC" | "obUSD";
 
@@ -39,6 +41,16 @@ export const TokenAmountContainer = ({
   value: string;
   onValueChange: (value: string) => void;
 }) => {
+  const { obusdBalance, usdcBalance, obusdDecimals, usdcDecimals } =
+    useTokenBalances();
+
+  const handleClickOverBalance = () => {
+    if (token === "USDC" && usdcBalance && usdcDecimals)
+      onValueChange(formatUnits(usdcBalance, usdcDecimals));
+    if (token === "obUSD" && obusdBalance && obusdDecimals)
+      onValueChange(formatUnits(obusdBalance, obusdDecimals));
+  };
+
   const fiatBalance = value ? `~ $${Number(value).toFixed(2)}` : "$0.00";
 
   return (
@@ -54,10 +66,13 @@ export const TokenAmountContainer = ({
         {tokenCardMap[token]}
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-xs text-sub-text-2 font-medium">
+        <span className="text-xs text-sub-text-2 font-medium hover:text-sub-text hover:cursor-pointer">
           {fiatBalance}
         </span>
-        <span className="text-xs text-sub-text-2 font-medium">
+        <span
+          onClick={handleClickOverBalance}
+          className="text-xs text-sub-text-2 font-medium hover:text-sub-text hover:cursor-pointer"
+        >
           {`Balance: ${balance} ${token}`}
         </span>
       </div>
