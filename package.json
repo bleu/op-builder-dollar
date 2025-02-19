@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "biome lint .",
     "format": "biome format . --write",
-    "check": "biome check --apply ."
+    "check": "biome check --apply .",
+    "codegen": "graphql-codegen"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",
@@ -32,6 +33,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@graphql-codegen/cli": "^5.0.5",
+    "@graphql-codegen/client-preset": "^4.6.3",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
