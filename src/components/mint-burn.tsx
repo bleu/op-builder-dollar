@@ -1,16 +1,21 @@
 import { useMint } from "@/hooks/use-mint";
 import { useTokenBalances } from "@/hooks/use-token-balances";
+import { tokenAmountStringToBigint } from "@/utils/formatting";
 import { ArrowDown } from "phosphor-react";
 import { useState } from "react";
 import { MintBurnButton } from "./mint-burn-card-components/mint-burn-button";
 import { MintBurnSwitch } from "./mint-burn-card-components/mint-burn-switch";
 import { TokenAmountContainer } from "./mint-burn-card-components/token-amount-container";
+import { LoadingTxModal } from "./mint-page-components/loading-tx-modal";
 
 export default function MintBurn() {
   const [isMint, setIsMint] = useState<boolean>(true);
   const [value, setValue] = useState<string>("");
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const {
+    usdcBalance,
+    obusdBalance,
     usdcFormattedBalance: usdcBal,
     obusdFormattedBalance: obusdBal,
     obusdDecimals,
@@ -18,15 +23,25 @@ export default function MintBurn() {
 
   const amount =
     value && obusdDecimals
-      ? BigInt(
-          new Intl.NumberFormat("fullwide", {
-            useGrouping: false,
-            maximumFractionDigits: 0,
-          }).format(Number(value) * 10 ** obusdDecimals),
-        )
+      ? tokenAmountStringToBigint(value, obusdDecimals)
       : undefined;
 
-  const { trigger, isLoading } = useMint({ amount });
+  const { txHashes, trigger, isLoading, loadingMessage, error, reset } =
+    useMint({
+      amount,
+    });
+
+  const isInsufficientUsdc = Boolean(
+    isMint && amount && usdcBalance && amount > usdcBalance,
+  );
+  const isInsufficientObusd = Boolean(
+    !isMint && amount && obusdBalance && amount > obusdBalance,
+  );
+
+  const handleMintBurnButton = () => {
+    setDialogOpen(true);
+    trigger();
+  };
 
   return (
     <div className="w-full max-w-[416px] h-[364px] flex flex-col bg-content rounded-4xl border-[1px] border-card-border p-4 shadow-lg">
@@ -55,7 +70,24 @@ export default function MintBurn() {
         isMint={isMint}
         amount={amount}
         isLoading={isLoading}
+        trigger={handleMintBurnButton}
+        isInsufficientObusd={isInsufficientObusd}
+        isInsufficientUsdc={isInsufficientUsdc}
+      />
+      <LoadingTxModal
+        isOpen={dialogOpen}
+        title="Mint status"
         trigger={trigger}
+        reset={reset}
+        txHash={
+          txHashes && txHashes.length > 0
+            ? txHashes[txHashes.length - 1]
+            : undefined
+        }
+        loadingMessage={loadingMessage}
+        onClose={() => setDialogOpen(false)}
+        error={error}
+        amount={value}
       />
     </div>
   );
