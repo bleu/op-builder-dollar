@@ -137,7 +137,7 @@ interface EndorseButtonProps {
 
 const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
   const { address } = useAccount();
-  const { isCitizen } = useCitizen(address);
+  const { isCitizen, fetching } = useCitizen(address);
 
   const isEndorsed = endorsers?.some(
     (endorser) => endorser.address === address,
@@ -145,7 +145,7 @@ const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
 
   const buttonStyle = "w-full rounded-[16px] py-4 text-lg font-semibold";
 
-  if (isCitizen == null) {
+  if (address && fetching) {
     return (
       <div className="w-full rounded-[16px] h-10 bg-card-border animate-pulse" />
     );
