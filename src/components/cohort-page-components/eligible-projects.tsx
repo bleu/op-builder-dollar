@@ -7,6 +7,12 @@ import { useAccount } from "wagmi";
 import { AccountName } from "../account-name";
 import { ProjectCard } from "../project-card";
 import { Button } from "../ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 export const EligibleProjects = () => {
   const projects: Project[] = [
@@ -83,9 +89,6 @@ export const EligibleProjects = () => {
 const EndorsementSection = ({
   endorsers,
 }: { endorsers: Project["endorsers"] }) => {
-  const { address } = useAccount();
-  const { isCitizen } = useCitizen(address);
-
   return (
     <div className="w-full col-span-8 flex flex-col gap-4">
       <div className="w-full col-span-8 flex flex-col gap-2">
@@ -105,7 +108,7 @@ const EndorsementSection = ({
           )}
         </ul>
       </div>
-      {isCitizen && <EndorseButton endorsers={endorsers} />}
+      <EndorseButton endorsers={endorsers} />
     </div>
   );
 };
@@ -134,6 +137,7 @@ interface EndorseButtonProps {
 
 const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
   const { address } = useAccount();
+  const { isCitizen } = useCitizen(address);
 
   const isEndorsed = endorsers?.some(
     (endorser) => endorser.address === address,
@@ -141,7 +145,13 @@ const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
 
   const buttonStyle = "w-full rounded-[16px] py-4 text-lg font-semibold";
 
-  if (isEndorsed) {
+  if (isCitizen == null) {
+    return (
+      <div className="w-full rounded-[16px] h-10 bg-card-border animate-pulse" />
+    );
+  }
+
+  if (isCitizen && isEndorsed) {
     return (
       <Button
         className={cn(
@@ -157,8 +167,25 @@ const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
   }
 
   return (
-    <Button className={buttonStyle} variant="default">
-      <ThumbsUp weight="bold" size={24} /> ENDORSE PROJECT
-    </Button>
+    <TooltipProvider>
+      <Tooltip delayDuration={100}>
+        <TooltipTrigger asChild>
+          <div>
+            <Button
+              className={buttonStyle}
+              variant="default"
+              disabled={!isCitizen}
+            >
+              <ThumbsUp weight="bold" size={24} /> ENDORSE PROJECT
+            </Button>
+          </div>
+        </TooltipTrigger>
+        {!isCitizen && (
+          <TooltipContent>
+            <p>Only Optimism Citizens can endorse projects</p>
+          </TooltipContent>
+        )}
+      </Tooltip>
+    </TooltipProvider>
   );
 };
