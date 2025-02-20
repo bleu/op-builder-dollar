@@ -4,7 +4,7 @@
     "enabled": true
   },
   "files": {
-    "ignore": [".next/*", "node_modules/*", "dist/*", "build/*"]
+    "ignore": [".next/*", "node_modules/*", "dist/*", "build/*", "src/gql/*"]
   },
   "linter": {
     "enabled": true,

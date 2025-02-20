@@ -1,5 +1,4 @@
 "use client";
-
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { CheckCircle, ThumbsUp } from "phosphor-react";

@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import type { ReactNode } from "react";
+import { Client, Provider, cacheExchange, fetchExchange } from "urql";
 import { http, WagmiProvider, createConfig } from "wagmi";
 import {
   arbitrum,
@@ -42,13 +43,20 @@ const config = createConfig(
   }),
 );
 
+const graphqlClient = new Client({
+  url: "https://optimism.easscan.org/graphql",
+  exchanges: [cacheExchange, fetchExchange],
+});
+
 const queryClient = new QueryClient();
 
 export const Web3Provider = ({ children }: { children: ReactNode }) => {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <ConnectKitProvider>{children}</ConnectKitProvider>
+        <Provider value={graphqlClient}>
+          <ConnectKitProvider>{children}</ConnectKitProvider>
+        </Provider>
       </QueryClientProvider>
     </WagmiProvider>
   );
