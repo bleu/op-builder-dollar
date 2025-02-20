@@ -74,7 +74,7 @@ export const ActiveCohortMembers = () => {
         {projects.map((project) => (
           <ProjectCard
             key={project.id}
-            project={project}
+            projectUID="0x4201a4ad6468dff549edc3096367ac4beec946b701f94da7abc11182320d15a3" // TODO - add ProjectUID
             className="grid grid-cols-4 md:grid-cols-8 w-full gap-2"
           >
             <Card className="rounded-[15px] flex flex-col justify-center gap-2 px-6 py-3 col-span-4">

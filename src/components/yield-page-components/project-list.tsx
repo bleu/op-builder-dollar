@@ -75,7 +75,11 @@ export const ProjectList = () => {
       </div>
       <div className="flex flex-col gap-4">
         {projects.map((project) => (
-          <ProjectCard key={project.id} project={project}>
+          //TODO - change projectUID to real one
+          <ProjectCard
+            key={project.id}
+            projectUID="0x4201a4ad6468dff549edc3096367ac4beec946b701f94da7abc11182320d15a3"
+          >
             <DetailedInfoLabel
               detailedInfo={`${getPercentageOfTotalYield(project.shareOfYield)}% of total`}
               label="Share of monthly yield"
