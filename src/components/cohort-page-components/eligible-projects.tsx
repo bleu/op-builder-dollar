@@ -1,7 +1,9 @@
 "use client";
+import { useCitizen } from "@/hooks/use-citizen";
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { CheckCircle, ThumbsUp } from "phosphor-react";
+import { useAccount } from "wagmi";
 import { AccountName } from "../account-name";
 import { ProjectCard } from "../project-card";
 import { Button } from "../ui/button";
@@ -48,6 +50,9 @@ export const EligibleProjects = () => {
     },
   ];
 
+  const { address } = useAccount();
+  const { isCitizen } = useCitizen(address);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4">
@@ -69,7 +74,10 @@ export const EligibleProjects = () => {
               project={project}
               className="grid grid-cols-8 w-full gap-2"
             >
-              <EndorsementComponent endorsers={project.endorsers || []} />
+              <EndorsementComponent
+                endorsers={project.endorsers || []}
+                isCitizen={isCitizen}
+              />
             </ProjectCard>
           </div>
         ))}
@@ -80,10 +88,8 @@ export const EligibleProjects = () => {
 
 const EndorsementComponent = ({
   endorsers,
-}: { endorsers: Project["endorsers"] }) => {
-  // TODO - const { account } = useAccount();
-  const account = "0x29Ee17661f172424150d7AA6460F15edf47eDF6b";
-
+  isCitizen,
+}: { endorsers: Project["endorsers"]; isCitizen?: boolean }) => {
   return (
     <div className="w-full col-span-8 flex flex-col gap-4">
       <div className="w-full col-span-8 flex flex-col gap-2">
@@ -103,7 +109,7 @@ const EndorsementComponent = ({
           )}
         </ul>
       </div>
-      <EndorseButton userAddress={account} endorsers={endorsers} />
+      {isCitizen && <EndorseButton endorsers={endorsers} />}
     </div>
   );
 };
@@ -127,13 +133,14 @@ const EndorseProgressBar = ({ votes }: { votes: number }) => {
 };
 
 interface EndorseButtonProps {
-  userAddress: string;
   endorsers: Project["endorsers"];
 }
 
-const EndorseButton = ({ userAddress, endorsers }: EndorseButtonProps) => {
+const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
+  const { address } = useAccount();
+
   const isEndorsed = endorsers?.some(
-    (endorser) => endorser.address === userAddress,
+    (endorser) => endorser.address === address,
   );
 
   const buttonStyle = "w-full rounded-[16px] py-4 text-lg font-semibold";
