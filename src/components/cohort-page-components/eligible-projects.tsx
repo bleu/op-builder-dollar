@@ -1,10 +1,18 @@
 "use client";
+import { useCitizen } from "@/hooks/use-citizen";
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { CheckCircle, ThumbsUp } from "phosphor-react";
+import { useAccount } from "wagmi";
 import { AccountName } from "../account-name";
 import { ProjectCard } from "../project-card";
 import { Button } from "../ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 export const EligibleProjects = () => {
   const projects: Project[] = [
@@ -69,7 +77,7 @@ export const EligibleProjects = () => {
               project={project}
               className="grid grid-cols-8 w-full gap-2"
             >
-              <EndorsementComponent endorsers={project.endorsers || []} />
+              <EndorsementSection endorsers={project.endorsers || []} />
             </ProjectCard>
           </div>
         ))}
@@ -78,12 +86,9 @@ export const EligibleProjects = () => {
   );
 };
 
-const EndorsementComponent = ({
+const EndorsementSection = ({
   endorsers,
 }: { endorsers: Project["endorsers"] }) => {
-  // TODO - const { account } = useAccount();
-  const account = "0x29Ee17661f172424150d7AA6460F15edf47eDF6b";
-
   return (
     <div className="w-full col-span-8 flex flex-col gap-4">
       <div className="w-full col-span-8 flex flex-col gap-2">
@@ -103,7 +108,7 @@ const EndorsementComponent = ({
           )}
         </ul>
       </div>
-      <EndorseButton userAddress={account} endorsers={endorsers} />
+      <EndorseButton endorsers={endorsers} />
     </div>
   );
 };
@@ -127,18 +132,26 @@ const EndorseProgressBar = ({ votes }: { votes: number }) => {
 };
 
 interface EndorseButtonProps {
-  userAddress: string;
   endorsers: Project["endorsers"];
 }
 
-const EndorseButton = ({ userAddress, endorsers }: EndorseButtonProps) => {
+const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
+  const { address } = useAccount();
+  const { isCitizen, fetching } = useCitizen(address);
+
   const isEndorsed = endorsers?.some(
-    (endorser) => endorser.address === userAddress,
+    (endorser) => endorser.address === address,
   );
 
   const buttonStyle = "w-full rounded-[16px] py-4 text-lg font-semibold";
 
-  if (isEndorsed) {
+  if (address && fetching) {
+    return (
+      <div className="w-full rounded-[16px] h-10 bg-card-border animate-pulse" />
+    );
+  }
+
+  if (isCitizen && isEndorsed) {
     return (
       <Button
         className={cn(
@@ -154,8 +167,25 @@ const EndorseButton = ({ userAddress, endorsers }: EndorseButtonProps) => {
   }
 
   return (
-    <Button className={buttonStyle} variant="default">
-      <ThumbsUp weight="bold" size={24} /> ENDORSE PROJECT
-    </Button>
+    <TooltipProvider>
+      <Tooltip delayDuration={100}>
+        <TooltipTrigger asChild>
+          <div>
+            <Button
+              className={buttonStyle}
+              variant="default"
+              disabled={!isCitizen}
+            >
+              <ThumbsUp weight="bold" size={24} /> ENDORSE PROJECT
+            </Button>
+          </div>
+        </TooltipTrigger>
+        {!isCitizen && (
+          <TooltipContent>
+            <p>Only Optimism Citizens can endorse projects</p>
+          </TooltipContent>
+        )}
+      </Tooltip>
+    </TooltipProvider>
   );
 };
