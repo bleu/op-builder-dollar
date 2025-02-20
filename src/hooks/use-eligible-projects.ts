@@ -10,7 +10,7 @@ export const useEligibleProjects = () => {
     query: SCHEMA_QUERY,
     variables: {
       where: { id: PROJECTS_SCHEMA_ID },
-      whereAttestation: { recipient: { equals: zeroAddress } },
+      whereAttestation: { recipient: { not: { equals: zeroAddress } } },
     },
   });
 
