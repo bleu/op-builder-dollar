@@ -50,9 +50,6 @@ export const EligibleProjects = () => {
     },
   ];
 
-  const { address } = useAccount();
-  const { isCitizen } = useCitizen(address);
-
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4">
@@ -74,10 +71,7 @@ export const EligibleProjects = () => {
               project={project}
               className="grid grid-cols-8 w-full gap-2"
             >
-              <EndorsementComponent
-                endorsers={project.endorsers || []}
-                isCitizen={isCitizen}
-              />
+              <EndorsementSection endorsers={project.endorsers || []} />
             </ProjectCard>
           </div>
         ))}
@@ -86,10 +80,12 @@ export const EligibleProjects = () => {
   );
 };
 
-const EndorsementComponent = ({
+const EndorsementSection = ({
   endorsers,
-  isCitizen,
-}: { endorsers: Project["endorsers"]; isCitizen?: boolean }) => {
+}: { endorsers: Project["endorsers"] }) => {
+  const { address } = useAccount();
+  const { isCitizen } = useCitizen(address);
+
   return (
     <div className="w-full col-span-8 flex flex-col gap-4">
       <div className="w-full col-span-8 flex flex-col gap-2">

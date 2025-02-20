@@ -11,9 +11,9 @@ export const useCitizen = (address?: `0x${string}`) => {
     requestPolicy: "cache-first",
   });
 
-  const citizensList = data?.getSchema?.attestations.map(
-    (attestation) => attestation.recipient,
-  );
+  const citizensList = data?.getSchema?.attestations
+    .filter((attestation) => !attestation.revoked)
+    .map((attestation) => attestation.recipient);
 
   const isCitizen = address && citizensList?.includes(address);
 

@@ -8,6 +8,7 @@ export const SCHEMA_QUERY = graphql(`
       schema
       attestations {
         recipient
+        revoked
       }
     }
   }
