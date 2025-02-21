@@ -1,0 +1,59 @@
+import { buildersManagerAbi } from "@/lib/abis/builders-manager-abi";
+import { useQuery } from "@tanstack/react-query";
+import type { Address } from "viem";
+import { useAccount, usePublicClient } from "wagmi";
+
+const BUILDERS_MANAGER_ADDRESS = "" as Address;
+
+export function useReadBuildersManager() {
+  const { address } = useAccount();
+  const publicClient = usePublicClient();
+
+  return useQuery({
+    queryKey: ["buildersManager"],
+    queryFn: async () => {
+      if (!address) throw new Error("missing address");
+      if (!publicClient) throw new Error("missing publicClient");
+
+      const buildersManagerCommon = {
+        address: BUILDERS_MANAGER_ADDRESS,
+        abi: buildersManagerAbi,
+      };
+
+      const result = await publicClient.multicall({
+        contracts: [
+          {
+            address: BUILDERS_MANAGER_ADDRESS,
+            abi: buildersManagerAbi,
+            functionName: "settings",
+          },
+          {
+            ...buildersManagerCommon,
+            functionName: "currentProjectUids",
+          },
+          {
+            ...buildersManagerCommon,
+            functionName: "optimismFoundationAttesters",
+          },
+        ],
+      });
+
+      if (result[0].status === "failure")
+        throw new Error("Error reading obusd balance");
+      if (result[1].status === "failure")
+        throw new Error("Error reading usdc balance");
+      if (result[2].status === "failure")
+        throw new Error("Error reading obusd totalSupply");
+
+      const settings = result[0].result;
+      const currentProjectUids = result[1].result;
+      const optimismFoundationAttesters = result[2].result;
+
+      return {
+        settings,
+        currentProjectUids,
+        optimismFoundationAttesters,
+      };
+    },
+  });
+}
