@@ -43,37 +43,27 @@ export const TopSection = () => {
       <Card className="h-40 col-span-4 bg-background flex flex-col justify-between">
         <div className="w-full flex justify-between">
           <span className="text-sub-text font-normal">APY</span>
-          {apy ? (
-            <span className="font-bold italic">{apy}%</span>
-          ) : (
-            <LoadingDots className="font-bold italic" />
-          )}
+          <span className="font-bold italic">
+            {apy ? `${apy}%` : <LoadingDots />}
+          </span>
         </div>
         <div className="w-full flex justify-between">
           <span className="text-sub-text font-normal">Cohort size</span>
-          {cohortSize ? (
-            <span className="font-bold italic">{cohortSize}</span>
-          ) : (
-            <LoadingDots className="font-bold italic" />
-          )}
+          <span className="font-bold italic">
+            {cohortSize ?? <LoadingDots />}
+          </span>
         </div>
         <div className="w-full flex justify-between">
           <span className="text-sub-text font-normal">
             Est. yield per project
           </span>
-          {yieldPerProject ? (
-            <span className="font-bold italic">${yieldPerProject}</span>
-          ) : (
-            <LoadingDots className="font-bold italic" />
-          )}
+          <span className="font-bold italic">
+            {yieldPerProject ? `$${yieldPerProject}` : <LoadingDots />}
+          </span>
         </div>
         <div className="w-full flex justify-between">
           <span className="text-sub-text font-normal">Distribution round</span>
-          {round ? (
-            <span className="font-bold italic">{round}</span>
-          ) : (
-            <LoadingDots className="font-bold italic" />
-          )}
+          <span className="font-bold italic">{round ?? <LoadingDots />}</span>
         </div>
       </Card>
       <div className="col-span-4 md:col-span-8 flex flex-col gap-4">
