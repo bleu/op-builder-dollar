@@ -1,7 +1,7 @@
 import { TokenAmountInput } from "@/components/mint-burn-card-components/token-amount-input";
 import ObUsd from "@/components/ui/obusd";
 import Usdc from "@/components/ui/usdc";
-import { useTokenBalances } from "@/hooks/use-token-balances";
+import { useReadObusd } from "@/hooks/use-read-obusd";
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 import { formatUnits } from "viem";
@@ -42,7 +42,7 @@ export const TokenAmountContainer = ({
   onValueChange: (value: string) => void;
 }) => {
   const { obusdBalance, usdcBalance, obusdDecimals, usdcDecimals } =
-    useTokenBalances();
+    useReadObusd();
 
   const handleClickOverBalance = () => {
     if (token === "USDC" && usdcBalance && usdcDecimals)
