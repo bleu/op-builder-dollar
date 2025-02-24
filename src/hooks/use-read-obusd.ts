@@ -1,3 +1,4 @@
+import { obusdAbi } from "@/lib/abis/obusd-abi";
 import { formatTokenBalance } from "@/utils/formatting";
 import { useQuery } from "@tanstack/react-query";
 import { erc20Abi } from "viem";
@@ -9,6 +10,7 @@ interface RawBalances {
   obusdBalance: bigint;
   obusdDecimals: number;
   obusdTotalSupply: bigint;
+  obusdYield: bigint | undefined;
 }
 
 // Polygon Bread token (maybe useful for early tests)
@@ -58,6 +60,11 @@ export function useReadObusd() {
             abi: erc20Abi,
             functionName: "decimals",
           },
+          {
+            address: obusdAddress,
+            abi: obusdAbi,
+            functionName: "yieldAccrued",
+          },
         ],
       });
 
@@ -71,12 +78,16 @@ export function useReadObusd() {
         throw new Error("Error reading obusd decimals");
       if (result[4].status === "failure")
         throw new Error("Error reading usdc decimals");
+      if (result[5].status === "failure")
+        console.error("Error getting obUSD yieldAccrued");
 
       const obusdBalance = result[0].result;
       const usdcBalance = result[1].result;
       const obusdTotalSupply = result[2].result;
       const obusdDecimals = result[3].result;
       const usdcDecimals = result[4].result;
+      const obusdYield =
+        result[5].status === "success" ? result[5].result : undefined;
 
       return {
         obusdBalance,
@@ -84,6 +95,7 @@ export function useReadObusd() {
         obusdTotalSupply,
         obusdDecimals,
         usdcDecimals,
+        obusdYield,
       };
     },
   });
@@ -94,6 +106,7 @@ export function useReadObusd() {
     obusdTotalSupply,
     obusdDecimals,
     usdcDecimals,
+    obusdYield,
   }: Partial<RawBalances> = query.data ?? {};
 
   const obusdFormattedBalance =
@@ -108,6 +121,10 @@ export function useReadObusd() {
     obusdTotalSupply && obusdDecimals
       ? formatTokenBalance(obusdTotalSupply, obusdDecimals)
       : "";
+  const obusdYieldFormatted =
+    obusdYield && obusdDecimals
+      ? formatTokenBalance(obusdYield, obusdDecimals)
+      : "";
 
   return {
     usdcBalance,
@@ -117,5 +134,7 @@ export function useReadObusd() {
     obusdTotalSupplyFormatted,
     obusdDecimals,
     usdcDecimals,
+    obusdYield,
+    obusdYieldFormatted,
   };
 }

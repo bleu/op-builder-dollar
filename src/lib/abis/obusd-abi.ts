@@ -262,4 +262,17 @@ export const obusdAbi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-];
+  {
+    inputs: [],
+    name: "yieldAccrued",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+] as const;
