@@ -52,6 +52,7 @@ export function useReadBuildersManager() {
       return {
         settings,
         currentProjectUids,
+        cohortSize: currentProjectUids.length,
         optimismFoundationAttesters,
       };
     },
