@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { Address } from "viem";
 import { usePublicClient } from "wagmi";
 
+// TODO: fill this address
 const BUILDERS_MANAGER_ADDRESS = "" as Address;
 const AVG_BLOCK_TIME = 2; // Optimism avg block time
 const SECONDS_IN_30_DAYS = 60 * 60 * 24 * 30;
