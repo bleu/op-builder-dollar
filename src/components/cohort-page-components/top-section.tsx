@@ -2,6 +2,7 @@
 import { useCohortStats } from "@/hooks/use-cohort-stats";
 import { cn } from "@/lib/utils";
 import { Card } from "../ui/card";
+import LoadingDots from "../ui/loading-dots";
 
 export const TopSection = () => {
   const {
@@ -14,15 +15,21 @@ export const TopSection = () => {
     cohortSize,
   } = useCohortStats();
 
-  const newMembers = {
-    count: newMembersCount,
-    percentage: newMembersPercentage,
-  };
+  const newMembers =
+    newMembersCount && newMembersPercentage
+      ? {
+          count: newMembersCount,
+          percentage: newMembersPercentage,
+        }
+      : undefined;
 
-  const monthlyExit = {
-    count: monthlyExitCount,
-    percentage: monthlyExitPercentage,
-  };
+  const monthlyExit =
+    monthlyExitCount && monthlyExitPercentage
+      ? {
+          count: monthlyExitCount,
+          percentage: monthlyExitPercentage,
+        }
+      : undefined;
 
   const formatCountAndPercentage = ({
     count,
@@ -41,8 +48,16 @@ export const TopSection = () => {
         <div className="z-10 justify-center gap-2 items-start h-full flex flex-col">
           <h5 className="text-sub-text text-2xl">Cohort size</h5>
           <div className="flex gap-2 items-end">
-            <span className="font-extrabold italic text-4xl">{cohortSize}</span>
-            <span className="font-semibold text-xl">PROJECTS</span>
+            {cohortSize ? (
+              <>
+                <span className="font-extrabold italic text-4xl">
+                  {cohortSize}
+                </span>
+                <span className="font-semibold text-xl">PROJECTS</span>
+              </>
+            ) : (
+              <LoadingDots className="font-extrabold italic text-4xl" />
+            )}
           </div>
         </div>
       </Card>
@@ -52,10 +67,18 @@ export const TopSection = () => {
           <span
             className={cn(
               "font-bold italic",
-              newMembers.percentage > 0 ? "text-success" : "text-error",
+              newMembers
+                ? newMembers.percentage > 0
+                  ? "text-success"
+                  : "text-error"
+                : "",
             )}
           >
-            {formatCountAndPercentage(newMembers)}
+            {newMembers ? (
+              formatCountAndPercentage(newMembers)
+            ) : (
+              <LoadingDots />
+            )}
           </span>
         </div>
         <div className="w-full flex justify-between">
@@ -63,21 +86,33 @@ export const TopSection = () => {
           <span
             className={cn(
               "font-bold italic",
-              monthlyExit.percentage > 0 ? "text-success" : "text-error",
+              monthlyExit
+                ? monthlyExit.percentage > 0
+                  ? "text-success"
+                  : "text-error"
+                : "",
             )}
           >
-            {formatCountAndPercentage(monthlyExit)}
+            {monthlyExit ? (
+              formatCountAndPercentage(monthlyExit)
+            ) : (
+              <LoadingDots />
+            )}
           </span>
         </div>
         <div className="w-full flex justify-between">
           <span className="text-sub-text font-normal">
             Total OP collective citizens
           </span>
-          <span className="font-bold italic">{totalOpCollectiveCitizens}</span>
+          <span className="font-bold italic">
+            {totalOpCollectiveCitizens ?? <LoadingDots />}
+          </span>
         </div>
         <div className="w-full flex justify-between">
           <span className="text-sub-text font-normal">Optimism Gov season</span>
-          <span className="font-bold italic">{currentSeason}</span>
+          <span className="font-bold italic">
+            {currentSeason ?? <LoadingDots />}
+          </span>
         </div>
       </Card>
     </div>

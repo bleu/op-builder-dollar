@@ -6,7 +6,7 @@ export function useCohortStats() {
   const { currentProjectRecipients, optimismFoundationAttesters } = data ?? {};
   const { newCohortProjects } = useReadNewCohortProjects();
 
-  const newMembersCount = newCohortProjects ?? 0;
+  const newMembersCount = newCohortProjects;
 
   const newMembersPercentage =
     currentProjectRecipients && newCohortProjects
@@ -14,19 +14,19 @@ export function useCohortStats() {
         ? 100
         : newCohortProjects /
           (currentProjectRecipients.length - newCohortProjects)
-      : 0;
+      : undefined;
 
-  const monthlyExitCount = 7;
-  const monthlyExitPercentage = -4;
-  const currentSeason = 7; // TODO: get this info from citizens attestations
+  const monthlyExitCount = undefined;
+  const monthlyExitPercentage = undefined;
+  const currentSeason = undefined;
 
   const totalOpCollectiveCitizens = optimismFoundationAttesters
     ? String(optimismFoundationAttesters.length)
-    : "";
+    : undefined;
 
   const cohortSize = currentProjectRecipients
     ? String(currentProjectRecipients.length)
-    : "";
+    : undefined;
 
   return {
     newMembersCount,
