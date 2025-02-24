@@ -1,16 +1,27 @@
 "use client";
+import { useCohortStats } from "@/hooks/use-cohort-stats";
 import { cn } from "@/lib/utils";
 import { Card } from "../ui/card";
 
 export const TopSection = () => {
+  const {
+    newMembersCount,
+    newMembersPercentage,
+    monthlyExitCount,
+    monthlyExitPercentage,
+    totalOpCollectiveCitizens,
+    currentSeason,
+    cohortSize,
+  } = useCohortStats();
+
   const newMembers = {
-    count: 7,
-    percentage: 4,
+    count: newMembersCount,
+    percentage: newMembersPercentage,
   };
 
   const monthlyExit = {
-    count: 7,
-    percentage: -4,
+    count: monthlyExitCount,
+    percentage: monthlyExitPercentage,
   };
 
   const formatCountAndPercentage = ({
@@ -30,7 +41,7 @@ export const TopSection = () => {
         <div className="z-10 justify-center gap-2 items-start h-full flex flex-col">
           <h5 className="text-sub-text text-2xl">Cohort size</h5>
           <div className="flex gap-2 items-end">
-            <span className="font-extrabold italic text-4xl">100</span>
+            <span className="font-extrabold italic text-4xl">{cohortSize}</span>
             <span className="font-semibold text-xl">PROJECTS</span>
           </div>
         </div>
@@ -62,11 +73,11 @@ export const TopSection = () => {
           <span className="text-sub-text font-normal">
             Total OP collective citizens
           </span>
-          <span className="font-bold italic">100</span>
+          <span className="font-bold italic">{totalOpCollectiveCitizens}</span>
         </div>
         <div className="w-full flex justify-between">
           <span className="text-sub-text font-normal">Optimism Gov season</span>
-          <span className="font-bold italic">7</span>
+          <span className="font-bold italic">{currentSeason}</span>
         </div>
       </Card>
     </div>

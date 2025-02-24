@@ -33,26 +33,33 @@ export function useReadBuildersManager() {
           },
           {
             ...buildersManagerCommon,
+            functionName: "currentProjects",
+          },
+          {
+            ...buildersManagerCommon,
             functionName: "optimismFoundationAttesters",
           },
         ],
       });
 
       if (result[0].status === "failure")
-        throw new Error("Error reading obusd balance");
+        throw new Error("Error reading builders manager settings");
       if (result[1].status === "failure")
-        throw new Error("Error reading usdc balance");
+        throw new Error("Error reading builders manager currentProjectUids");
       if (result[2].status === "failure")
-        throw new Error("Error reading obusd totalSupply");
+        throw new Error("Error reading builders manager currentProjects");
+      if (result[3].status === "failure")
+        throw new Error("Error reading optimismFoundationAttesters");
 
       const settings = result[0].result;
       const currentProjectUids = result[1].result;
-      const optimismFoundationAttesters = result[2].result;
+      const currentProjectRecipients = result[2].result;
+      const optimismFoundationAttesters = result[3].result;
 
       return {
         settings,
         currentProjectUids,
-        cohortSize: currentProjectUids.length,
+        currentProjectRecipients,
         optimismFoundationAttesters,
       };
     },
