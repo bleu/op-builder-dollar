@@ -1,9 +1,7 @@
 import { buildersManagerAbi } from "@/lib/abis/builders-manager-abi";
+import { BUILDERS_MANAGER_ADDRESS } from "@/utils/constants";
 import { useQuery } from "@tanstack/react-query";
-import type { Address } from "viem";
 import { useAccount, usePublicClient } from "wagmi";
-
-const BUILDERS_MANAGER_ADDRESS = "" as Address;
 
 export function useReadBuildersManager() {
   const { address } = useAccount();

@@ -1,12 +1,10 @@
 "use client";
 
 import { buildersManagerAbi } from "@/lib/abis/builders-manager-abi";
+import { BUILDERS_MANAGER_ADDRESS } from "@/utils/constants";
 import { useQuery } from "@tanstack/react-query";
-import type { Address } from "viem";
 import { usePublicClient } from "wagmi";
 
-// TODO: fill this address
-const BUILDERS_MANAGER_ADDRESS = "" as Address;
 const AVG_BLOCK_TIME = 2; // Optimism avg block time
 const SECONDS_IN_30_DAYS = 60 * 60 * 24 * 30;
 const BLOCKS_IN_30_DAYS = SECONDS_IN_30_DAYS / AVG_BLOCK_TIME;

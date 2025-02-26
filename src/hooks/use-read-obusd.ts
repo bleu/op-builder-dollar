@@ -1,4 +1,5 @@
 import { obusdAbi } from "@/lib/abis/obusd-abi";
+import { OBUSD_ADDRESS, USDC_ADDRESS } from "@/utils/constants";
 import { formatTokenBalance } from "@/utils/formatting";
 import { useQuery } from "@tanstack/react-query";
 import { erc20Abi } from "viem";
@@ -13,14 +14,6 @@ interface RawBalances {
   obusdYield: bigint | undefined;
 }
 
-// Polygon Bread token (maybe useful for early tests)
-//const obusdAddress = "0x11d9efdf4ab4a3bfabf5c7089f56aa4f059aa14c";
-//const usdcAddress = "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063";
-
-// Sepolia modified Bread token
-const obusdAddress = "0x70F9667013645EcC52f6ff98b0C60b37D7647e26";
-const usdcAddress = "0xbe72E441BF55620febc26715db68d3494213D8Cb";
-
 export function useReadObusd() {
   const { address } = useAccount();
   const publicClient = usePublicClient();
@@ -34,34 +27,34 @@ export function useReadObusd() {
       const result = await publicClient.multicall({
         contracts: [
           {
-            address: obusdAddress,
+            address: OBUSD_ADDRESS,
             abi: erc20Abi,
             functionName: "balanceOf",
             args: [address],
           },
           {
-            address: usdcAddress,
+            address: USDC_ADDRESS,
             abi: erc20Abi,
             functionName: "balanceOf",
             args: [address],
           },
           {
-            address: obusdAddress,
+            address: OBUSD_ADDRESS,
             abi: erc20Abi,
             functionName: "totalSupply",
           },
           {
-            address: obusdAddress,
+            address: OBUSD_ADDRESS,
             abi: erc20Abi,
             functionName: "decimals",
           },
           {
-            address: usdcAddress,
+            address: USDC_ADDRESS,
             abi: erc20Abi,
             functionName: "decimals",
           },
           {
-            address: obusdAddress,
+            address: OBUSD_ADDRESS,
             abi: obusdAbi,
             functionName: "yieldAccrued",
           },
