@@ -25,8 +25,12 @@ export function useYieldStats() {
     : undefined;
 
   const yieldPerProject =
-    obusdYield && obusdDecimals && cohortSize
-      ? formatTokenBalance(obusdYield / BigInt(cohortSize), obusdDecimals)
+    obusdYield !== undefined &&
+    obusdDecimals !== undefined &&
+    cohortSize !== undefined
+      ? cohortSize > 0
+        ? formatTokenBalance(obusdYield / BigInt(cohortSize), obusdDecimals)
+        : "0.0"
       : undefined;
 
   return {

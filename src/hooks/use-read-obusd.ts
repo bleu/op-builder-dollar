@@ -103,19 +103,19 @@ export function useReadObusd() {
   }: Partial<RawBalances> = query.data ?? {};
 
   const obusdFormattedBalance =
-    obusdBalance && obusdDecimals
+    obusdBalance !== undefined && obusdDecimals !== undefined
       ? formatTokenBalance(obusdBalance, obusdDecimals)
       : "";
   const usdcFormattedBalance =
-    usdcBalance && usdcDecimals
+    usdcBalance !== undefined && usdcDecimals !== undefined
       ? formatTokenBalance(usdcBalance, usdcDecimals)
       : "";
   const obusdTotalSupplyFormatted =
-    obusdTotalSupply && obusdDecimals
+    obusdTotalSupply !== undefined && obusdDecimals !== undefined
       ? formatTokenBalance(obusdTotalSupply, obusdDecimals)
       : "";
   const obusdYieldFormatted =
-    obusdYield && obusdDecimals
+    obusdYield !== undefined && obusdDecimals !== undefined
       ? formatTokenBalance(obusdYield, obusdDecimals)
       : "";
 
