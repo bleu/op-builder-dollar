@@ -21,8 +21,7 @@ export function useReadBuildersManager() {
       const result = await publicClient.multicall({
         contracts: [
           {
-            address: BUILDERS_MANAGER_ADDRESS,
-            abi: buildersManagerAbi,
+            ...buildersManagerCommon,
             functionName: "settings",
           },
           {
