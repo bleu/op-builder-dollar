@@ -1,5 +1,4 @@
 "use client";
-
 import { buildersManagerAbi } from "@/lib/abis/builders-manager-abi";
 import { BUILDERS_MANAGER_ADDRESS } from "@/utils/constants";
 import { useQuery } from "@tanstack/react-query";
@@ -20,16 +19,17 @@ export function useReadNewCohortProjects() {
       const toBlock = await publicClient.getBlockNumber();
       const fromBlock = toBlock - BigInt(BLOCKS_IN_30_DAYS);
 
-      const filter = await publicClient.createContractEventFilter({
-        address: BUILDERS_MANAGER_ADDRESS,
-        abi: buildersManagerAbi,
-        eventName: "ProjectReachedMinVouches",
-        fromBlock,
-        toBlock,
-      });
-
-      const newProjectsCount = (await publicClient.getFilterLogs({ filter }))
-        .length;
+      const newProjectsCount = (
+        await publicClient.getLogs({
+          address: BUILDERS_MANAGER_ADDRESS,
+          event: buildersManagerAbi.find(
+            (item) =>
+              item.type === "event" && item.name === "ProjectReachedMinVouches",
+          ),
+          fromBlock,
+          toBlock,
+        })
+      ).length;
 
       return newProjectsCount;
     },
