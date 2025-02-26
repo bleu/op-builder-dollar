@@ -10,7 +10,7 @@ export function useCohortStats() {
 
   const newMembersPercentage =
     currentProjectRecipients && newCohortProjects
-      ? currentProjectRecipients.length - newCohortProjects < 0
+      ? currentProjectRecipients.length - newCohortProjects <= 0
         ? 100
         : newCohortProjects /
           (currentProjectRecipients.length - newCohortProjects)

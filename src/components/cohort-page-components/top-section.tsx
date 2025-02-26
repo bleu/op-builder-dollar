@@ -16,7 +16,7 @@ export const TopSection = () => {
   } = useCohortStats();
 
   const newMembers =
-    newMembersCount && newMembersPercentage
+    newMembersCount !== undefined
       ? {
           count: newMembersCount,
           percentage: newMembersPercentage,
@@ -24,7 +24,7 @@ export const TopSection = () => {
       : undefined;
 
   const monthlyExit =
-    monthlyExitCount && monthlyExitPercentage
+    monthlyExitCount !== undefined
       ? {
           count: monthlyExitCount,
           percentage: monthlyExitPercentage,
@@ -34,8 +34,12 @@ export const TopSection = () => {
   const formatCountAndPercentage = ({
     count,
     percentage,
-  }: { count: number; percentage: number }) => {
-    return `${count}(${percentage > 0 ? "+" : ""}${percentage}%)`;
+  }: { count: number | undefined; percentage: number | undefined }) => {
+    if (count === undefined) return "";
+    const percentageParenthesis = percentage
+      ? `(+ ${percentage.toFixed(1)}%)`
+      : "";
+    return `${count} ${percentageParenthesis}`;
   };
 
   return (
@@ -67,7 +71,7 @@ export const TopSection = () => {
           <span
             className={cn(
               "font-bold italic",
-              newMembers
+              newMembers?.count && newMembers?.percentage
                 ? newMembers.percentage > 0
                   ? "text-success"
                   : "text-error"
@@ -86,7 +90,7 @@ export const TopSection = () => {
           <span
             className={cn(
               "font-bold italic",
-              monthlyExit
+              monthlyExit?.count && monthlyExit?.percentage
                 ? monthlyExit.percentage > 0
                   ? "text-success"
                   : "text-error"
