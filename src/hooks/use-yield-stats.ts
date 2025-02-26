@@ -1,5 +1,6 @@
 import { formatTokenBalance } from "@/utils/formatting";
 import { getRoundInfo } from "@/utils/get-round-info";
+import { useApy } from "./use-apy";
 import { useReadBuildersManager } from "./use-read-builders-manager";
 import { useReadObusd } from "./use-read-obusd";
 
@@ -7,6 +8,7 @@ export function useYieldStats() {
   const { obusdYieldFormatted, obusdYield, obusdDecimals } = useReadObusd();
   const { data } = useReadBuildersManager();
   const { settings, currentProjectRecipients } = data ?? {};
+  const { apy } = useApy();
 
   const { round, timeToNextDistribution, pctgToNextDistribution } = settings
     ? getRoundInfo(
@@ -40,6 +42,6 @@ export function useYieldStats() {
     obusdYieldFormatted,
     yieldPerProject,
     cohortSize,
-    apy: undefined,
+    apy,
   };
 }
