@@ -22,7 +22,7 @@ export function getRoundInfo(
 } {
   const seasonStart = seasonExpiry - seasonDuration;
 
-  const now = Date.now();
+  const now = Date.now() / 1000;
 
   if (now < seasonStart)
     return {
