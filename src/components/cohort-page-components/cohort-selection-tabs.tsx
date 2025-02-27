@@ -8,15 +8,15 @@ export const CohortSelectionTabs = () => {
       <TabsList className="w-full gap-1 mb-10">
         <TabsTrigger
           value="active"
-          className="w-full rounded-r-none rounded-l-xl"
+          className="w-full rounded-r-none rounded-l-xl hover:text-primary hover:cursor-pointer"
         >
-          Active Cohort
+          ACTIVE COHORT
         </TabsTrigger>
         <TabsTrigger
           value="eligible"
-          className="w-full rounded-l-none rounded-r-xl"
+          className="w-full rounded-l-none rounded-r-xl hover:text-primary hover:cursor-pointer"
         >
-          Eligible Projects
+          ELIGIBLE PROJECTS
         </TabsTrigger>
       </TabsList>
       <TabsContent value="active">
