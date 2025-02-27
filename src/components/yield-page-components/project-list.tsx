@@ -63,6 +63,7 @@ export const ProjectList = () => {
         {projects.map((project) => (
           <ProjectCard
             key={project.id}
+            projectUID={project.id}
             projectMetadata={allMetadata?.get(project.id)}
           >
             <DetailedInfoLabel

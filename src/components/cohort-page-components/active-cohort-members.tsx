@@ -55,6 +55,7 @@ export const ActiveCohortMembers = () => {
         {projects.map((project) => (
           <ProjectCard
             key={project.id}
+            projectUID={project.id}
             projectMetadata={allMetadata?.get(project.id)}
             className="grid grid-cols-4 md:grid-cols-8 w-full gap-2"
           >

@@ -62,6 +62,7 @@ export const EligibleProjects = () => {
           <div key={project.id} className="col-span-4">
             <ProjectCard
               key={project.id}
+              projectUID={project.id}
               projectMetadata={allMetadata?.get(
                 project.projectRefUID as string,
               )}
