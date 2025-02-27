@@ -11,9 +11,12 @@ export const MintBurnSwitch = ({
           setIsMint(true);
         }}
         type="button"
-        className={cn("font-normal text-sub-text hover:cursor-pointer", {
-          "font-bold text-foreground": isMint,
-        })}
+        className={cn(
+          "font-normal text-sub-text hover:cursor-pointer hover:text-foreground",
+          {
+            "font-bold text-foreground": isMint,
+          },
+        )}
       >
         Mint
       </button>
@@ -22,9 +25,12 @@ export const MintBurnSwitch = ({
           setIsMint(false);
         }}
         type="button"
-        className={cn("font-normal text-sub-text hover:cursor-pointer", {
-          "font-bold text-foreground": !isMint,
-        })}
+        className={cn(
+          "font-normal text-sub-text hover:cursor-pointer hover:text-foreground",
+          {
+            "font-bold text-foreground": !isMint,
+          },
+        )}
       >
         Burn
       </button>

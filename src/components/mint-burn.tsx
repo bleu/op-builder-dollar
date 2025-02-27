@@ -75,8 +75,19 @@ export default function MintBurn() {
           value={value}
           onValueChange={(newValue: string) => setValue(newValue)}
         />
-        <div className="w-7 h-7 bg-content flex justify-center items-center rounded-md border-[1px] border-card-border mt-[-122px] mb-[96px]">
-          <ArrowDown className="text-sub-text" size={20} />
+        <div
+          className="w-7 h-7 bg-content flex justify-center items-center rounded-md border-[2px] border-card-border text-sub-text mt-[-122px] mb-[96px] hover:border-primary hover:text-foreground hover:cursor-pointer"
+          onClick={
+            isMint
+              ? () => {
+                  setIsMint(false);
+                }
+              : () => {
+                  setIsMint(true);
+                }
+          }
+        >
+          <ArrowDown size={20} />
         </div>
       </div>
       <MintBurnButton
