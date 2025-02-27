@@ -85,7 +85,7 @@ export const ProjectList = () => {
                 <Obusd size={18} />
               </div>
               <div className="[&>span]:text-[1rem] italic">
-                <FormattedYield yieldNumber={project.shareOfYield} />
+                <FormattedYield yieldString={project.shareOfYield.toString()} />
               </div>
             </DetailedInfoLabel>
             <DetailedInfoLabel

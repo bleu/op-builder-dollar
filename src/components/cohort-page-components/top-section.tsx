@@ -15,8 +15,6 @@ export const TopSection = () => {
     cohortSize,
   } = useCohortStats();
 
-  console.log({ newMembersCount });
-
   const formatCountAndPercentage = (
     count: number | undefined,
     percentage: number | undefined,
