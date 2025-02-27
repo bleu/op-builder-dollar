@@ -37,10 +37,11 @@ export default function MintBurn() {
     : burnHookOutput;
 
   const isInsufficientUsdc = Boolean(
-    isMint && amount && usdcBalance && amount > usdcBalance,
+    isMint && ((amount && usdcBalance && amount > usdcBalance) || !usdcBalance),
   );
   const isInsufficientObusd = Boolean(
-    !isMint && amount && obusdBalance && amount > obusdBalance,
+    !isMint &&
+      ((amount && obusdBalance && amount > obusdBalance) || !obusdBalance),
   );
 
   const handleStartMintBurn = () => {
