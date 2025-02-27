@@ -15,26 +15,10 @@ export const TopSection = () => {
     cohortSize,
   } = useCohortStats();
 
-  const newMembers =
-    newMembersCount !== undefined
-      ? {
-          count: newMembersCount,
-          percentage: newMembersPercentage,
-        }
-      : undefined;
-
-  const monthlyExit =
-    monthlyExitCount !== undefined
-      ? {
-          count: monthlyExitCount,
-          percentage: monthlyExitPercentage,
-        }
-      : undefined;
-
-  const formatCountAndPercentage = ({
-    count,
-    percentage,
-  }: { count: number | undefined; percentage: number | undefined }) => {
+  const formatCountAndPercentage = (
+    count: number | undefined,
+    percentage: number | undefined,
+  ) => {
     if (count === undefined) return "";
     const percentageParenthesis = percentage
       ? `(${percentage > 0 ? "+ " : "- "}${percentage.toFixed(1)}%)`
@@ -71,15 +55,15 @@ export const TopSection = () => {
           <span
             className={cn(
               "font-bold italic",
-              newMembers?.count && newMembers?.percentage
-                ? newMembers.percentage > 0
+              newMembersCount && newMembersPercentage
+                ? newMembersPercentage > 0
                   ? "text-success"
                   : "text-error"
                 : "",
             )}
           >
-            {newMembers ? (
-              formatCountAndPercentage(newMembers)
+            {newMembersCount ? (
+              formatCountAndPercentage(newMembersCount, newMembersPercentage)
             ) : (
               <LoadingDots />
             )}
@@ -90,15 +74,15 @@ export const TopSection = () => {
           <span
             className={cn(
               "font-bold italic",
-              monthlyExit?.count && monthlyExit?.percentage
-                ? monthlyExit.percentage > 0
+              monthlyExitCount && monthlyExitPercentage
+                ? monthlyExitPercentage > 0
                   ? "text-success"
                   : "text-error"
                 : "",
             )}
           >
-            {monthlyExit ? (
-              formatCountAndPercentage(monthlyExit)
+            {monthlyExitCount ? (
+              formatCountAndPercentage(monthlyExitCount, monthlyExitPercentage)
             ) : (
               <LoadingDots />
             )}
