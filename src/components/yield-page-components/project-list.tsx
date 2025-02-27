@@ -2,8 +2,8 @@
 
 import type { Project } from "@/lib/types";
 import { DetailedInfoLabel } from "../detailed-info-label";
-import LogoComponent from "../logo";
 import { ProjectCard } from "../project-card";
+import Obusd from "../ui/obusd";
 import { FormattedYield } from "./top-section";
 
 export const ProjectList = () => {
@@ -82,7 +82,7 @@ export const ProjectList = () => {
               className="flex items-center gap-2 text-xl font-semibold"
             >
               <div className="size-6 bg-primary rounded-full flex items-center justify-center">
-                <LogoComponent className="text-white" width={18} height={18} />
+                <Obusd size={18} />
               </div>
               <div className="[&>span]:text-[1rem] italic">
                 <FormattedYield yieldNumber={project.shareOfYield} />

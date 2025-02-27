@@ -1,9 +1,9 @@
 "use client";
 import { useYieldStats } from "@/hooks/use-yield-stats";
 import { addCommasToInt } from "@/lib/utils";
-import LogoComponent from "../logo";
 import { Card } from "../ui/card";
 import LoadingDots from "../ui/loading-dots";
+import ObUsd from "../ui/obusd";
 import { ProgressBar } from "../ui/progress-bar";
 
 export const TopSection = () => {
@@ -28,7 +28,7 @@ export const TopSection = () => {
           <h5 className="text-sub-text text-2xl">Total yield to distribute</h5>
           <div className="flex flex-row items-center gap-2">
             <div className="size-6 bg-primary rounded-full flex items-center justify-center">
-              <LogoComponent className="text-white" width={18} height={18} />
+              <ObUsd size={18} />
             </div>
             {obusdYieldFormatted ? (
               <span className="font-extrabold italic text-4xl [&>span]:text-">
