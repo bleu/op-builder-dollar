@@ -1,4 +1,4 @@
-import texture from "@/../public/images/texture.png";
+import textureRed from "@/../public/images/texture-red.png";
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
 import type { ReactNode } from "react";
@@ -14,7 +14,7 @@ export default function OurImpactSection() {
   return (
     <div
       className="flex flex-col w-full justify-center items-center bg-cover pt-16 md:pt-32 rounded-[30px] md:rounded-[60px] border-b-[1px] border-t-[1px] border-card-border"
-      style={{ backgroundImage: `url(${texture.src})` }}
+      style={{ backgroundImage: `url(${textureRed.src})` }}
     >
       <div className="flex flex-col py-12 md:py-20 gap-4 w-full px-4 md:px-0 md:w-[738px]">
         <p className="text-xl md:text-2xl font-bold italic mb-2 text-center md:text-left">

@@ -1,4 +1,4 @@
-import texture from "@/../public/images/texture.png";
+import textureRed from "@/../public/images/texture-red.png";
 import MintBurn from "@/components/mint-burn";
 import { useReadObusd } from "@/hooks/use-read-obusd";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,7 @@ export default function MintSection() {
   return (
     <div
       className="flex flex-col w-full justify-center items-center bg-cover pt-16 md:pt-32 px-4 md:px-0 rounded-b-[30px] md:rounded-b-[60px] border-b-[1px] border-card-border"
-      style={{ backgroundImage: `url(${texture.src})` }}
+      style={{ backgroundImage: `url(${textureRed.src})` }}
     >
       <h1 className="text-center italic font-bold text-xl md:text-2xl mt-5 px-4">
         OPTIMISTIC BUILDER DOLLAR
