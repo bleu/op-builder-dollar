@@ -15,18 +15,19 @@ export default function MintSection() {
 
   return (
     <div
-      className="flex flex-col w-full justify-center items-center bg-cover pt-16 md:pt-32 px-4 md:px-0 rounded-b-[30px] md:rounded-b-[60px] border-b-[1px] border-card-border"
+      id="mint-section"
+      className="flex flex-col w-full justify-center items-center bg-cover pt-20 md:pt-32 px-4 md:px-0 rounded-b-[30px] md:rounded-b-[60px] border-b-[1px] border-card-border"
       style={{ backgroundImage: `url(${textureRed.src})` }}
     >
-      <h1 className="text-center italic font-bold text-xl md:text-2xl mt-5 px-4">
+      <h1 className="text-center italic font-bold text-xl md:text-2xl mt-4 px-4">
         OPTIMISTIC BUILDER DOLLAR
       </h1>
       <h2 className="text-center text-sub-text italic mb-4 px-4 text-sm md:text-base">
         Mint obUSD to generate funds for builder grantees of Optimism
       </h2>
       <MintBurn />
-      <div className="h-8 md:h-16" />
-      <div className="w-full md:w-[636px] flex flex-col md:flex-row gap-4 md:gap-6">
+      <div className="h-4 md:h-16" />
+      <div className="w-full md:w-[636px] flex flex-col md:flex-row gap-2 md:gap-6">
         <div
           className={cn(
             "w-full md:w-[306px] h-[89px] bg-content rounded-2xl md:rounded-4xl px-4 md:px-8 py-4 shadow-lg",
@@ -53,7 +54,7 @@ export default function MintSection() {
           <span className="text-2xl font-bold">100</span>
         </div>
       </div>
-      <div className="h-8 md:h-[58px]" />
+      <div className="h-4 md:h-[58px]" />
     </div>
   );
 }

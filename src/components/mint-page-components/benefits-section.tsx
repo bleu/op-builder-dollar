@@ -9,17 +9,44 @@ import {
   HandsClapping,
   TrendUp,
 } from "phosphor-react";
-import type { ReactNode } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 
 export default function BenefitsSection() {
+  const [firstDivHeight, setFirstDivHeight] = useState(0);
+
+  useEffect(() => {
+    // Function to measure the first div
+    const measureFirstDiv = () => {
+      const firstDiv = document.getElementById("mint-section");
+      if (firstDiv) {
+        const height = firstDiv.getBoundingClientRect().height;
+        setFirstDivHeight(height);
+      }
+    };
+
+    // Measure on mount
+    measureFirstDiv();
+
+    // Also measure on window resize
+    window.addEventListener("resize", measureFirstDiv);
+
+    // Clean up
+    return () => {
+      window.removeEventListener("resize", measureFirstDiv);
+    };
+  }, []);
+
   return (
     <>
-      <div className="h-6" />
-      <span className="text-sm text-disclaimer-text font-medium mb-1">
-        Scroll to explore
-      </span>
-      <CaretDown className="text-primary" size={24} />
-      <div className="h-4" />
+      <div
+        className="flex flex-col items-center justify-center min-h-fit"
+        style={{ height: `calc(100vh - ${firstDivHeight}px)` }}
+      >
+        <span className="text-sm md:text-xl text-disclaimer-text font-medium mb-1 mt-4 animate-pulse">
+          Scroll to explore
+        </span>
+        <CaretDown className="text-primary mb-4 w-6 h-6 md:w-8 md:h-8 animate-bounce" />
+      </div>
       <div className="w-40 h-[55px] flex flex-col justify-between items-center">
         <span className="diamond">Trusted by</span>
         <span className="text-3xl font-bold">OPTIMISM</span>
