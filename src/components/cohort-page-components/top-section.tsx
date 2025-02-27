@@ -15,6 +15,8 @@ export const TopSection = () => {
     cohortSize,
   } = useCohortStats();
 
+  console.log({ newMembersCount });
+
   const formatCountAndPercentage = (
     count: number | undefined,
     percentage: number | undefined,
@@ -62,7 +64,7 @@ export const TopSection = () => {
                 : "",
             )}
           >
-            {newMembersCount ? (
+            {newMembersCount !== undefined ? (
               formatCountAndPercentage(newMembersCount, newMembersPercentage)
             ) : (
               <LoadingDots />
@@ -81,7 +83,7 @@ export const TopSection = () => {
                 : "",
             )}
           >
-            {monthlyExitCount ? (
+            {monthlyExitCount !== undefined ? (
               formatCountAndPercentage(monthlyExitCount, monthlyExitPercentage)
             ) : (
               <LoadingDots />
