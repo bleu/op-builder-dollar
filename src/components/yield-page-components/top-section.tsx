@@ -32,7 +32,7 @@ export const TopSection = () => {
             </div>
             {obusdYieldFormatted ? (
               <span className="font-extrabold italic text-4xl [&>span]:text-">
-                <FormattedYield yieldNumber={Number(obusdYieldFormatted)} />
+                <FormattedYield yieldString={obusdYieldFormatted} />
               </span>
             ) : (
               <LoadingDots className="font-extrabold italic text-4xl [&>span]:text-" />
@@ -84,9 +84,10 @@ export const TopSection = () => {
   );
 };
 
-export const FormattedYield = ({ yieldNumber }: { yieldNumber: number }) => {
-  const [whole, decimal] = yieldNumber.toFixed(2).split(".");
+export const FormattedYield = ({ yieldString }: { yieldString: string }) => {
+  if (yieldString) if (yieldString.includes("<")) return yieldString;
 
+  const [whole, decimal] = Number(yieldString).toFixed(2).split(".");
   const wholeWithCommas = addCommasToInt(whole);
   return (
     <>
