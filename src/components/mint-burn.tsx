@@ -1,6 +1,6 @@
 import { useBurn } from "@/hooks/use-burn";
 import { useMint } from "@/hooks/use-mint";
-import { useTokenBalances } from "@/hooks/use-token-balances";
+import { useReadObusd } from "@/hooks/use-read-obusd";
 import { tokenAmountStringToBigint } from "@/utils/formatting";
 import { ArrowDown } from "phosphor-react";
 import { useState } from "react";
@@ -22,7 +22,7 @@ export default function MintBurn() {
     usdcFormattedBalance: usdcBal,
     obusdFormattedBalance: obusdBal,
     obusdDecimals,
-  } = useTokenBalances();
+  } = useReadObusd();
 
   const amount =
     value && obusdDecimals

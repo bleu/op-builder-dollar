@@ -1,9 +1,75 @@
 export const obusdAbi = [
   {
-    inputs: [{ internalType: "address", name: "_token", type: "address" }],
+    inputs: [
+      { internalType: "address", name: "_token", type: "address" },
+      { internalType: "address", name: "_aToken", type: "address" },
+      { internalType: "address", name: "_pool", type: "address" },
+      { internalType: "address", name: "_rewards", type: "address" },
+    ],
     stateMutability: "nonpayable",
     type: "constructor",
   },
+  { inputs: [], name: "ClaimRewardsFailed", type: "error" },
+  { inputs: [], name: "ClaimRewardsFailedLowLevel", type: "error" },
+  { inputs: [], name: "ClaimZero", type: "error" },
+  {
+    inputs: [
+      { internalType: "address", name: "spender", type: "address" },
+      { internalType: "uint256", name: "allowance", type: "uint256" },
+      { internalType: "uint256", name: "needed", type: "uint256" },
+    ],
+    name: "ERC20InsufficientAllowance",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "sender", type: "address" },
+      { internalType: "uint256", name: "balance", type: "uint256" },
+      { internalType: "uint256", name: "needed", type: "uint256" },
+    ],
+    name: "ERC20InsufficientBalance",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "approver", type: "address" }],
+    name: "ERC20InvalidApprover",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "receiver", type: "address" }],
+    name: "ERC20InvalidReceiver",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "sender", type: "address" }],
+    name: "ERC20InvalidSender",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "spender", type: "address" }],
+    name: "ERC20InvalidSpender",
+    type: "error",
+  },
+  { inputs: [], name: "InvalidInitialization", type: "error" },
+  { inputs: [], name: "NotInitializing", type: "error" },
+  { inputs: [], name: "OnlyClaimers", type: "error" },
+  {
+    inputs: [{ internalType: "address", name: "owner", type: "address" }],
+    name: "OwnableInvalidOwner",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "OwnableUnauthorizedAccount",
+    type: "error",
+  },
+  { inputs: [], name: "ReentrancyGuardReentrantCall", type: "error" },
+  {
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
+    name: "SafeERC20FailedOperation",
+    type: "error",
+  },
+  { inputs: [], name: "YieldInsufficient", type: "error" },
   {
     anonymous: false,
     inputs: [
@@ -46,6 +112,51 @@ export const obusdAbi = [
       },
     ],
     name: "Burned",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "rewardsList",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "claimedAmounts",
+        type: "uint256[]",
+      },
+    ],
+    name: "ClaimedRewards",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "ClaimedYield",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint64",
+        name: "version",
+        type: "uint64",
+      },
+    ],
+    name: "Initialized",
     type: "event",
   },
   {
@@ -102,6 +213,26 @@ export const obusdAbi = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "yieldClaimer",
+        type: "address",
+      },
+    ],
+    name: "YieldClaimerSet",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "aToken",
+    outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       { internalType: "address", name: "owner", type: "address" },
       { internalType: "address", name: "spender", type: "address" },
@@ -114,7 +245,7 @@ export const obusdAbi = [
   {
     inputs: [
       { internalType: "address", name: "spender", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "uint256", name: "value", type: "uint256" },
     ],
     name: "approve",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
@@ -140,36 +271,23 @@ export const obusdAbi = [
   },
   {
     inputs: [],
-    name: "decimals",
-    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
-    stateMutability: "view",
+    name: "claimRewards",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "spender", type: "address" },
-      { internalType: "uint256", name: "subtractedValue", type: "uint256" },
-    ],
-    name: "decreaseAllowance",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    name: "claimYield",
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [],
-    name: "getToken",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "decimals",
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "spender", type: "address" },
-      { internalType: "uint256", name: "addedValue", type: "uint256" },
-    ],
-    name: "increaseAllowance",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -208,7 +326,60 @@ export const obusdAbi = [
   },
   {
     inputs: [],
+    name: "pool",
+    outputs: [{ internalType: "contract IPool", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "tok", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "rescueToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "rewards",
+    outputs: [
+      {
+        internalType: "contract IRewardsController",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "rewardsAccrued",
+    outputs: [
+      { internalType: "address[]", name: "rewardsList", type: "address[]" },
+      {
+        internalType: "uint256[]",
+        name: "unclaimedAmounts",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_yieldClaimer", type: "address" },
+    ],
+    name: "setYieldClaimer",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -237,7 +408,7 @@ export const obusdAbi = [
   {
     inputs: [
       { internalType: "address", name: "to", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "uint256", name: "value", type: "uint256" },
     ],
     name: "transfer",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
@@ -248,7 +419,7 @@ export const obusdAbi = [
     inputs: [
       { internalType: "address", name: "from", type: "address" },
       { internalType: "address", name: "to", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "uint256", name: "value", type: "uint256" },
     ],
     name: "transferFrom",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
@@ -262,4 +433,18 @@ export const obusdAbi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-];
+  {
+    inputs: [],
+    name: "yieldAccrued",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "yieldClaimer",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+] as const;

@@ -1,11 +1,10 @@
 import { obusdAbi } from "@/lib/abis/obusd-abi";
+import { OBUSD_ADDRESS } from "@/utils/constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { type Address, encodeFunctionData } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { useExecuteTransaction } from "./use-execute-transaction";
-
-const obusdAddress = "0x70F9667013645EcC52f6ff98b0C60b37D7647e26";
 
 export function useBurn({
   amount,
@@ -23,7 +22,7 @@ export function useBurn({
     }
 
     const burnTx = {
-      to: obusdAddress as Address,
+      to: OBUSD_ADDRESS as Address,
       data: encodeFunctionData({
         abi: obusdAbi,
         functionName: "burn",

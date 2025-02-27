@@ -1,12 +1,12 @@
 import texture from "@/../public/images/texture.png";
 import MintBurn from "@/components/mint-burn";
-import { useTokenBalances } from "@/hooks/use-token-balances";
+import { useReadObusd } from "@/hooks/use-read-obusd";
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
 import ObUsd from "../ui/obusd";
 
 export default function MintSection() {
-  const { obusdTotalSupplyFormatted } = useTokenBalances();
+  const { obusdTotalSupplyFormatted } = useReadObusd();
   const { theme } = useThemeStore();
 
   const lightBorderClass = cn({

@@ -1,3 +1,5 @@
+import { obusdAbi } from "@/lib/abis/obusd-abi";
+import { OBUSD_ADDRESS, USDC_ADDRESS } from "@/utils/constants";
 import { formatTokenBalance } from "@/utils/formatting";
 import { useQuery } from "@tanstack/react-query";
 import { erc20Abi } from "viem";
@@ -9,17 +11,10 @@ interface RawBalances {
   obusdBalance: bigint;
   obusdDecimals: number;
   obusdTotalSupply: bigint;
+  obusdYield: bigint | undefined;
 }
 
-// Polygon Bread token (maybe useful for early tests)
-//const obusdAddress = "0x11d9efdf4ab4a3bfabf5c7089f56aa4f059aa14c";
-//const usdcAddress = "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063";
-
-// Sepolia modified Bread token
-const obusdAddress = "0x70F9667013645EcC52f6ff98b0C60b37D7647e26";
-const usdcAddress = "0xbe72E441BF55620febc26715db68d3494213D8Cb";
-
-export function useTokenBalances() {
+export function useReadObusd() {
   const { address } = useAccount();
   const publicClient = usePublicClient();
 
@@ -32,31 +27,36 @@ export function useTokenBalances() {
       const result = await publicClient.multicall({
         contracts: [
           {
-            address: obusdAddress,
+            address: OBUSD_ADDRESS,
             abi: erc20Abi,
             functionName: "balanceOf",
             args: [address],
           },
           {
-            address: usdcAddress,
+            address: USDC_ADDRESS,
             abi: erc20Abi,
             functionName: "balanceOf",
             args: [address],
           },
           {
-            address: obusdAddress,
+            address: OBUSD_ADDRESS,
             abi: erc20Abi,
             functionName: "totalSupply",
           },
           {
-            address: obusdAddress,
+            address: OBUSD_ADDRESS,
             abi: erc20Abi,
             functionName: "decimals",
           },
           {
-            address: usdcAddress,
+            address: USDC_ADDRESS,
             abi: erc20Abi,
             functionName: "decimals",
+          },
+          {
+            address: OBUSD_ADDRESS,
+            abi: obusdAbi,
+            functionName: "yieldAccrued",
           },
         ],
       });
@@ -71,12 +71,16 @@ export function useTokenBalances() {
         throw new Error("Error reading obusd decimals");
       if (result[4].status === "failure")
         throw new Error("Error reading usdc decimals");
+      if (result[5].status === "failure")
+        console.error("Error getting obUSD yieldAccrued");
 
       const obusdBalance = result[0].result;
       const usdcBalance = result[1].result;
       const obusdTotalSupply = result[2].result;
       const obusdDecimals = result[3].result;
       const usdcDecimals = result[4].result;
+      const obusdYield =
+        result[5].status === "success" ? result[5].result : undefined;
 
       return {
         obusdBalance,
@@ -84,6 +88,7 @@ export function useTokenBalances() {
         obusdTotalSupply,
         obusdDecimals,
         usdcDecimals,
+        obusdYield,
       };
     },
   });
@@ -94,19 +99,24 @@ export function useTokenBalances() {
     obusdTotalSupply,
     obusdDecimals,
     usdcDecimals,
+    obusdYield,
   }: Partial<RawBalances> = query.data ?? {};
 
   const obusdFormattedBalance =
-    obusdBalance && obusdDecimals
+    obusdBalance !== undefined && obusdDecimals !== undefined
       ? formatTokenBalance(obusdBalance, obusdDecimals)
       : "";
   const usdcFormattedBalance =
-    usdcBalance && usdcDecimals
+    usdcBalance !== undefined && usdcDecimals !== undefined
       ? formatTokenBalance(usdcBalance, usdcDecimals)
       : "";
   const obusdTotalSupplyFormatted =
-    obusdTotalSupply && obusdDecimals
+    obusdTotalSupply !== undefined && obusdDecimals !== undefined
       ? formatTokenBalance(obusdTotalSupply, obusdDecimals)
+      : "";
+  const obusdYieldFormatted =
+    obusdYield !== undefined && obusdDecimals !== undefined
+      ? formatTokenBalance(obusdYield, obusdDecimals)
       : "";
 
   return {
@@ -117,5 +127,7 @@ export function useTokenBalances() {
     obusdTotalSupplyFormatted,
     obusdDecimals,
     usdcDecimals,
+    obusdYield,
+    obusdYieldFormatted,
   };
 }
