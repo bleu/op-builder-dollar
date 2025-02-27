@@ -3,11 +3,11 @@
 import { useThemeStore } from "@/store/use-theme-store";
 import Link from "next/link";
 import {
-  ArrowsDownUp,
   Butterfly,
   Gift,
   List,
   Moon,
+  ShareNetwork,
   Sun,
   UsersThree,
 } from "phosphor-react";
@@ -50,11 +50,14 @@ const Header = () => {
           <NavLink href="/" icon={Butterfly}>
             Mint
           </NavLink>
-          <NavLink href="/yield" icon={ArrowsDownUp}>
+          <NavLink href="/yield" icon={ShareNetwork} iconClassName="rotate-90">
             Yield {!isMobile && "distribution"}
           </NavLink>
           <NavLink href="/cohort-selection" icon={UsersThree}>
             Cohort {!isMobile && "selection"}
+          </NavLink>
+          <NavLink href="" icon={Gift} disabled={true}>
+            Rewards
           </NavLink>
         </div>
         <div className="flex items-center gap-2">
@@ -68,13 +71,17 @@ const Header = () => {
                 <NavLink href="/" icon={Butterfly}>
                   Mint
                 </NavLink>
-                <NavLink href="/yield" icon={ArrowsDownUp}>
+                <NavLink
+                  href="/yield"
+                  icon={ShareNetwork}
+                  iconClassName="rotate-90"
+                >
                   Yield distribution
                 </NavLink>
                 <NavLink href="/cohort-selection" icon={UsersThree}>
                   Cohort selection
                 </NavLink>
-                <NavLink href="/rewards" icon={Gift}>
+                <NavLink href="" icon={Gift} disabled={true}>
                   Rewards
                 </NavLink>
                 <span className="text-2xl font-bold mt-6">Theme</span>
