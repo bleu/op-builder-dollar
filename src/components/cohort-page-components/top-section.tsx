@@ -37,7 +37,7 @@ export const TopSection = () => {
   }: { count: number | undefined; percentage: number | undefined }) => {
     if (count === undefined) return "";
     const percentageParenthesis = percentage
-      ? `(+ ${percentage.toFixed(1)}%)`
+      ? `(${percentage > 0 ? "+ " : "- "}${percentage.toFixed(1)}%)`
       : "";
     return `${count} ${percentageParenthesis}`;
   };
