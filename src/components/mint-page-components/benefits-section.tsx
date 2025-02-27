@@ -20,15 +20,9 @@ export default function BenefitsSection() {
       </span>
       <CaretDown className="text-primary" size={24} />
       <div className="h-4" />
-      <div className="grid grid-cols-2 w-[400px]">
-        <div className="w-40 h-[55px] flex flex-col justify-between ml-4">
-          <span className="diamond">Trusted by</span>
-          <span className="text-3xl font-bold">OPTIMISM</span>
-        </div>
-        <div className="w-32 h-[55px] ml-10 flex flex-col justify-between">
-          <span className="diamond">Audited by</span>
-          <span className="text-3xl font-bold">xyz firm</span>
-        </div>
+      <div className="w-40 h-[55px] flex flex-col justify-between items-center">
+        <span className="diamond">Trusted by</span>
+        <span className="text-3xl font-bold">OPTIMISM</span>
       </div>
       <div className="h-12 md:h-[58px]" />
       {/* Benefits */}
