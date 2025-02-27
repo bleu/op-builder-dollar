@@ -1,5 +1,6 @@
 "use client";
 
+import { useProjectMetadata } from "@/hooks/use-project-metadata";
 import type { Project } from "@/lib/types";
 import { DetailedInfoLabel } from "../detailed-info-label";
 import LogoComponent from "../logo";
@@ -9,26 +10,7 @@ import { FormattedYield } from "./top-section";
 export const ProjectList = () => {
   const projects: Project[] = [
     {
-      id: "1",
-      name: "Project title",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-      shareOfYield: 400.45,
-      membershipInitialization: "2022-12-31",
-      membershipExpiration: "2022-12-31",
-      projectLinks: [
-        {
-          href: "/",
-          label: "View on Charmverse",
-        },
-        {
-          href: "/",
-          label: "Treasury",
-        },
-      ],
-    },
-    {
-      id: "2",
+      id: "0x4201a4ad6468dff549edc3096367ac4beec946b701f94da7abc11182320d15a3",
       name: "Project title",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
@@ -47,6 +29,10 @@ export const ProjectList = () => {
       ],
     },
   ];
+
+  const { allMetadata } = useProjectMetadata([
+    "0x4201a4ad6468dff549edc3096367ac4beec946b701f94da7abc11182320d15a3",
+  ]); // TODO - add ProjectUID
 
   const totalYield = 400000.45;
 
@@ -75,10 +61,9 @@ export const ProjectList = () => {
       </div>
       <div className="flex flex-col gap-4">
         {projects.map((project) => (
-          //TODO - change projectUID to real one
           <ProjectCard
             key={project.id}
-            projectUID="0x4201a4ad6468dff549edc3096367ac4beec946b701f94da7abc11182320d15a3"
+            projectMetadata={allMetadata?.get(project.id)}
           >
             <DetailedInfoLabel
               detailedInfo={`${getPercentageOfTotalYield(project.shareOfYield)}% of total`}

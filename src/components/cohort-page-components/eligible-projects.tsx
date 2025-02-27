@@ -1,6 +1,7 @@
 "use client";
 import { useCitizen } from "@/hooks/use-citizen";
 import { useEligibleProjects } from "@/hooks/use-eligible-projects";
+import { useProjectMetadata } from "@/hooks/use-project-metadata";
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import {
@@ -39,6 +40,9 @@ export const EligibleProjects = () => {
   ];
 
   const { projects: projectsFromHook } = useEligibleProjects();
+  const { allMetadata } = useProjectMetadata(
+    projectsFromHook?.map((p) => p.projectRefUID as string) || [],
+  );
 
   return (
     <div className="space-y-6">
@@ -58,7 +62,9 @@ export const EligibleProjects = () => {
           <div key={project.id} className="col-span-4">
             <ProjectCard
               key={project.id}
-              projectUID={project.projectRefUID}
+              projectMetadata={allMetadata?.get(
+                project.projectRefUID as string,
+              )}
               className="grid grid-cols-8 w-full gap-2"
             >
               <EndorsementSection endorsers={projects[0].endorsers || []} />

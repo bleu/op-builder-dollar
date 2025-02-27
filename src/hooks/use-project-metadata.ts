@@ -1,13 +1,15 @@
 import { ATTESTATION_QUERY } from "@/graphql/attestation-query";
+import type { ResultOf } from "gql.tada";
 import { useEffect, useState } from "react";
 import { useQuery } from "urql";
 
-interface ProjectMetadata {
-  name: string;
-  description: string;
-  socialLinks: {
+export interface ProjectMetadata {
+  name?: string;
+  description?: string;
+  socialLinks?: {
     website: string[];
   };
+  [key: string]: unknown;
 }
 
 interface ProjectData {
@@ -17,77 +19,146 @@ interface ProjectData {
   };
 }
 
-export const useProjectMetadata = (projectUID?: string) => {
-  const [metadata, setMetadata] = useState<ProjectMetadata | null>(null);
+interface ProjectMetadataUrl {
+  projectUID: string;
+  metadataUrl: string;
+}
+
+interface MetadataContent {
+  name: string;
+  description: string;
+  [key: string]: unknown;
+}
+
+interface MetadataResult {
+  projectUID: string;
+  metadata: MetadataContent | null;
+  metadataUrl: string;
+  success: boolean;
+}
+
+export const useProjectMetadata = (projectUID?: string[]) => {
+  const [allMetadata, setAllMetadata] =
+    useState<Map<string, ProjectMetadata>>();
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const [result] = useQuery({
     query: ATTESTATION_QUERY,
-    variables: { where: { refUID: { equals: projectUID } } },
+    variables: { where: { refUID: { in: projectUID } } },
     pause: !projectUID,
   });
 
   useEffect(() => {
-    const fetchMetadata = async () => {
-      if (!result.data?.attestations?.length) return;
+    const fetchAllMetadata = async (
+      response: ResultOf<typeof ATTESTATION_QUERY>["attestations"],
+    ) => {
+      const projectsMetadataURLs: ProjectMetadataUrl[] = [];
 
       setIsLoading(true);
-      setError(null);
 
-      try {
-        // Process each attestation sequentially
-        for (const project of result.data.attestations) {
-          try {
-            const projectData = JSON.parse(
-              project.decodedDataJson,
-            ) as ProjectData[];
+      for (const project of response) {
+        try {
+          const projectData = JSON.parse(
+            project.decodedDataJson,
+          ) as ProjectData[];
 
-            const metadataUrl = projectData.find(
-              (data) => data.value.name.toLowerCase() === "metadataurl",
-            )?.value.value;
+          const metadataUrl = projectData.find(
+            (data) => data.value.name.toLowerCase() === "metadataurl",
+          )?.value.value;
 
-            if (!metadataUrl) continue;
-
-            const response = await fetch(metadataUrl);
-
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            // Validate required fields
-            if (data?.name && data?.description) {
-              setMetadata(data);
-              return; // Exit after finding valid metadata
-            }
-          } catch (err) {
-            console.error("Error processing attestation:", err);
-            // Continue to next attestation if one fails
+          if (metadataUrl) {
+            projectsMetadataURLs.push({
+              projectUID: project.refUID,
+              metadataUrl,
+            });
           }
+        } catch (error) {
+          console.error(
+            `Error parsing project data for ${project.refUID}:`,
+            error,
+          );
+        }
+      }
+
+      // Fetch metadata from all URLs
+      const metadataResults = await Promise.all(
+        projectsMetadataURLs.map(async ({ projectUID, metadataUrl }) => {
+          try {
+            const response = await fetch(metadataUrl);
+            const metadata = await response.json();
+
+            return {
+              projectUID,
+              metadata,
+              metadataUrl,
+              success: true,
+            } as MetadataResult;
+          } catch (error) {
+            console.error(
+              `Error fetching metadata from ${metadataUrl}:`,
+              error,
+            );
+            return {
+              projectUID,
+              metadata: null,
+              metadataUrl,
+              success: false,
+            } as MetadataResult;
+          }
+        }),
+      );
+
+      // Group results by project ID
+      const projectGroups = metadataResults.reduce<
+        Record<string, MetadataResult[]>
+      >((groups, result) => {
+        if (!groups[result.projectUID]) {
+          groups[result.projectUID] = [];
         }
 
-        // If we get here without finding valid metadata, set error
-        setError(new Error("No valid metadata found in attestations"));
-      } catch (err) {
-        setError(
-          err instanceof Error ? err : new Error("Unknown error occurred"),
+        if (result.success) {
+          groups[result.projectUID].push(result);
+        }
+
+        return groups;
+      }, {});
+
+      // Find the first valid metadata for each project
+      const validProjects: Map<string, ProjectMetadata> = new Map();
+
+      for (const [projectUID, results] of Object.entries(projectGroups)) {
+        // Find the first result with both name and description
+        const validResult = results.find(
+          (result) => result?.metadata?.name && result?.metadata?.description,
         );
-      } finally {
-        setIsLoading(false);
+
+        if (validResult?.metadata) {
+          validProjects.set(projectUID, validResult.metadata);
+        }
       }
+      setIsLoading(false);
+
+      return validProjects;
     };
 
-    fetchMetadata();
+    if (result.data?.attestations) {
+      fetchAllMetadata(result.data.attestations)
+        .then((validProjects) => {
+          setAllMetadata(validProjects);
+        })
+        .catch((err) => {
+          setError(err instanceof Error ? err : new Error(String(err)));
+        });
+    }
   }, [result.data?.attestations]);
 
   return {
-    metadata,
+    allMetadata,
     isLoading: isLoading || result.fetching,
     error: error || result.error,
     refetch: () => {
-      setMetadata(null);
+      setAllMetadata(undefined);
       setError(null);
     },
   };
