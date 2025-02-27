@@ -1,4 +1,4 @@
-import obUsd from "@/../public/icons/logo.svg";
+import obUsd from "@/../public/icons/obusd.svg";
 import Image from "next/image";
 
 export default function ObUsd({ size }: { size: number }) {
