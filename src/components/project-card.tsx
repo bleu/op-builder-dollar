@@ -18,6 +18,8 @@ export const ProjectCard = ({
   const { metadata, isLoading } = useProjectMetadata(projectUID);
 
   const websiteLink = metadata?.socialLinks.website?.[0] as string;
+  const attestationLink =
+    "https://optimism.easscan.org/attestation/view/${projectUID}";
 
   return (
     <Card className="p-4 items-start flex flex-col gap-4">
@@ -37,6 +39,12 @@ export const ProjectCard = ({
         )}
       </div>
       <div className="flex flex-col gap-3 md:flex-row h-[36px]">
+        <Link href={attestationLink}>
+          <Button variant="tertrairy" size="sm" className="font-bold">
+            View project attestation
+            <ArrowSquareOut size={24} />
+          </Button>
+        </Link>
         {isLoading ? (
           <div className="w-[250px] min-h-[36px] rounded-md bg-card-border animate-pulse shrink-0" />
         ) : (
