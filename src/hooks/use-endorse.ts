@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { type Address, encodeFunctionData } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { useCitizen } from "./use-citizen";
 import { useExecuteTransaction } from "./use-execute-transaction";
 
 export function useEndorse({
@@ -16,23 +17,36 @@ export function useEndorse({
   const publicClient = usePublicClient();
   const queryClient = useQueryClient();
 
+  const { isCitizen, citizenAttestationUid } = useCitizen();
+
   const buildTxFn = useCallback(async () => {
     if (!signer || !walletClient || !publicClient || !projectUid) {
       throw new Error("Missing params");
     }
+
+    if (!isCitizen) throw new Error("User is not citizen");
 
     const burnTx = {
       to: BUILDERS_MANAGER_ADDRESS as Address,
       data: encodeFunctionData({
         abi: buildersManagerAbi,
         functionName: "vouch",
-        args: [projectUid],
+        args: citizenAttestationUid
+          ? [projectUid, citizenAttestationUid]
+          : [projectUid],
       }) as `0x${string}`,
       loadingMessage: "Endorsing project...",
     };
 
     return [burnTx];
-  }, [signer, publicClient, walletClient, projectUid]);
+  }, [
+    signer,
+    publicClient,
+    walletClient,
+    projectUid,
+    citizenAttestationUid,
+    isCitizen,
+  ]);
 
   return useExecuteTransaction({
     buildTxFn,
