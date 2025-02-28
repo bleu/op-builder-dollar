@@ -28,7 +28,7 @@ export function useBurn({
         functionName: "burn",
         args: [amount, signer],
       }) as `0x${string}`,
-      functionName: "burn",
+      loadingMessage: "Burning obUSD...",
     };
 
     return [burnTx];

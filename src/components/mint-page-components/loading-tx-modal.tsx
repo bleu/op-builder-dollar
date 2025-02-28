@@ -6,20 +6,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import Link from "next/link";
-import {
-  ArrowRight,
-  ArrowSquareOut,
-  CheckCircle,
-  Warning,
-} from "phosphor-react";
+import { ArrowSquareOut, CheckCircle, Warning } from "phosphor-react";
+import type { ReactNode } from "react";
 import { Button } from "../ui/button";
-import ObUsd from "../ui/obusd";
 import Spinner from "../ui/spinner";
-import Usdc from "../ui/usdc";
 
 interface ModalProps {
   isOpen: boolean;
-  isMint: boolean;
+  title: string;
+  successMessage: string;
+  txComponent?: ReactNode;
   trigger: () => void;
   reset: () => void;
   txHash: string | undefined;
@@ -35,13 +31,14 @@ const buttonClassName =
 
 export function LoadingTxModal({
   isOpen,
-  isMint,
+  title,
+  successMessage,
+  txComponent,
   trigger,
   reset,
   txHash,
   loadingMessage,
   error,
-  amount,
   onClose,
   children,
 }: ModalProps) {
@@ -51,16 +48,14 @@ export function LoadingTxModal({
         <div className="flex flex-col gap-8">
           <div>
             <DialogHeader className="gap-4">
-              <DialogTitle className="text-3xl font-bold">
-                {isMint ? "Mint status" : "Burn status"}
-              </DialogTitle>
+              <DialogTitle className="text-3xl font-bold">{title}</DialogTitle>
               <div className="flex flex-col justify-center items-center text-base font-medium gap-6 overflow-hidden">
                 <div className="flex flex-col justify-center items-center">
                   {txHash && (
                     <>
                       <CheckCircle className="text-success mb-2" size={48} />
                       <span className="font-normal text-sub-text">
-                        {isMint ? "Mint success!" : "Burn success!"}
+                        {successMessage}
                       </span>
                     </>
                   )}
@@ -80,27 +75,7 @@ export function LoadingTxModal({
                   )}
                 </div>
 
-                <div className="flex flex-col gap-4 justify-center sm:flex-row sm:gap-0 sm:justify-between items-center w-full border-[1px] border-card-border rounded-2xl p-6">
-                  <div className="flex justify-center items-center w-52 gap-2">
-                    {isMint ? <Usdc size={24} /> : <ObUsd size={24} />}
-                    <span className="font-bold text-foreground text-lg">
-                      {amount}
-                    </span>
-                    <span className="font-normal text-subtext text-lg">
-                      {isMint ? "USDC" : "obUSD"}
-                    </span>
-                  </div>
-                  <ArrowRight size={24} />
-                  <div className="flex justify-center items-center w-52 gap-2">
-                    {isMint ? <ObUsd size={24} /> : <Usdc size={24} />}
-                    <span className="font-bold text-foreground text-lg">
-                      {amount}
-                    </span>
-                    <span className="font-normal text-subtext text-lg">
-                      {isMint ? "obUSD" : "USDC"}
-                    </span>
-                  </div>
-                </div>
+                {txComponent}
                 {txHash && (
                   <Link
                     target="_blank"

@@ -10,16 +10,8 @@ export interface BaseTx {
   to: Address;
   value?: bigint;
   data: `0x${string}`;
-  functionName: string;
+  loadingMessage?: string;
 }
-
-type TxLoadingMessage =
-  | "Approving USDC..."
-  | "Approving obUSD..."
-  | "Minting obUSD..."
-  | "Burning obUSD..."
-  | "Successful mint!"
-  | "Successful burn!";
 
 export function useExecuteTransaction({
   buildTxFn,
@@ -30,8 +22,9 @@ export function useExecuteTransaction({
   onSuccess?: () => void;
   onError?: (error: Error) => void;
 }) {
-  const [loadingMessage, setLoadingMessage] =
-    useState<TxLoadingMessage>("Approving USDC...");
+  const [loadingMessage, setLoadingMessage] = useState<string>(
+    "Executing transaction...",
+  );
   const { address: signer } = useAccount();
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
@@ -46,23 +39,11 @@ export function useExecuteTransaction({
 
       if (txs.length < 1) throw new Error("No transaction to call");
 
-      const isMint = txs[txs.length - 1].functionName === "mint";
-
       const newTxHashes = [] as `0x${string}`[];
       for (const tx of txs) {
-        setLoadingMessage(
-          tx.functionName === "approve"
-            ? isMint
-              ? "Approving USDC..."
-              : "Approving obUSD..."
-            : isMint
-              ? "Minting obUSD..."
-              : "Burning obUSD...",
-        );
+        setLoadingMessage(tx?.loadingMessage ?? "Executing transaction...");
         const txHash = await walletClient.sendTransaction(tx);
         await publicClient.waitForTransactionReceipt({ hash: txHash });
-        if (Object.values(["mint", "burn"]).includes(tx.functionName))
-          setLoadingMessage(isMint ? "Successful mint!" : "Successful burn!");
         newTxHashes.push(txHash);
       }
       return newTxHashes;
