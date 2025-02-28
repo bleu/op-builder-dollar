@@ -44,13 +44,13 @@ export const MintBurnButton = ({
   }
 
   // Temporary, for while only sepolia works
-  if (chainId !== 11155111) {
+  if (chainId !== 10) {
     return (
       <Button
-        onClick={() => switchChain({ chainId: 11155111 })}
+        onClick={() => switchChain({ chainId: 10 })}
         className={buttonClassName}
       >
-        SWITCH TO SEPOLIA
+        SWITCH TO OP MAINNET
       </Button>
     );
   }

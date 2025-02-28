@@ -13,7 +13,7 @@ export default function OurImpactSection() {
 
   return (
     <div
-      className="flex flex-col w-full justify-center items-center bg-cover pt-16 md:pt-32 rounded-[30px] md:rounded-[60px] border-b-[1px] border-t-[1px] border-card-border"
+      className="flex flex-col w-full justify-center items-center bg-cover rounded-[30px] md:rounded-[60px] border-b-[1px] border-t-[1px] border-card-border"
       style={{ backgroundImage: `url(${texture.src})` }}
     >
       <div className="flex flex-col py-12 md:py-20 gap-4 w-full px-4 md:px-0 md:w-[738px]">

@@ -1,23 +1,29 @@
 "use client";
+import { useCohortStats } from "@/hooks/use-cohort-stats";
 import { cn } from "@/lib/utils";
 import { Card } from "../ui/card";
+import LoadingDots from "../ui/loading-dots";
 
 export const TopSection = () => {
-  const newMembers = {
-    count: 7,
-    percentage: 4,
-  };
+  const {
+    newMembersCount,
+    newMembersPercentage,
+    monthlyExitCount,
+    monthlyExitPercentage,
+    totalOpCollectiveCitizens,
+    currentSeason,
+    cohortSize,
+  } = useCohortStats();
 
-  const monthlyExit = {
-    count: 7,
-    percentage: -4,
-  };
-
-  const formatCountAndPercentage = ({
-    count,
-    percentage,
-  }: { count: number; percentage: number }) => {
-    return `${count}(${percentage > 0 ? "+" : ""}${percentage}%)`;
+  const formatCountAndPercentage = (
+    count: number | undefined,
+    percentage: number | undefined,
+  ) => {
+    if (count === undefined) return "";
+    const percentageParenthesis = percentage
+      ? `(${percentage > 0 ? "+ " : "- "}${percentage.toFixed(1)}%)`
+      : "";
+    return `${count} ${percentageParenthesis}`;
   };
 
   return (
@@ -30,8 +36,16 @@ export const TopSection = () => {
         <div className="z-10 justify-center gap-2 items-start h-full flex flex-col">
           <h5 className="text-sub-text text-2xl">Cohort size</h5>
           <div className="flex gap-2 items-end">
-            <span className="font-extrabold italic text-4xl">100</span>
-            <span className="font-semibold text-xl">PROJECTS</span>
+            {cohortSize ? (
+              <>
+                <span className="font-extrabold italic text-4xl">
+                  {cohortSize}
+                </span>
+                <span className="font-semibold text-xl">PROJECTS</span>
+              </>
+            ) : (
+              <LoadingDots className="font-extrabold italic text-4xl" />
+            )}
           </div>
         </div>
       </Card>
@@ -41,10 +55,18 @@ export const TopSection = () => {
           <span
             className={cn(
               "font-bold italic",
-              newMembers.percentage > 0 ? "text-success" : "text-error",
+              newMembersCount && newMembersPercentage
+                ? newMembersPercentage > 0
+                  ? "text-success"
+                  : "text-error"
+                : "",
             )}
           >
-            {formatCountAndPercentage(newMembers)}
+            {newMembersCount !== undefined ? (
+              formatCountAndPercentage(newMembersCount, newMembersPercentage)
+            ) : (
+              <LoadingDots />
+            )}
           </span>
         </div>
         <div className="w-full flex justify-between">
@@ -52,21 +74,33 @@ export const TopSection = () => {
           <span
             className={cn(
               "font-bold italic",
-              monthlyExit.percentage > 0 ? "text-success" : "text-error",
+              monthlyExitCount && monthlyExitPercentage
+                ? monthlyExitPercentage > 0
+                  ? "text-success"
+                  : "text-error"
+                : "",
             )}
           >
-            {formatCountAndPercentage(monthlyExit)}
+            {monthlyExitCount !== undefined ? (
+              formatCountAndPercentage(monthlyExitCount, monthlyExitPercentage)
+            ) : (
+              <LoadingDots />
+            )}
           </span>
         </div>
         <div className="w-full flex justify-between">
           <span className="text-sub-text font-normal">
             Total OP collective citizens
           </span>
-          <span className="font-bold italic">100</span>
+          <span className="font-bold italic">
+            {totalOpCollectiveCitizens ?? <LoadingDots />}
+          </span>
         </div>
         <div className="w-full flex justify-between">
           <span className="text-sub-text font-normal">Optimism Gov season</span>
-          <span className="font-bold italic">7</span>
+          <span className="font-bold italic">
+            {currentSeason ?? <LoadingDots />}
+          </span>
         </div>
       </Card>
     </div>

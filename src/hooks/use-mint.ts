@@ -1,12 +1,10 @@
 import { obusdAbi } from "@/lib/abis/obusd-abi";
+import { OBUSD_ADDRESS, USDC_ADDRESS } from "@/utils/constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { type Address, encodeFunctionData, erc20Abi } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { type BaseTx, useExecuteTransaction } from "./use-execute-transaction";
-
-const obusdAddress = "0x70F9667013645EcC52f6ff98b0C60b37D7647e26";
-const usdcAddress = "0xbe72E441BF55620febc26715db68d3494213D8Cb";
 
 export function useMint({
   amount,
@@ -24,24 +22,24 @@ export function useMint({
     }
 
     const currentAllowance = await publicClient.readContract({
-      address: usdcAddress,
+      address: USDC_ADDRESS,
       abi: erc20Abi,
       functionName: "allowance",
-      args: [signer, obusdAddress],
+      args: [signer, OBUSD_ADDRESS],
     });
 
     const approveTx = {
-      to: usdcAddress as Address,
+      to: USDC_ADDRESS as Address,
       data: encodeFunctionData({
         abi: erc20Abi,
         functionName: "approve",
-        args: [obusdAddress, amount],
+        args: [OBUSD_ADDRESS, amount],
       }) as `0x${string}`,
       functionName: "approve",
     };
 
     const mintTx = {
-      to: obusdAddress as Address,
+      to: OBUSD_ADDRESS as Address,
       data: encodeFunctionData({
         abi: obusdAbi,
         functionName: "mint",
