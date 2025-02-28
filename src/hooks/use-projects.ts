@@ -7,7 +7,7 @@ import { useProjectMetadata } from "./use-project-metadata";
 export function useProjects(): Partial<Project>[] {
   const { projects: eligibleProjects } = useEligibleProjects();
 
-  const ids = eligibleProjects.map((eligibleProject) => eligibleProject.id);
+  const ids = eligibleProjects.map((eligibleProject) => eligibleProject.refUid);
 
   const { data: metadatas } = useProjectMetadata(ids);
 
@@ -18,14 +18,15 @@ export function useProjects(): Partial<Project>[] {
 
     if (eligibleProjects) {
       for (const eligibleProject of eligibleProjects) {
-        const { id } = eligibleProject;
-        newProjects.push({ id });
+        const { id, refUid } = eligibleProject;
+        newProjects.push({ id, refUid });
+        console.log({ id, refUid });
       }
 
       if (metadatas) {
         for (const [id, metadata] of metadatas) {
           const idx: number = newProjects.findIndex(
-            (newProject) => newProject.id === id,
+            (newProject) => newProject.refUid === id,
           );
           const { name, description, socialLinks } = metadata;
           if (idx !== -1)

@@ -21,7 +21,7 @@ export function getRoundInfo(
   pctgToNextDistribution: number | undefined;
 } {
   const seasonStart = seasonExpiry - seasonDuration;
-
+  console.log({ seasonStart: new Date(seasonStart * 1000) });
   const now = Date.now() / 1000;
 
   if (now < seasonStart)

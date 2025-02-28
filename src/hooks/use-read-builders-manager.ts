@@ -53,6 +53,8 @@ export function useReadBuildersManager() {
       const currentProjectRecipients = result[2].result;
       const optimismFoundationAttesters = result[3].result;
 
+      console.log({ optimismFoundationAttesters });
+
       return {
         settings,
         currentProjectUids,

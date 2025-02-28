@@ -21,7 +21,6 @@ interface ModalProps {
   txHash: string | undefined;
   loadingMessage: string | undefined;
   error: string | undefined;
-  amount: string;
   onClose: () => void;
   children?: React.ReactNode;
 }

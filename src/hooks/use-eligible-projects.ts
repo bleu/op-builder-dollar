@@ -27,7 +27,7 @@ export const useEligibleProjects = () => {
         ...project,
         // TODO: check with obUSD team if id is the original uid from schema 638
         // or the ProjectRefUID
-        id: projectData.find((data) => data.value.name === "ProjectRefUID")
+        refUid: projectData.find((data) => data.value.name === "ProjectRefUID")
           ?.value.value as string,
       };
     }) ?? [];

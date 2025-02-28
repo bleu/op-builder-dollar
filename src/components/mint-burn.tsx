@@ -135,7 +135,6 @@ export default function MintBurn() {
         loadingMessage={loadingMessage}
         onClose={() => setDialogOpen(false)}
         error={error}
-        amount={value}
       />
       <ConfirmBurnModal
         isOpen={confirmBurnOpen}

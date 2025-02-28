@@ -1,5 +1,6 @@
 import { SCHEMA_QUERY } from "@/graphql/schema-query";
 import { useQuery } from "urql";
+import { useReadBuildersManager } from "./use-read-builders-manager";
 
 const CITIZEN_SCHEMA_ID =
   "0x41513aa7b99bfea09d389c74aacedaeb13c28fb748569e9e2400109cbe284ee5";
@@ -11,11 +12,17 @@ export const useCitizen = (address?: `0x${string}`) => {
     requestPolicy: "cache-first",
   });
 
+  const { data: buildersManagerData } = useReadBuildersManager();
+  const { optimismFoundationAttesters } = buildersManagerData ?? {};
+
   const citizensList = data?.getSchema?.attestations
     .filter((attestation) => !attestation.revoked)
     .map((attestation) => attestation.recipient);
 
-  const isCitizen = address && citizensList?.includes(address);
+  const isCitizen =
+    address &&
+    (citizensList?.includes(address) ||
+      optimismFoundationAttesters?.includes(address));
 
   return { citizensList, isCitizen, refetch, data, ...result };
 };

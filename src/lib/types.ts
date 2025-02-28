@@ -2,6 +2,7 @@ import type { Address } from "viem";
 
 export interface EligibleProject {
   id: string;
+  refUid: string;
   name: string;
   description: string;
   projectLinks: ProjectLink[];
@@ -12,6 +13,7 @@ export interface EligibleProject {
 
 export interface CohortProject {
   id: string;
+  refUid: string;
   name: string;
   description: string;
   projectLinks: ProjectLink[];
