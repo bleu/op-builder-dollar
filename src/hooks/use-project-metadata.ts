@@ -1,6 +1,5 @@
 import { ATTESTATION_QUERY } from "@/graphql/attestation-query";
-import type { ResultOf } from "gql.tada";
-import { useEffect, useState } from "react";
+import { useQuery as useTanstackQuery } from "@tanstack/react-query";
 import { useQuery } from "urql";
 
 export interface ProjectMetadata {
@@ -38,26 +37,24 @@ interface MetadataResult {
 }
 
 export const useProjectMetadata = (projectUID?: string[]) => {
-  const [allMetadata, setAllMetadata] =
-    useState<Map<string, ProjectMetadata>>();
-  const [error, setError] = useState<Error | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
   const [result] = useQuery({
     query: ATTESTATION_QUERY,
     variables: { where: { refUID: { in: projectUID } } },
     pause: !projectUID,
   });
 
-  useEffect(() => {
-    const fetchAllMetadata = async (
-      response: ResultOf<typeof ATTESTATION_QUERY>["attestations"],
-    ) => {
+  const attestations = result?.data?.attestations;
+
+  const query = useTanstackQuery({
+    queryKey: ["allMetadata"],
+    enabled: Boolean(attestations && attestations.length > 0),
+    queryFn: async () => {
+      if (!(attestations && attestations.length > 0))
+        throw new Error("Missing attestations");
+
       const projectsMetadataURLs: ProjectMetadataUrl[] = [];
 
-      setIsLoading(true);
-
-      for (const project of response) {
+      for (const project of attestations) {
         try {
           const projectData = JSON.parse(
             project.decodedDataJson,
@@ -137,29 +134,10 @@ export const useProjectMetadata = (projectUID?: string[]) => {
           validProjects.set(projectUID, validResult.metadata);
         }
       }
-      setIsLoading(false);
 
       return validProjects;
-    };
-
-    if (result.data?.attestations) {
-      fetchAllMetadata(result.data.attestations)
-        .then((validProjects) => {
-          setAllMetadata(validProjects);
-        })
-        .catch((err) => {
-          setError(err instanceof Error ? err : new Error(String(err)));
-        });
-    }
-  }, [result.data?.attestations]);
-
-  return {
-    allMetadata,
-    isLoading: isLoading || result.fetching,
-    error: error || result.error,
-    refetch: () => {
-      setAllMetadata(undefined);
-      setError(null);
     },
-  };
+  });
+
+  return { ...query, isLoading: query.isPending || !attestations };
 };

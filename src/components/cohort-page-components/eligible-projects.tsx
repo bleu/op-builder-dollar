@@ -1,8 +1,7 @@
 "use client";
 import { useCitizen } from "@/hooks/use-citizen";
-import { useEligibleProjects } from "@/hooks/use-eligible-projects";
-import { useProjectMetadata } from "@/hooks/use-project-metadata";
-import type { Project } from "@/lib/types";
+import { useProjects } from "@/hooks/use-projects";
+import type { CohortProject } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -17,32 +16,7 @@ import { ProjectCard } from "../project-card";
 import { Button } from "../ui/button";
 
 export const EligibleProjects = () => {
-  const projects: Project[] = [
-    {
-      id: "1",
-      name: "Project title",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-      shareOfYield: 400.45,
-      membershipInitialization: "2022-12-31",
-      membershipExpiration: "2022-12-31",
-      projectLinks: [
-        {
-          href: "/",
-          label: "Read full description on Charmverse",
-        },
-      ],
-      endorsers: [
-        { address: "0x29Ee17661f172424150d7AA6460F15edf47eDF6b" },
-        { address: "0x7A3b4F8D2c9E5f1B6a0D8e3C4d5E2F1a9B8C7D6E" },
-      ],
-    },
-  ];
-
-  const { projects: projectsFromHook } = useEligibleProjects();
-  const { allMetadata } = useProjectMetadata(
-    projectsFromHook?.map((p) => p.projectRefUID as string) || [],
-  );
+  const projects = useProjects();
 
   return (
     <div className="space-y-6">
@@ -58,14 +32,11 @@ export const EligibleProjects = () => {
         </span>
       </div>
       <div className="grid grid-cols-4 md:grid-cols-8 gap-y-4 gap-x-6">
-        {projectsFromHook.map((project) => (
+        {projects.map((project) => (
           <div key={project.id} className="col-span-4">
             <ProjectCard
               key={project.id}
-              projectUID={project.id}
-              projectMetadata={allMetadata?.get(
-                project.projectRefUID as string,
-              )}
+              project={project}
               className="grid grid-cols-8 w-full gap-2"
             >
               <EndorsementSection endorsers={projects[0].endorsers || []} />
@@ -79,7 +50,7 @@ export const EligibleProjects = () => {
 
 const EndorsementSection = ({
   endorsers,
-}: { endorsers: Project["endorsers"] }) => {
+}: { endorsers: CohortProject["endorsers"] }) => {
   return (
     <div className="w-full col-span-8 flex flex-col gap-4">
       <div className="w-full col-span-8 flex flex-col gap-2">
@@ -123,7 +94,7 @@ const EndorseProgressBar = ({ votes }: { votes: number }) => {
 };
 
 interface EndorseButtonProps {
-  endorsers: Project["endorsers"];
+  endorsers: CohortProject["endorsers"];
 }
 
 const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
