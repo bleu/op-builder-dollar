@@ -62,7 +62,7 @@ export const TopSection = () => {
                 : "",
             )}
           >
-            {newMembersCount ? (
+            {newMembersCount !== undefined ? (
               formatCountAndPercentage(newMembersCount, newMembersPercentage)
             ) : (
               <LoadingDots />
@@ -81,7 +81,7 @@ export const TopSection = () => {
                 : "",
             )}
           >
-            {monthlyExitCount ? (
+            {monthlyExitCount !== undefined ? (
               formatCountAndPercentage(monthlyExitCount, monthlyExitPercentage)
             ) : (
               <LoadingDots />

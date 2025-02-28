@@ -41,7 +41,8 @@ export function getRoundInfo(
   const round = Math.floor((now - seasonStart) / cycleLength) + 1;
   const timeToNextRound = seasonStart + round * cycleLength;
   const timeToNextDistribution = timeToNextRound - now;
-  const pctgToNextDistribution = (100 * timeToNextDistribution) / cycleLength;
+  const pctgToNextDistribution =
+    100 - (100 * timeToNextDistribution) / cycleLength;
 
   return { round, timeToNextDistribution, pctgToNextDistribution };
 }

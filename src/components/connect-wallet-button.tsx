@@ -111,13 +111,14 @@ export const ConnectWalletButton = () => {
   );
 };
 
-const WalletAccountDetails = ({
+export const WalletAccountDetails = ({
   chainId,
   chainName,
   accountIdentifier,
   balance,
   openSwitchNetworks,
   address,
+  closeMenu,
 }: {
   chainId: number | undefined;
   chainName: string | undefined;
@@ -125,13 +126,14 @@ const WalletAccountDetails = ({
   balance: string;
   openSwitchNetworks: (() => void) | undefined;
   address: string | undefined;
+  closeMenu?: () => void;
 }) => {
   const { disconnect } = useDisconnect();
 
   return (
-    <div className="flex flex-col justify-between h-full">
+    <div className="z-50 flex flex-col justify-between w-full h-full bg-content gap-6">
       <h1 className="font-bold text-2xl">Account</h1>
-      <div className="flex flex-col justify-between h-[180px]">
+      <div className="flex flex-col justify-between gap-4">
         <DetailsRow
           icon={<UserCircle className="text-primary" size={24} />}
           leftText={accountIdentifier}
@@ -191,13 +193,17 @@ const WalletAccountDetails = ({
       <Button
         className="flex justify-center items-center rounded-2xl font-normal md:font-bold text-xl w-full"
         onClick={() => {
+          if (closeMenu) closeMenu();
           disconnect();
         }}
       >
         <SignOut weight="bold" className="min-w-6 min-h-6" />
         Disconnect
       </Button>
-      <Button className="md:hidden rounded-2xl font-normal text-xl w-full bg-primary/10 text-primary">
+      <Button
+        className="md:hidden rounded-2xl font-normal text-xl w-full bg-primary/10 text-primary mt-[-16px] hover:text-content"
+        onClick={closeMenu}
+      >
         Close Menu
       </Button>
     </div>

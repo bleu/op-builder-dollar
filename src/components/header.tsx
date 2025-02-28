@@ -1,18 +1,25 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
+import { useModal } from "connectkit";
 import Link from "next/link";
 import {
-  ArrowsDownUp,
   Butterfly,
   Gift,
   List,
   Moon,
+  ShareNetwork,
   Sun,
   UsersThree,
 } from "phosphor-react";
-import { useState } from "react";
-import { ConnectWalletButton } from "./connect-wallet-button";
+import { useEffect, useState } from "react";
+import { formatEther } from "viem";
+import { useAccount, useBalance, useEnsName } from "wagmi";
+import {
+  ConnectWalletButton,
+  WalletAccountDetails,
+} from "./connect-wallet-button";
 import LogoComponent from "./logo";
 import NavLink from "./nav-link";
 import { Button } from "./ui/button";
@@ -28,6 +35,18 @@ const isMobile = isWindow ? window.innerWidth <= 1200 : undefined;
 const Header = () => {
   const { setTheme, theme } = useThemeStore();
   const [open, setOpen] = useState(false);
+  const [mobileWalletOpen, setMobileWalletOpen] = useState(false);
+  const [mobileOptionsOpen, setMobileOptionsOpen] = useState(false);
+
+  const { address, chain, isConnecting } = useAccount();
+  const { data: balance } = useBalance({ address });
+  const { data: ensName } = useEnsName({ address, chainId: 1 });
+  const { openSwitchNetworks, setOpen: setConnectKitOpen } = useModal();
+
+  const accountIdentifier =
+    ensName ??
+    `${address?.slice(0, 6)}...${address?.slice(address.length - 5, address.length - 1)}` ??
+    "";
 
   const handleMouseEnter = () => {
     setOpen(true);
@@ -36,6 +55,125 @@ const Header = () => {
   const handleMouseLeave = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (!address) setMobileWalletOpen(false);
+  }, [address]);
+
+  if (isMobile)
+    return (
+      <div className="z-50 h-0 mb-[-24px]">
+        <header
+          className={cn(
+            "z-50 flex flex-col items-center justify-start relative h-fit bg-content mx-4 mt-6 px-3 rounded-3xl shadow-lg",
+            (mobileOptionsOpen || mobileWalletOpen) &&
+              "border-[1px] border-card-border shadow-card-border",
+          )}
+        >
+          <div className="w-full min-h-14 flex items-center justify-between">
+            <Link href="/">
+              <LogoComponent className="text-primary" />
+            </Link>
+            <div className="flex items-center justify-center gap-4">
+              {address ? (
+                <div
+                  className="flex items-center gap-1.5 text-foreground rounded-2xl py-2 px-1.5 border-card-border border-[1px] hover:cursor-pointer"
+                  onClick={() => {
+                    setMobileWalletOpen(!mobileWalletOpen);
+                    setMobileOptionsOpen(false);
+                  }}
+                >
+                  <div className="w-6 h-6 rounded-full bg-primary" />
+                  <span>{accountIdentifier}</span>
+                </div>
+              ) : (
+                <Button
+                  onClick={() => {
+                    setConnectKitOpen(true);
+                  }}
+                  className="flex items-center gap-1.5 rounded-2xl py-2 px-6 text-lg font-normal"
+                >
+                  <span>{isConnecting ? "Loading..." : "Sign in"}</span>
+                </Button>
+              )}
+              <List
+                onClick={() => {
+                  setMobileOptionsOpen(!mobileOptionsOpen);
+                  setMobileWalletOpen(false);
+                }}
+                size={24}
+                className="text-primary"
+              />
+            </div>
+          </div>
+          {mobileWalletOpen && (
+            <>
+              <WalletAccountDetails
+                chainId={chain?.id}
+                chainName={chain?.name}
+                accountIdentifier={accountIdentifier}
+                balance={
+                  balance?.value !== undefined
+                    ? balance.value.toString() === "0"
+                      ? "0.0"
+                      : Number(formatEther(balance.value)).toFixed(4)
+                    : ""
+                }
+                openSwitchNetworks={openSwitchNetworks}
+                address={address}
+                closeMenu={() => {
+                  setMobileWalletOpen(false);
+                }}
+              />
+              <div className="h-3" />
+            </>
+          )}
+          {mobileOptionsOpen && (
+            <>
+              <div className="z-50 flex w-full flex-col justify-start items-start gap-4 pt-2">
+                <NavLink href="/" icon={Butterfly}>
+                  Mint
+                </NavLink>
+                <NavLink
+                  href="/yield"
+                  icon={ShareNetwork}
+                  iconClassName="rotate-90"
+                >
+                  Yield {!isMobile && "distribution"}
+                </NavLink>
+                <NavLink href="/cohort-selection" icon={UsersThree}>
+                  Cohort {!isMobile && "selection"}
+                </NavLink>
+                <NavLink href="" icon={Gift} disabled={true}>
+                  Rewards
+                </NavLink>
+
+                <div className="flex flex-col items-start gap-2">
+                  <span className="text-2xl font-bold">Theme</span>
+                  <Button
+                    variant="ghost"
+                    onClick={() => setTheme("light")}
+                    className={themeButtonStyle}
+                  >
+                    <Sun size={18} className="text-primary" />
+                    Light
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => setTheme("dark")}
+                    className={themeButtonStyle}
+                  >
+                    <Moon size={18} className="text-primary" />
+                    Dark
+                  </Button>
+                </div>
+              </div>
+              <div className="h-3" />
+            </>
+          )}
+        </header>
+      </div>
+    );
 
   return (
     <div className="h-0 mb-[-24px]">
@@ -46,60 +184,24 @@ const Header = () => {
             obUSD
           </h1>
         </Link>
-        <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-1 md:gap-4 lg:gap-7 text-lg">
+        <div className="flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-4 lg:gap-7 text-lg">
           <NavLink href="/" icon={Butterfly}>
             Mint
           </NavLink>
-          <NavLink href="/yield" icon={ArrowsDownUp}>
+          <NavLink href="/yield" icon={ShareNetwork} iconClassName="rotate-90">
             Yield {!isMobile && "distribution"}
           </NavLink>
           <NavLink href="/cohort-selection" icon={UsersThree}>
             Cohort {!isMobile && "selection"}
           </NavLink>
+          <NavLink href="" icon={Gift} disabled={true}>
+            Rewards
+          </NavLink>
         </div>
         <div className="flex items-center gap-2">
           <ConnectWalletButton />
-          <Popover>
-            <PopoverTrigger>
-              <List size={24} className="md:hidden text-primary" />
-            </PopoverTrigger>
-            <PopoverContent className="mr-5" sideOffset={20} side="top">
-              <div className="flex flex-col items-start gap-4">
-                <NavLink href="/" icon={Butterfly}>
-                  Mint
-                </NavLink>
-                <NavLink href="/yield" icon={ArrowsDownUp}>
-                  Yield distribution
-                </NavLink>
-                <NavLink href="/cohort-selection" icon={UsersThree}>
-                  Cohort selection
-                </NavLink>
-                <NavLink href="/rewards" icon={Gift}>
-                  Rewards
-                </NavLink>
-                <span className="text-2xl font-bold mt-6">Theme</span>
-                <Button
-                  variant="ghost"
-                  onClick={() => setTheme("light")}
-                  className={themeButtonStyle}
-                >
-                  <Sun size={18} className="text-primary" />
-                  Light
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => setTheme("dark")}
-                  className={themeButtonStyle}
-                >
-                  <Moon size={18} className="text-primary" />
-                  Dark
-                </Button>
-              </div>
-            </PopoverContent>
-          </Popover>
-
           <div
-            className="relative hidden md:flex"
+            className="relative flex"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >

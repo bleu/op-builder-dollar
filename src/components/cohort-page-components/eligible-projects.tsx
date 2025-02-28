@@ -1,60 +1,22 @@
 "use client";
 import { useCitizen } from "@/hooks/use-citizen";
-import type { Project } from "@/lib/types";
+import { useProjects } from "@/hooks/use-projects";
+import type { CohortProject } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { CheckCircle, ThumbsUp } from "phosphor-react";
-import { useAccount } from "wagmi";
-import { AccountName } from "../account-name";
-import { ProjectCard } from "../project-card";
-import { Button } from "../ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
+} from "@radix-ui/react-tooltip";
+import { CheckCircle, ThumbsUp } from "phosphor-react";
+import { useAccount } from "wagmi";
+import { AccountName } from "../account-name";
+import { ProjectCard } from "../project-card";
+import { Button } from "../ui/button";
 
 export const EligibleProjects = () => {
-  const projects: Project[] = [
-    {
-      id: "1",
-      name: "Project title",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-      shareOfYield: 400.45,
-      membershipInitialization: "2022-12-31",
-      membershipExpiration: "2022-12-31",
-      projectLinks: [
-        {
-          href: "/",
-          label: "Read full description on Charmverse",
-        },
-      ],
-      endorsers: [
-        { address: "0x29Ee17661f172424150d7AA6460F15edf47eDF6b" },
-        { address: "0x7A3b4F8D2c9E5f1B6a0D8e3C4d5E2F1a9B8C7D6E" },
-      ],
-    },
-    {
-      id: "2",
-      name: "Project title",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-      shareOfYield: 400.45,
-      membershipInitialization: "2022-12-31",
-      membershipExpiration: "2022-12-31",
-      projectLinks: [
-        {
-          href: "/",
-          label: "Read full description on Charmverse",
-        },
-      ],
-      endorsers: [
-        { address: "0x3A1B4C2D5E6F7A8B9C0D1E2F3A4B5C6D7E8F9A0" },
-        { address: "0x7A3b4F8D2c9E5f1B6a0D8e3C4d5E2F1a9B8C7D6E" },
-      ],
-    },
-  ];
+  const projects = useProjects();
 
   return (
     <div className="space-y-6">
@@ -77,7 +39,7 @@ export const EligibleProjects = () => {
               project={project}
               className="grid grid-cols-8 w-full gap-2"
             >
-              <EndorsementSection endorsers={project.endorsers || []} />
+              <EndorsementSection endorsers={projects[0].endorsers || []} />
             </ProjectCard>
           </div>
         ))}
@@ -88,7 +50,7 @@ export const EligibleProjects = () => {
 
 const EndorsementSection = ({
   endorsers,
-}: { endorsers: Project["endorsers"] }) => {
+}: { endorsers: CohortProject["endorsers"] }) => {
   return (
     <div className="w-full col-span-8 flex flex-col gap-4">
       <div className="w-full col-span-8 flex flex-col gap-2">
@@ -132,7 +94,7 @@ const EndorseProgressBar = ({ votes }: { votes: number }) => {
 };
 
 interface EndorseButtonProps {
-  endorsers: Project["endorsers"];
+  endorsers: CohortProject["endorsers"];
 }
 
 const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
