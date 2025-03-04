@@ -1,7 +1,3 @@
-import githubHoverSrc from "@/../public/icons/github-hover.png";
-import githubLightHoverSrc from "@/../public/icons/github-light-hover.png";
-import githubLightSrc from "@/../public/icons/github-light.png";
-import githubSrc from "@/../public/icons/github.png";
 import warpcastHoverSrc from "@/../public/icons/warpcast-hover.png";
 import warpcastSrc from "@/../public/icons/warpcast.png";
 import xHoverSrc from "@/../public/icons/x-hover.png";
@@ -12,7 +8,8 @@ import texture from "@/../public/images/texture.png";
 import { useThemeStore } from "@/store/use-theme-store";
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
+import { GithubIcon } from "./icons/github";
 
 export default function StayConnectedSection() {
   return (
@@ -22,13 +19,10 @@ export default function StayConnectedSection() {
         STAY CONNECTED
       </p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 px-4 md:px-0">
-        <StayConnectedCard
+        <StayConnectedCardExample
           title="Inspect our"
           subtitle="Github repo"
-          darkSrc={githubSrc}
-          darkHoverSrc={githubHoverSrc}
-          lightSrc={githubLightSrc}
-          lightHoverSrc={githubLightHoverSrc}
+          logoComponent={<GithubIcon width={200} height={168} />}
           link="https://github.com/BreadchainCoop/builders-dollar"
           backgroundPosition="left 0% top 0%"
         />
@@ -105,6 +99,37 @@ const StayConnectedCard = ({
         <p className="">{subtitle}</p>
       </div>
       <Image src={image} alt={link} height={168} />
+    </Link>
+  );
+};
+
+const StayConnectedCardExample = ({
+  title,
+  subtitle,
+  logoComponent,
+  link,
+  backgroundPosition,
+}: {
+  title: string;
+  subtitle: string;
+  logoComponent: ReactNode;
+  link: string;
+  backgroundPosition: string;
+}) => {
+  return (
+    <Link
+      href={link}
+      target="_blank"
+      className="w-[350px] h-[168px] flex justify-between bg-content rounded-4xl overflow-hidden group"
+      style={{ backgroundImage: `url(${texture.src})`, backgroundPosition }}
+    >
+      <div className="pt-5 pl-5">
+        <p className="text-xl font-semibold text-sub-text mb-2 whitespace-nowrap">
+          {title}
+        </p>
+        <p className="">{subtitle}</p>
+      </div>
+      {logoComponent}
     </Link>
   );
 };
