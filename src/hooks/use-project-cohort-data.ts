@@ -21,6 +21,7 @@ export function useProjectCohortData(
           dataMap.set(id, {
             ...dataMap.get(id),
             endorsers: endorsers.map((e) => ({ address: e })),
+            isCohortMember: endorsers.length >= 3,
           });
         }
       }
