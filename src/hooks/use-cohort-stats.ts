@@ -1,3 +1,4 @@
+import { useEligibleProjects } from "./use-eligible-projects";
 import { useReadBuildersManager } from "./use-read-builders-manager";
 import { useReadNewCohortProjects } from "./use-read-new-cohort-projects";
 
@@ -5,6 +6,7 @@ export function useCohortStats() {
   const { data } = useReadBuildersManager();
   const { currentProjectRecipients, optimismFoundationAttesters } = data ?? {};
   const { newCohortProjects } = useReadNewCohortProjects();
+  const { projects } = useEligibleProjects();
 
   const newMembersCount = newCohortProjects;
 
@@ -18,7 +20,10 @@ export function useCohortStats() {
 
   const monthlyExitCount = undefined;
   const monthlyExitPercentage = undefined;
-  const currentSeason = undefined;
+
+  const currentSeason = Math.max(
+    ...projects.map((proj) => Number(proj.season)),
+  );
 
   const totalOpCollectiveCitizens = optimismFoundationAttesters
     ? String(optimismFoundationAttesters.length)
