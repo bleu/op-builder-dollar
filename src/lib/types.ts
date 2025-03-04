@@ -11,15 +11,7 @@ export interface EligibleProject {
   isCohortMember: boolean;
 }
 
-export interface CohortProject {
-  id: string;
-  refUid: string;
-  name: string;
-  description: string;
-  projectLinks: ProjectLink[];
-  socialLinks: { website: string[] };
-  endorsers: { address: Address }[];
-  isCohortMember: boolean;
+export interface CohortProject extends EligibleProject {
   shareOfYield: number;
   membershipStartDate: string;
   membershipExpirationDate: string;
