@@ -42,3 +42,29 @@ export function tokenAmountStringToBigint(value: string, decimals: number) {
     finalLeftPart + rightPart + "0".repeat(decimals - rightPart.length),
   );
 }
+
+export const formatDate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
+export const formatTimeLeft = (expirationDate: Date): string => {
+  const now = new Date();
+
+  if (now > expirationDate) {
+    return "Expired";
+  }
+
+  const diffMs = expirationDate.getTime() - now.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  const months = Math.floor(diffDays / 30);
+  const days = diffDays % 30;
+
+  if (months > 0) {
+    return `${months} month${months !== 1 ? "s" : ""}`;
+  }
+  return `${days} day${days !== 1 ? "s" : ""}`;
+};

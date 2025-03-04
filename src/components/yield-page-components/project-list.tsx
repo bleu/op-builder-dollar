@@ -15,13 +15,6 @@ export const ProjectList = () => {
 
   const totalYield = 400000.45;
 
-  const getMonthsLeft = (date: string) => {
-    const currentDate = new Date();
-    const expirationDate = new Date(date);
-    const monthsLeft = expirationDate.getMonth() - currentDate.getMonth();
-    return monthsLeft;
-  };
-
   const getPercentageOfTotalYield = (shareOfYield: number) => {
     return ((shareOfYield / totalYield) * 100).toFixed(1);
   };
@@ -62,11 +55,11 @@ export const ProjectList = () => {
               </div>
             </DetailedInfoLabel>
             <DetailedInfoLabel
-              detailedInfo={`${getMonthsLeft("10/05/2025")} months left`}
+              detailedInfo={`${project?.membershipExpirationTimeLeft} left`}
               label="Membership expiration"
               className="flex items-center gap-2 font-bold italic"
             >
-              05/10
+              {project?.membershipExpirationDate}
             </DetailedInfoLabel>
           </ProjectCard>
         ))}

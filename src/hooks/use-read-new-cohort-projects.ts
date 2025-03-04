@@ -1,6 +1,7 @@
 "use client";
 import { buildersManagerAbi } from "@/lib/abis/builders-manager-abi";
 import { BUILDERS_MANAGER_ADDRESS } from "@/utils/constants";
+import { formatDate, formatTimeLeft } from "@/utils/formatting";
 import { useQuery } from "@tanstack/react-query";
 import type { Address } from "viem";
 import { usePublicClient } from "wagmi";
@@ -41,16 +42,23 @@ export function useReadNewCohortProjects() {
 
       const events = rawEvents.map((event) => {
         const eventTime = getBlockTimestamp(toBlock, event.blockNumber);
+        const startDate = new Date(eventTime * 1000);
+        const expirationDate = new Date(
+          (eventTime + SECONDS_IN_10_MONTHS) * 1000,
+        );
+
         const wasCreatedLastMonth =
           Date.now() / 1000 - eventTime < SECONDS_IN_30_DAYS;
         const hasExpiredLastMonth =
           Date.now() / 1000 - eventTime > SECONDS_IN_10_MONTHS &&
-          Date.now() / 1000 - eventTime <
-            SECONDS_IN_10_MONTHS + SECONDS_IN_30_DAYS;
+          Date.now() / 1000 - eventTime;
+        SECONDS_IN_10_MONTHS + SECONDS_IN_30_DAYS;
 
         return {
           recipient: `0x${event.topics[1]?.slice(-40)}` as Address,
-          time: eventTime,
+          membershipStartDate: formatDate(startDate),
+          membershipExpirationDate: formatDate(expirationDate),
+          membershipExpirationTimeLeft: formatTimeLeft(expirationDate),
           wasCreatedLastMonth,
           hasExpiredLastMonth,
         };
