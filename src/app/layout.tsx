@@ -1,15 +1,6 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
 import "./globals.css";
-import { Footer } from "@/components/footer";
-import Header from "@/components/header";
-import { cn } from "@/lib/utils";
-import { Providers } from "@/providers";
-
-const rubik = Rubik({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-});
+import Content from "./Content";
 
 export const metadata: Metadata = {
   title: "OP Builders Dollar",
@@ -26,13 +17,8 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/icons/logo.svg" type="image/png" />
       </head>
-      <body className={cn(rubik.className, "bg-background text-foreground")}>
-        <Providers>
-          <Header />
-          {children}
-          <Footer />
-        </Providers>
-      </body>
+
+      <Content>{children}</Content>
     </html>
   );
 }

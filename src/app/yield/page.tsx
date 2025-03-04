@@ -1,3 +1,5 @@
+"use client";
+
 import { ProjectList } from "@/components/yield-page-components/project-list";
 import { TopSection } from "@/components/yield-page-components/top-section";
 
