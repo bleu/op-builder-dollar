@@ -10,7 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
-import { CheckCircle, ThumbsUp } from "phosphor-react";
+import { CheckCircle, SmileySad, ThumbsUp } from "phosphor-react";
 import { useState } from "react";
 import { useAccount } from "wagmi";
 import { AccountName } from "../account-name";
@@ -45,6 +45,7 @@ export const EligibleProjects = () => {
               <EndorsementSection
                 endorsers={projects[0].endorsers || []}
                 projectUid={project.id as `0x${string}`}
+                projectName={project.name ?? ""}
               />
             </ProjectCard>
           </div>
@@ -57,7 +58,12 @@ export const EligibleProjects = () => {
 const EndorsementSection = ({
   endorsers,
   projectUid,
-}: { endorsers: CohortProject["endorsers"]; projectUid: `0x${string}` }) => {
+  projectName,
+}: {
+  endorsers: CohortProject["endorsers"];
+  projectUid: `0x${string}`;
+  projectName: string;
+}) => {
   return (
     <div className="w-full col-span-8 flex flex-col gap-4">
       <div className="w-full col-span-8 flex flex-col gap-2">
@@ -77,7 +83,11 @@ const EndorsementSection = ({
           )}
         </ul>
       </div>
-      <EndorseButton endorsers={endorsers} projectUid={projectUid} />
+      <EndorseButton
+        endorsers={endorsers}
+        projectUid={projectUid}
+        projectName={projectName}
+      />
     </div>
   );
 };
@@ -103,9 +113,14 @@ const EndorseProgressBar = ({ votes }: { votes: number }) => {
 interface EndorseButtonProps {
   endorsers: CohortProject["endorsers"];
   projectUid: `0x${string}`;
+  projectName: string;
 }
 
-const EndorseButton = ({ endorsers, projectUid }: EndorseButtonProps) => {
+const EndorseButton = ({
+  endorsers,
+  projectUid,
+  projectName,
+}: EndorseButtonProps) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const { address } = useAccount();
   const { isCitizen, fetching } = useCitizen();
@@ -130,7 +145,7 @@ const EndorseButton = ({ endorsers, projectUid }: EndorseButtonProps) => {
     trigger();
   };
 
-  if (isCitizen && isEndorsed) {
+  if ((isCitizen && isEndorsed) || endorsers.length >= 3) {
     return (
       <Button
         className={cn(
@@ -144,6 +159,27 @@ const EndorseButton = ({ endorsers, projectUid }: EndorseButtonProps) => {
       </Button>
     );
   }
+
+  if (!isCitizen) {
+    return (
+      <Button
+        className={cn(
+          buttonStyle,
+          "disabled:bg-sub-text-2 disabled:opacity-100 text-content-foreground font-medium flex items-center justify-center",
+        )}
+        disabled
+      >
+        <SmileySad className="min-h-6 min-w-6" />
+        NO BADGE
+      </Button>
+    );
+  }
+
+  const TxComponent = () => (
+    <div className="flex flex-col gap-4 justify-center items-center w-full border-[1px] border-card-border rounded-2xl p-6">
+      <span>Endorse {projectName}</span>
+    </div>
+  );
 
   return (
     <>
@@ -172,7 +208,7 @@ const EndorseButton = ({ endorsers, projectUid }: EndorseButtonProps) => {
         isOpen={dialogOpen}
         title="Endorse status"
         successMessage="Endorse success!"
-        txComponent={<span>Endorsement</span>}
+        txComponent={<TxComponent />}
         trigger={trigger}
         reset={reset}
         txHash={
