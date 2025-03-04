@@ -95,7 +95,7 @@ export const FormattedYield = ({ yieldString }: { yieldString: string }) => {
   const wholeWithCommas = addCommasToInt(whole);
   return (
     <>
-      {wholeWithCommas}.<span className="font-normal">{decimal}</span>
+      ~{wholeWithCommas}.<span className="font-normal">{decimal}</span>
     </>
   );
 };
