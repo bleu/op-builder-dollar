@@ -11,6 +11,7 @@ import {
   Copy,
   Graph,
   SignOut,
+  UserCircle,
   Wallet,
 } from "phosphor-react";
 import { type ReactNode, useState } from "react";
@@ -158,7 +159,7 @@ export const WalletAccountDetails = ({
       <div className="flex flex-col justify-between gap-4">
         <DetailsRow
           icon={
-            avatar && (
+            avatar ? (
               <Image
                 loader={() => avatar}
                 src={avatar}
@@ -167,6 +168,8 @@ export const WalletAccountDetails = ({
                 height={24}
                 className="rounded-full"
               />
+            ) : (
+              <UserCircle className="text-primary" size={24} />
             )
           }
           leftText={accountIdentifier}
@@ -251,7 +254,9 @@ const DetailsRow = ({
   return (
     <div className="flex flex-row justify-between items-center">
       <div className="flex flex-row justify-center items-center">
-        {icon}
+        <div className="flex items-center justify-center w-6 h-6 mr-2">
+          {icon}
+        </div>
         <span className="text-xl text-sub-text">{leftText}</span>
       </div>
       {rightContent}
