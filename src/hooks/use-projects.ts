@@ -7,20 +7,24 @@ import { useProjectMetadata } from "./use-project-metadata";
 export function useProjects(): Partial<Project>[] {
   const { projects: eligibleProjects } = useEligibleProjects();
 
-  const ids = eligibleProjects.map((eligibleProject) => eligibleProject.refUid);
+  const recipients = eligibleProjects.map(
+    (eligibleProject) => eligibleProject.recipient,
+  ) as `0x${string}`[];
+  const refUids = eligibleProjects.map(
+    (eligibleProject) => eligibleProject.refUid,
+  );
 
-  const { data: metadatas } = useProjectMetadata(ids);
+  const { data: metadatas } = useProjectMetadata(refUids);
 
-  const projectsCohortData = useProjectCohortData();
+  const projectsCohortData = useProjectCohortData(recipients);
 
   const projects = useMemo(() => {
     const newProjects = [];
 
     if (eligibleProjects) {
       for (const eligibleProject of eligibleProjects) {
-        const { id, refUid } = eligibleProject;
-        newProjects.push({ id, refUid });
-        console.log({ id, refUid });
+        const { id, refUid, recipient } = eligibleProject;
+        newProjects.push({ id, refUid, recipient });
       }
 
       if (metadatas) {
@@ -42,7 +46,7 @@ export function useProjects(): Partial<Project>[] {
       if (projectsCohortData) {
         for (const [id, projectCohortData] of projectsCohortData) {
           const idx: number = newProjects.findIndex(
-            (newProject) => newProject.id === id,
+            (newProject) => newProject.recipient === id,
           );
           const {
             isCohortMember,

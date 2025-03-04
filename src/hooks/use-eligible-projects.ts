@@ -1,9 +1,7 @@
 import { SCHEMA_QUERY } from "@/graphql/schema-query";
+import { PROJECTS_SCHEMA_ID } from "@/utils/constants";
 import { useQuery } from "urql";
 import { zeroAddress } from "viem";
-
-const PROJECTS_SCHEMA_ID =
-  "0x8aef6b9adab6252367588ad337f304da1c060cc3190f01d7b72c7e512b9bfb38";
 
 export const useEligibleProjects = () => {
   const [result] = useQuery({

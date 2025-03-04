@@ -108,7 +108,7 @@ interface EndorseButtonProps {
 const EndorseButton = ({ endorsers, projectUid }: EndorseButtonProps) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const { address } = useAccount();
-  const { isCitizen, fetching } = useCitizen(address);
+  const { isCitizen, fetching } = useCitizen();
   const { trigger, reset, txHashes, loadingMessage, error } = useEndorse({
     projectUid,
   });
