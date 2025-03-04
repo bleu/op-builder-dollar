@@ -139,5 +139,9 @@ export const useProjectMetadata = (projectUID?: string[]) => {
     },
   });
 
-  return { ...query, isLoading: query.isPending || !attestations };
+  return {
+    ...query,
+    data: query.data ?? new Map<string, ProjectMetadata>(),
+    isLoading: query.isPending || !attestations,
+  };
 };

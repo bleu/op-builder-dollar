@@ -1,4 +1,5 @@
 import type { Project } from "@/lib/types";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useEligibleProjects } from "./use-eligible-projects";
 import { useProjectCohortData } from "./use-project-cohort-data";
@@ -18,60 +19,81 @@ export function useProjects(): Partial<Project>[] {
 
   const projectsCohortData = useProjectCohortData(recipients);
 
-  const projects = useMemo(() => {
-    const newProjects = [];
+  const eligibleProjectsKeys = useMemo(
+    () => JSON.stringify(Array.from(eligibleProjects.entries())),
+    [eligibleProjects],
+  );
+  const metadatasKeys = useMemo(
+    () => JSON.stringify(Array.from(metadatas.entries())),
+    [metadatas],
+  );
+  const projectsCohortDataKeys = useMemo(
+    () => JSON.stringify(Array.from(projectsCohortData.entries())),
+    [projectsCohortData],
+  );
 
-    if (eligibleProjects) {
-      for (const eligibleProject of eligibleProjects) {
-        const { id, refUid, recipient } = eligibleProject;
-        newProjects.push({ id, refUid, recipient });
-      }
+  const { data: projects } = useQuery({
+    queryKey: [
+      "projects",
+      eligibleProjectsKeys,
+      metadatasKeys,
+      projectsCohortDataKeys,
+    ],
+    queryFn: () => {
+      const newProjects = [];
 
-      if (metadatas) {
-        for (const [id, metadata] of metadatas) {
-          const idx: number = newProjects.findIndex(
-            (newProject) => newProject.refUid === id,
-          );
-          const { name, description, socialLinks } = metadata;
-          if (idx !== -1)
-            newProjects[idx] = {
-              ...newProjects[idx],
-              name,
-              description,
-              socialLinks,
-            };
+      if (eligibleProjects) {
+        for (const eligibleProject of eligibleProjects) {
+          const { id, refUid, recipient } = eligibleProject;
+          newProjects.push({ id, refUid, recipient });
         }
-      }
 
-      if (projectsCohortData) {
-        for (const [id, projectCohortData] of projectsCohortData) {
-          const idx: number = newProjects.findIndex(
-            (newProject) => newProject.recipient === id,
-          );
-          const {
-            isCohortMember,
-            shareOfYield,
-            membershipStartDate,
-            membershipExpirationDate,
-            membershipExpirationTimeLeft,
-            endorsers,
-          } = projectCohortData;
-          if (idx !== -1)
-            newProjects[idx] = {
-              ...newProjects[idx],
+        if (metadatas) {
+          for (const [id, metadata] of metadatas) {
+            const idx: number = newProjects.findIndex(
+              (newProject) => newProject.refUid === id,
+            );
+            const { name, description, socialLinks } = metadata;
+            if (idx !== -1)
+              newProjects[idx] = {
+                ...newProjects[idx],
+                name,
+                description,
+                socialLinks,
+              };
+          }
+        }
+
+        if (projectsCohortData) {
+          for (const [id, projectCohortData] of projectsCohortData) {
+            const idx: number = newProjects.findIndex(
+              (newProject) => newProject.recipient === id,
+            );
+            const {
               isCohortMember,
               shareOfYield,
               membershipStartDate,
               membershipExpirationDate,
               membershipExpirationTimeLeft,
               endorsers,
-            };
+            } = projectCohortData;
+            if (idx !== -1)
+              newProjects[idx] = {
+                ...newProjects[idx],
+                isCohortMember,
+                shareOfYield,
+                membershipStartDate,
+                membershipExpirationDate,
+                membershipExpirationTimeLeft,
+                endorsers,
+              };
+          }
         }
       }
-    }
 
-    return newProjects as Partial<Project>[];
-  }, [eligibleProjects, metadatas, projectsCohortData]);
+      return newProjects as Partial<Project>[];
+    },
+  });
 
-  return projects;
+  return projects ?? [];
 }
