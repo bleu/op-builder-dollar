@@ -17,7 +17,7 @@ export const GithubIcon = ({ width, height }: IconProps) => {
       height={height || "100%"}
       xmlns="http://www.w3.org/2000/svg"
       fill={fillColor}
-      className="group-hover:opacity-100 opacity-50 group-hover:scale-125 h-full transition-all duration-300 object-cover"
+      className="group-hover:opacity-100 opacity-50 group-hover:scale-[1.15] h-full transition-all duration-300 object-cover"
     >
       <title>github icon</title>
       <path
