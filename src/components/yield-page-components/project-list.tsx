@@ -54,15 +54,19 @@ export const ProjectList = () => {
                 <Obusd size={18} />
               </div>
               <div className="[&>span]:text-[1rem] italic">
-                <FormattedYield yieldString={project.shareOfYield.toString()} />
+                <FormattedYield
+                  yieldString={
+                    project?.shareOfYield ? project.shareOfYield.toString() : ""
+                  }
+                />
               </div>
             </DetailedInfoLabel>
             <DetailedInfoLabel
-              detailedInfo={`${getMonthsLeft(project.membershipExpirationDate)} months left`}
+              detailedInfo={`${getMonthsLeft("10/05/2025")} months left`}
               label="Membership expiration"
               className="flex items-center gap-2 font-bold italic"
             >
-              {project.membershipExpirationDate}
+              05/10
             </DetailedInfoLabel>
           </ProjectCard>
         ))}

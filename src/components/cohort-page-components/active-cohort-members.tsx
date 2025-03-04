@@ -49,10 +49,7 @@ export const ActiveCohortMembers = () => {
             </Card>
             <Card className="rounded-[15px] flex flex-col justify-center gap-2 px-6 py-3 col-span-4">
               <span className="text-sub-text">Member since</span>
-              <span className="font-bold italic">
-                {/* {project?.membershipStartDate} */}
-                20/11/2024
-              </span>
+              <span className="font-bold italic">20/11/2024</span>
             </Card>
             <div className="col-span-4 flex flex-col justify-center items-end">
               <DetailedInfoLabel
