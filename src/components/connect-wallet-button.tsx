@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useApy } from "@/hooks/use-apy";
+import { useReadObusd } from "@/hooks/use-read-obusd";
 import { ChainIcon, ConnectKitButton, useModal } from "connectkit";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,6 +38,16 @@ export const ConnectWalletButton = () => {
     name: ensName ? ensName : undefined,
     chainId: 1,
   });
+  const { apy } = useApy();
+  const { obusdFormattedBalance } = useReadObusd();
+  const userYearlyYield =
+    apy !== undefined && obusdFormattedBalance
+      ? (
+          (Number(obusdFormattedBalance.replace("< 0.01", "0.0")) *
+            Number(apy)) /
+          100
+        ).toFixed(2)
+      : "0.0";
   const [open, setOpen] = useState(false);
 
   const { openSwitchNetworks } = useModal();
@@ -112,6 +124,7 @@ export const ConnectWalletButton = () => {
                           : Number(formatEther(balance.value)).toFixed(4)
                         : ""
                     }
+                    userYearlyYield={userYearlyYield}
                     openSwitchNetworks={openSwitchNetworks}
                     address={address}
                   />
@@ -138,6 +151,7 @@ export const WalletAccountDetails = ({
   accountIdentifier,
   avatar,
   balance,
+  userYearlyYield,
   openSwitchNetworks,
   address,
   closeMenu,
@@ -147,6 +161,7 @@ export const WalletAccountDetails = ({
   accountIdentifier: string;
   avatar: string | undefined;
   balance: string;
+  userYearlyYield: string | undefined;
   openSwitchNetworks: (() => void) | undefined;
   address: string | undefined;
   closeMenu?: () => void;
@@ -220,9 +235,7 @@ export const WalletAccountDetails = ({
           icon={<ChartLineUp className="text-primary" size={24} />}
           leftText="Generating obUSD"
           rightContent={
-            <span className="text-sub-text-2">
-              1,604.0<span>/Yearly</span>
-            </span>
+            <span className="font-bold diamond">{userYearlyYield}/Yearly</span>
           }
         />
       </div>

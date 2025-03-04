@@ -1,5 +1,7 @@
 "use client";
 
+import { useApy } from "@/hooks/use-apy";
+import { useReadObusd } from "@/hooks/use-read-obusd";
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
 import { useModal } from "connectkit";
@@ -46,6 +48,16 @@ const Header = () => {
     name: ensName ? ensName : undefined,
     chainId: 1,
   });
+  const { apy } = useApy();
+  const { obusdFormattedBalance } = useReadObusd();
+  const userYearlyYield =
+    apy !== undefined && obusdFormattedBalance
+      ? (
+          (Number(obusdFormattedBalance.replace("< 0.01", "0.0")) *
+            Number(apy)) /
+          100
+        ).toFixed(2)
+      : "0.0";
   const { openSwitchNetworks, setOpen: setConnectKitOpen } = useModal();
 
   const accountIdentifier =
@@ -134,6 +146,7 @@ const Header = () => {
                       : Number(formatEther(balance.value)).toFixed(4)
                     : ""
                 }
+                userYearlyYield={userYearlyYield}
                 openSwitchNetworks={openSwitchNetworks}
                 address={address}
                 closeMenu={() => {
