@@ -35,7 +35,7 @@ export function useMint({
         functionName: "approve",
         args: [OBUSD_ADDRESS, amount],
       }) as `0x${string}`,
-      functionName: "approve",
+      loadingMessage: "Approving USDC...",
     };
 
     const mintTx = {
@@ -45,7 +45,7 @@ export function useMint({
         functionName: "mint",
         args: [amount, signer],
       }) as `0x${string}`,
-      functionName: "mint",
+      loadingMessage: "Minting obUSD...",
     };
 
     const txs: BaseTx[] =

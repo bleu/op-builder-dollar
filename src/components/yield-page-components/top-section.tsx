@@ -58,7 +58,11 @@ export const TopSection = () => {
             Est. yield per project
           </span>
           <span className="font-bold italic">
-            {yieldPerProject ? `$${yieldPerProject}` : <LoadingDots />}
+            {yieldPerProject ? (
+              `$${yieldPerProject}`.replace("$<", "~$")
+            ) : (
+              <LoadingDots />
+            )}
           </span>
         </div>
         <div className="w-full flex justify-between">

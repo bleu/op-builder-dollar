@@ -2,22 +2,16 @@ import type { Address } from "viem";
 
 export interface EligibleProject {
   id: string;
+  refUid: string;
   name: string;
   description: string;
   projectLinks: ProjectLink[];
   socialLinks: { website: string[] };
   endorsers: { address: Address }[];
-  isCohortMember: false;
+  isCohortMember: boolean;
 }
 
-export interface CohortProject {
-  id: string;
-  name: string;
-  description: string;
-  projectLinks: ProjectLink[];
-  socialLinks: { website: string[] };
-  endorsers: { address: Address }[];
-  isCohortMember: true;
+export interface CohortProject extends EligibleProject {
   shareOfYield: number;
   membershipStartDate: string;
   membershipExpirationDate: string;

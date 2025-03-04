@@ -1,5 +1,6 @@
 "use client";
 import { useCitizen } from "@/hooks/use-citizen";
+import { useEndorse } from "@/hooks/use-endorse";
 import { useProjects } from "@/hooks/use-projects";
 import type { CohortProject } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -9,9 +10,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
-import { CheckCircle, ThumbsUp } from "phosphor-react";
+import { CheckCircle, SmileySad, ThumbsUp } from "phosphor-react";
+import { useState } from "react";
 import { useAccount } from "wagmi";
 import { AccountName } from "../account-name";
+import { LoadingTxModal } from "../mint-page-components/loading-tx-modal";
 import { ProjectCard } from "../project-card";
 import { Button } from "../ui/button";
 
@@ -39,7 +42,11 @@ export const EligibleProjects = () => {
               project={project}
               className="grid grid-cols-8 w-full gap-2"
             >
-              <EndorsementSection endorsers={projects[0].endorsers || []} />
+              <EndorsementSection
+                endorsers={projects[0].endorsers || []}
+                projectUid={project.id as `0x${string}`}
+                projectName={project.name ?? ""}
+              />
             </ProjectCard>
           </div>
         ))}
@@ -50,12 +57,18 @@ export const EligibleProjects = () => {
 
 const EndorsementSection = ({
   endorsers,
-}: { endorsers: CohortProject["endorsers"] }) => {
+  projectUid,
+  projectName,
+}: {
+  endorsers: CohortProject["endorsers"];
+  projectUid: `0x${string}`;
+  projectName: string;
+}) => {
   return (
     <div className="w-full col-span-8 flex flex-col gap-4">
       <div className="w-full col-span-8 flex flex-col gap-2">
         <h3 className="font-semibold text-xl">Cohort approval progress</h3>
-        <EndorseProgressBar votes={2} />
+        <EndorseProgressBar votes={endorsers.length} />
         <span className="text-sub-text-2 italic">Endorsed by</span>
         <ul className="list-disc list-inside ml-4">
           {endorsers?.map((endorser) => (
@@ -70,7 +83,11 @@ const EndorsementSection = ({
           )}
         </ul>
       </div>
-      <EndorseButton endorsers={endorsers} />
+      <EndorseButton
+        endorsers={endorsers}
+        projectUid={projectUid}
+        projectName={projectName}
+      />
     </div>
   );
 };
@@ -95,11 +112,21 @@ const EndorseProgressBar = ({ votes }: { votes: number }) => {
 
 interface EndorseButtonProps {
   endorsers: CohortProject["endorsers"];
+  projectUid: `0x${string}`;
+  projectName: string;
 }
 
-const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
+const EndorseButton = ({
+  endorsers,
+  projectUid,
+  projectName,
+}: EndorseButtonProps) => {
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const { address } = useAccount();
-  const { isCitizen, fetching } = useCitizen(address);
+  const { isCitizen, fetching } = useCitizen();
+  const { trigger, reset, txHashes, loadingMessage, error } = useEndorse({
+    projectUid,
+  });
 
   const isEndorsed = endorsers?.some(
     (endorser) => endorser.address === address,
@@ -113,7 +140,12 @@ const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
     );
   }
 
-  if (isCitizen && isEndorsed) {
+  const handleStartEndorse = () => {
+    setDialogOpen(true);
+    trigger();
+  };
+
+  if ((isCitizen && isEndorsed) || endorsers.length >= 3) {
     return (
       <Button
         className={cn(
@@ -128,26 +160,66 @@ const EndorseButton = ({ endorsers }: EndorseButtonProps) => {
     );
   }
 
-  return (
-    <TooltipProvider>
-      <Tooltip delayDuration={100}>
-        <TooltipTrigger asChild>
-          <div>
-            <Button
-              className={buttonStyle}
-              variant="default"
-              disabled={!isCitizen}
-            >
-              <ThumbsUp weight="bold" size={24} /> ENDORSE PROJECT
-            </Button>
-          </div>
-        </TooltipTrigger>
-        {!isCitizen && (
-          <TooltipContent>
-            <p>Only Optimism Citizens can endorse projects</p>
-          </TooltipContent>
+  if (!isCitizen) {
+    return (
+      <Button
+        className={cn(
+          buttonStyle,
+          "disabled:bg-sub-text-2 disabled:opacity-100 text-content-foreground font-medium flex items-center justify-center",
         )}
-      </Tooltip>
-    </TooltipProvider>
+        disabled
+      >
+        <SmileySad className="min-h-6 min-w-6" />
+        NO BADGE
+      </Button>
+    );
+  }
+
+  const TxComponent = () => (
+    <div className="flex flex-col gap-4 justify-center items-center w-full border-[1px] border-card-border rounded-2xl p-6">
+      <span>Endorse {projectName}</span>
+    </div>
+  );
+
+  return (
+    <>
+      <TooltipProvider>
+        <Tooltip delayDuration={100}>
+          <TooltipTrigger asChild>
+            <div>
+              <Button
+                className={buttonStyle}
+                variant="default"
+                disabled={!isCitizen}
+                onClick={handleStartEndorse}
+              >
+                <ThumbsUp weight="bold" size={24} /> ENDORSE PROJECT
+              </Button>
+            </div>
+          </TooltipTrigger>
+          {!isCitizen && (
+            <TooltipContent>
+              <p>Only Optimism Citizens can endorse projects</p>
+            </TooltipContent>
+          )}
+        </Tooltip>
+      </TooltipProvider>
+      <LoadingTxModal
+        isOpen={dialogOpen}
+        title="Endorse status"
+        successMessage="Endorse success!"
+        txComponent={<TxComponent />}
+        trigger={trigger}
+        reset={reset}
+        txHash={
+          txHashes && txHashes.length > 0
+            ? txHashes[txHashes.length - 1]
+            : undefined
+        }
+        loadingMessage={loadingMessage}
+        onClose={() => setDialogOpen(false)}
+        error={error}
+      />
+    </>
   );
 };
