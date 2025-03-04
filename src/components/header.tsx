@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
 import { useModal } from "connectkit";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Butterfly,
@@ -15,7 +16,7 @@ import {
 } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { formatEther } from "viem";
-import { useAccount, useBalance, useEnsName } from "wagmi";
+import { useAccount, useBalance, useEnsAvatar, useEnsName } from "wagmi";
 import {
   ConnectWalletButton,
   WalletAccountDetails,
@@ -41,6 +42,10 @@ const Header = () => {
   const { address, chain, isConnecting } = useAccount();
   const { data: balance } = useBalance({ address });
   const { data: ensName } = useEnsName({ address, chainId: 1 });
+  const { data: avatar } = useEnsAvatar({
+    name: ensName ? ensName : undefined,
+    chainId: 1,
+  });
   const { openSwitchNetworks, setOpen: setConnectKitOpen } = useModal();
 
   const accountIdentifier =
@@ -77,13 +82,22 @@ const Header = () => {
             <div className="flex items-center justify-center gap-4">
               {address ? (
                 <div
-                  className="flex items-center gap-1.5 text-foreground rounded-2xl py-2 px-1.5 border-card-border border-[1px] hover:cursor-pointer"
+                  className="flex items-center gap-1.5 text-foreground rounded-2xl py-2 px-2 border-card-border border-[1px] hover:cursor-pointer"
                   onClick={() => {
                     setMobileWalletOpen(!mobileWalletOpen);
                     setMobileOptionsOpen(false);
                   }}
                 >
-                  <div className="w-6 h-6 rounded-full bg-primary" />
+                  {avatar && (
+                    <Image
+                      loader={() => avatar}
+                      src={avatar}
+                      alt="avatar"
+                      width={24}
+                      height={24}
+                      className="rounded-full"
+                    />
+                  )}
                   <span>{accountIdentifier}</span>
                 </div>
               ) : (
@@ -112,6 +126,7 @@ const Header = () => {
                 chainId={chain?.id}
                 chainName={chain?.name}
                 accountIdentifier={accountIdentifier}
+                avatar={avatar ?? undefined}
                 balance={
                   balance?.value !== undefined
                     ? balance.value.toString() === "0"

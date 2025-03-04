@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ChainIcon, ConnectKitButton, useModal } from "connectkit";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowSquareOut,
@@ -10,12 +11,17 @@ import {
   Copy,
   Graph,
   SignOut,
-  UserCircle,
   Wallet,
 } from "phosphor-react";
 import { type ReactNode, useState } from "react";
 import { formatEther } from "viem";
-import { useAccount, useBalance, useDisconnect, useEnsName } from "wagmi";
+import {
+  useAccount,
+  useBalance,
+  useDisconnect,
+  useEnsAvatar,
+  useEnsName,
+} from "wagmi";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 const isWindow = typeof window !== "undefined";
@@ -25,6 +31,10 @@ export const ConnectWalletButton = () => {
   const { address } = useAccount();
   const { data: balance } = useBalance({ address });
   const { data: ensName } = useEnsName({ address, chainId: 1 });
+  const { data: avatar } = useEnsAvatar({
+    name: ensName ? ensName : undefined,
+    chainId: 1,
+  });
   const [open, setOpen] = useState(false);
 
   const { openSwitchNetworks } = useModal();
@@ -62,8 +72,17 @@ export const ConnectWalletButton = () => {
                         <ChainIcon id={chain?.id} size={24} />
                         <span className="text-lg">{chain?.name}</span>
                       </div>
-                      <div className="flex items-center gap-1.5 md:bg-background text-foreground rounded-2xl py-2 px-1.5">
-                        <div className="w-6 h-6 rounded-full bg-primary" />
+                      <div className="flex items-center gap-1.5 md:bg-background text-foreground rounded-2xl py-2 px-2">
+                        {avatar && (
+                          <Image
+                            loader={() => avatar}
+                            src={avatar}
+                            alt="avatar"
+                            width={24}
+                            height={24}
+                            className="rounded-full"
+                          />
+                        )}
                         <span>{ensName ?? truncatedAddress ?? ""}</span>
                       </div>
                     </div>
@@ -84,6 +103,7 @@ export const ConnectWalletButton = () => {
                     chainId={chain?.id}
                     chainName={chain?.name}
                     accountIdentifier={ensName ?? truncatedAddress ?? ""}
+                    avatar={avatar ?? undefined}
                     balance={
                       balance?.value !== undefined
                         ? balance.value.toString() === "0"
@@ -115,6 +135,7 @@ export const WalletAccountDetails = ({
   chainId,
   chainName,
   accountIdentifier,
+  avatar,
   balance,
   openSwitchNetworks,
   address,
@@ -123,6 +144,7 @@ export const WalletAccountDetails = ({
   chainId: number | undefined;
   chainName: string | undefined;
   accountIdentifier: string;
+  avatar: string | undefined;
   balance: string;
   openSwitchNetworks: (() => void) | undefined;
   address: string | undefined;
@@ -135,7 +157,18 @@ export const WalletAccountDetails = ({
       <h1 className="font-bold text-2xl">Account</h1>
       <div className="flex flex-col justify-between gap-4">
         <DetailsRow
-          icon={<UserCircle className="text-primary" size={24} />}
+          icon={
+            avatar && (
+              <Image
+                loader={() => avatar}
+                src={avatar}
+                alt="avatar"
+                width={24}
+                height={24}
+                className="rounded-full"
+              />
+            )
+          }
           leftText={accountIdentifier}
           rightContent={
             <div className="flex gap-2">
@@ -218,9 +251,7 @@ const DetailsRow = ({
   return (
     <div className="flex flex-row justify-between items-center">
       <div className="flex flex-row justify-center items-center">
-        <div className="flex items-center justify-center w-6 h-6 mr-2">
-          {icon}
-        </div>
+        {icon}
         <span className="text-xl text-sub-text">{leftText}</span>
       </div>
       {rightContent}
