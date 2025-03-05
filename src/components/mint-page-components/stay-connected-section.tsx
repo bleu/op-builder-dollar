@@ -1,18 +1,9 @@
-import githubHoverSrc from "@/../public/icons/github-hover.png";
-import githubLightHoverSrc from "@/../public/icons/github-light-hover.png";
-import githubLightSrc from "@/../public/icons/github-light.png";
-import githubSrc from "@/../public/icons/github.png";
-import warpcastHoverSrc from "@/../public/icons/warpcast-hover.png";
-import warpcastSrc from "@/../public/icons/warpcast.png";
-import xHoverSrc from "@/../public/icons/x-hover.png";
-import xLightHoverSrc from "@/../public/icons/x-light-hover.png";
-import xLightSrc from "@/../public/icons/x-light.png";
-import xSrc from "@/../public/icons/x.png";
 import texture from "@/../public/images/texture.png";
-import { useThemeStore } from "@/store/use-theme-store";
-import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import type { ReactNode } from "react";
+import { GithubIcon } from "./icons/github";
+import { WarpcastIcon } from "./icons/warpcast";
+import { XIcon } from "./icons/x";
 
 export default function StayConnectedSection() {
   return (
@@ -25,30 +16,21 @@ export default function StayConnectedSection() {
         <StayConnectedCard
           title="Inspect our"
           subtitle="Github repo"
-          darkSrc={githubSrc}
-          darkHoverSrc={githubHoverSrc}
-          lightSrc={githubLightSrc}
-          lightHoverSrc={githubLightHoverSrc}
+          logoComponent={<GithubIcon width={200} height={200} />}
           link="https://github.com/BreadchainCoop/builders-dollar"
           backgroundPosition="left 0% top 0%"
         />
         <StayConnectedCard
           title="Follow us on"
           subtitle="Farcaster"
-          darkSrc={warpcastSrc}
-          darkHoverSrc={warpcastHoverSrc}
-          lightSrc={warpcastSrc}
-          lightHoverSrc={warpcastHoverSrc}
+          logoComponent={<WarpcastIcon width={200} height={200} />}
           link="https://warpcast.com/optimisticusd"
           backgroundPosition="left 30% top 0%"
         />
         <StayConnectedCard
           title="Follow us on"
           subtitle="X"
-          darkSrc={xSrc}
-          darkHoverSrc={xHoverSrc}
-          lightSrc={xLightSrc}
-          lightHoverSrc={xLightHoverSrc}
+          logoComponent={<XIcon width={200} height={200} />}
           link="https://x.com/optimisticUSD"
           backgroundPosition="left 60% top 0%"
         />
@@ -61,42 +43,22 @@ export default function StayConnectedSection() {
 const StayConnectedCard = ({
   title,
   subtitle,
-  darkSrc,
-  darkHoverSrc,
-  lightSrc,
-  lightHoverSrc,
+  logoComponent,
   link,
   backgroundPosition,
 }: {
   title: string;
   subtitle: string;
-  darkSrc: StaticImageData;
-  darkHoverSrc: StaticImageData;
-  lightSrc: StaticImageData;
-  lightHoverSrc: StaticImageData;
+  logoComponent: ReactNode;
   link: string;
   backgroundPosition: string;
 }) => {
-  const { theme } = useThemeStore();
-  const [isHovered, setIsHovered] = useState(false);
-
-  const image =
-    theme === "light"
-      ? isHovered
-        ? lightHoverSrc
-        : lightSrc
-      : isHovered
-        ? darkHoverSrc
-        : darkSrc;
-
   return (
     <Link
       href={link}
       target="_blank"
-      className="w-[350px] h-[168px] flex justify-between bg-content rounded-4xl overflow-hidden"
+      className="w-[350px] h-[168px] flex justify-between bg-content rounded-4xl overflow-hidden group border border-card-border"
       style={{ backgroundImage: `url(${texture.src})`, backgroundPosition }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       <div className="pt-5 pl-5">
         <p className="text-xl font-semibold text-sub-text mb-2 whitespace-nowrap">
@@ -104,7 +66,7 @@ const StayConnectedCard = ({
         </p>
         <p className="">{subtitle}</p>
       </div>
-      <Image src={image} alt={link} height={168} />
+      {logoComponent}
     </Link>
   );
 };
