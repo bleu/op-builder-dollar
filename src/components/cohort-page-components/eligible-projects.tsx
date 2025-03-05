@@ -73,7 +73,10 @@ const EndorsementSection = ({
         <ul className="list-disc list-inside ml-4">
           {endorsers?.map((endorser) => (
             <li key={endorser.address} className="italic text-foreground">
-              <AccountName address={endorser.address} />
+              <AccountName
+                address={endorser.address}
+                ensName={endorser.ensName}
+              />
             </li>
           ))}
           {endorsers && endorsers.length < 3 && (
