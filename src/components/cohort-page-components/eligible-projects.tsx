@@ -175,7 +175,7 @@ const EndorseButton = ({
         disabled
       >
         <CheckCircle className="text-success min-h-6 min-w-6" weight="bold" />
-        ENDORSED
+        {endorsers.length >= 3 ? "ENDORSEMENT COMPLETE" : "ENDORSED"}
       </Button>
     );
   }
