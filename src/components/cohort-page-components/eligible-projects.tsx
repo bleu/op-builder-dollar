@@ -43,7 +43,7 @@ export const EligibleProjects = () => {
               className="grid grid-cols-8 w-full gap-2"
             >
               <EndorsementSection
-                endorsers={projects[0].endorsers || []}
+                endorsers={project.endorsers || []}
                 projectUid={project.id as `0x${string}`}
                 projectName={project.name ?? ""}
               />
