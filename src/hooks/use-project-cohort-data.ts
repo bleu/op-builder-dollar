@@ -88,6 +88,5 @@ export function useProjectCohortData(
 
     return new Map<string, CohortData>();
   }, [endorsements, newMemberEvents, shareOfYield, ids]);
-
   return projectCohortData;
 }

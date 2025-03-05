@@ -1,20 +1,28 @@
 import { SCHEMA_QUERY } from "@/graphql/schema-query";
-import { CITIZEN_SCHEMA_ID } from "@/utils/constants";
+import { buildersManagerAbi } from "@/lib/abis/builders-manager-abi";
+import { BUILDERS_MANAGER_ADDRESS, CITIZEN_SCHEMA_ID } from "@/utils/constants";
 import { useQuery } from "urql";
-import { useAccount } from "wagmi";
-import { useReadBuildersManager } from "./use-read-builders-manager";
+import { useAccount, useReadContract } from "wagmi";
 
 export const useCitizen = () => {
+  const { address: signer } = useAccount();
+
   const [{ data, ...result }, refetch] = useQuery({
     query: SCHEMA_QUERY,
     variables: { where: { id: CITIZEN_SCHEMA_ID } },
     requestPolicy: "cache-first",
   });
 
-  const { address } = useAccount();
+  const { data: isEligibleVoter } = signer
+    ? useReadContract({
+        address: BUILDERS_MANAGER_ADDRESS,
+        abi: buildersManagerAbi,
+        functionName: "eligibleVoter",
+        args: [signer],
+      })
+    : {};
 
-  const { data: buildersManagerData } = useReadBuildersManager();
-  const { optimismFoundationAttesters } = buildersManagerData ?? {};
+  const { address } = useAccount();
 
   const citizenAttestations = data?.getSchema?.attestations.filter(
     (attestation) => !attestation.revoked,
@@ -25,12 +33,10 @@ export const useCitizen = () => {
   );
 
   const isCitizen =
-    address &&
-    (citizensList?.includes(address) ||
-      optimismFoundationAttesters?.includes(address));
+    (address && citizensList?.includes(address)) || isEligibleVoter;
 
   const citizenAttestationUid =
-    address && citizensList?.includes(address)
+    address && citizensList?.includes(address) && !isEligibleVoter
       ? (citizenAttestations?.find(
           (attestation) => attestation.recipient === address,
         )?.id as `0x${string}`)

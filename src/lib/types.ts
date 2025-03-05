@@ -7,6 +7,7 @@ export type EndorserType = {
 
 export interface EligibleProject {
   id: string;
+  recipient: string;
   refUid: string;
   name: string;
   description: string;

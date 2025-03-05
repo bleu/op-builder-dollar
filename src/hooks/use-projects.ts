@@ -40,7 +40,7 @@ export function useProjects(): Partial<Project>[] {
       projectsCohortDataKeys,
     ],
     queryFn: () => {
-      const newProjects = [];
+      const newProjects = [] as Partial<Project>[];
 
       if (eligibleProjects) {
         for (const eligibleProject of eligibleProjects) {
@@ -48,19 +48,15 @@ export function useProjects(): Partial<Project>[] {
           newProjects.push({ id, refUid, recipient });
         }
 
-        if (metadatas) {
-          for (const [id, metadata] of metadatas) {
-            const idx: number = newProjects.findIndex(
-              (newProject) => newProject.refUid === id,
-            );
-            const { name, description, socialLinks } = metadata;
-            if (idx !== -1)
-              newProjects[idx] = {
-                ...newProjects[idx],
-                name,
-                description,
-                socialLinks,
-              };
+        if (metadatas && newProjects.length) {
+          for (const project of newProjects) {
+            const { refUid } = project;
+            const metadata = metadatas.get(refUid ?? "");
+
+            if (metadata) {
+              const { name, description, socialLinks } = metadata;
+              Object.assign(project, { name, description, socialLinks });
+            }
           }
         }
 

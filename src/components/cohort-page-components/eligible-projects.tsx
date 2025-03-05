@@ -43,7 +43,7 @@ export const EligibleProjects = () => {
               className="grid grid-cols-8 w-full gap-2"
             >
               <EndorsementSection
-                endorsers={projects[0].endorsers || []}
+                endorsers={project.endorsers || []}
                 projectUid={project.id as `0x${string}`}
                 projectName={project.name ?? ""}
               />
@@ -54,6 +54,25 @@ export const EligibleProjects = () => {
     </div>
   );
 };
+
+function MissingEndorsementItems({ n }: { n: number }) {
+  const keys = [];
+
+  for (let i = 0; i < n - 1; i++) {
+    keys.push(`missingEndorsementItem${i + 1}`);
+  }
+
+  return (
+    <>
+      {keys.map((key) => (
+        <li key={key} className="italic text-sub-text">
+          -
+        </li>
+      ))}
+      <li className="italic text-sub-text">{n} more endorsement missing</li>
+    </>
+  );
+}
 
 const EndorsementSection = ({
   endorsers,
@@ -80,9 +99,7 @@ const EndorsementSection = ({
             </li>
           ))}
           {endorsers && endorsers.length < 3 && (
-            <li className="italic text-sub-text">
-              {3 - endorsers.length} more endorsement missing
-            </li>
+            <MissingEndorsementItems n={3 - endorsers.length} />
           )}
         </ul>
       </div>
@@ -157,8 +174,8 @@ const EndorseButton = ({
         )}
         disabled
       >
-        <CheckCircle className="text-success" weight="bold" size={24} />
-        ENDORSED
+        <CheckCircle className="text-success min-h-6 min-w-6" weight="bold" />
+        {endorsers.length >= 3 ? "ENDORSEMENT COMPLETE" : "ENDORSED"}
       </Button>
     );
   }
@@ -196,7 +213,8 @@ const EndorseButton = ({
                 disabled={!isCitizen}
                 onClick={handleStartEndorse}
               >
-                <ThumbsUp weight="bold" size={24} /> ENDORSE PROJECT
+                <ThumbsUp weight="bold" className="min-h-6 min-w-6" /> ENDORSE
+                PROJECT
               </Button>
             </div>
           </TooltipTrigger>
