@@ -52,6 +52,7 @@ export function useEndorse({
     buildTxFn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["buildersManager"] });
+      queryClient.invalidateQueries({ queryKey: ["endorsements"] });
     },
   });
 }
