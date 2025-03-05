@@ -1,6 +1,7 @@
 "use client";
 
 import { useProjects } from "@/hooks/use-projects";
+import { useReadObusd } from "@/hooks/use-read-obusd";
 import type { CohortProject } from "@/lib/types";
 import { DetailedInfoLabel } from "../detailed-info-label";
 import { ProjectCard } from "../project-card";
@@ -13,17 +14,15 @@ export const ProjectList = () => {
     (project) => project.isCohortMember,
   ) as CohortProject[];
 
-  const totalYield = 400000.45;
+  const { obusdYieldFormatted } = useReadObusd();
 
-  const getMonthsLeft = (date: string) => {
-    const currentDate = new Date();
-    const expirationDate = new Date(date);
-    const monthsLeft = expirationDate.getMonth() - currentDate.getMonth();
-    return monthsLeft;
-  };
-
+  const totalYield = obusdYieldFormatted
+    ? Number(obusdYieldFormatted.replace("<", ""))
+    : undefined;
   const getPercentageOfTotalYield = (shareOfYield: number) => {
-    return ((shareOfYield / totalYield) * 100).toFixed(1);
+    return totalYield
+      ? ((shareOfYield / totalYield) * 100).toFixed(1)
+      : undefined;
   };
 
   return (
@@ -62,11 +61,11 @@ export const ProjectList = () => {
               </div>
             </DetailedInfoLabel>
             <DetailedInfoLabel
-              detailedInfo={`${getMonthsLeft("10/05/2025")} months left`}
+              detailedInfo={`${project?.membershipExpirationTimeLeft} left`}
               label="Membership expiration"
               className="flex items-center gap-2 font-bold italic"
             >
-              05/10
+              {project?.membershipExpirationDate}
             </DetailedInfoLabel>
           </ProjectCard>
         ))}

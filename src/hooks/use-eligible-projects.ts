@@ -15,7 +15,7 @@ export const useEligibleProjects = () => {
     },
   });
 
-  const projectsWithRefs =
+  const projectsWithData =
     result.data?.getSchema?.attestations.map((project) => {
       const projectData = JSON.parse(project.decodedDataJson) as {
         value: { name: string; value: string };
@@ -23,15 +23,15 @@ export const useEligibleProjects = () => {
 
       return {
         ...project,
-        // TODO: check with obUSD team if id is the original uid from schema 638
-        // or the ProjectRefUID
         refUid: projectData.find((data) => data.value.name === "ProjectRefUID")
           ?.value.value as string,
+        season: projectData.find((data) => data.value.name === "Season")?.value
+          .value as string,
       };
     }) ?? [];
 
   return {
-    projects: projectsWithRefs,
+    projects: projectsWithData,
     isLoading: result.fetching,
     error: result.error,
   };

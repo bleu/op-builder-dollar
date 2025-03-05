@@ -1,3 +1,5 @@
+"use client";
+
 import { CohortSelectionTabs } from "@/components/cohort-page-components/cohort-selection-tabs";
 import { TopSection } from "@/components/cohort-page-components/top-section";
 

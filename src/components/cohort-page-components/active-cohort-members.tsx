@@ -49,14 +49,16 @@ export const ActiveCohortMembers = () => {
             </Card>
             <Card className="rounded-[15px] flex flex-col justify-center gap-2 px-6 py-3 col-span-4">
               <span className="text-sub-text">Member since</span>
-              <span className="font-bold italic">20/11/2024</span>
+              <span className="font-bold italic">
+                {project?.membershipStartDate}
+              </span>
             </Card>
             <div className="col-span-4 flex flex-col justify-center items-end">
               <DetailedInfoLabel
-                detailedInfo="5 months left"
+                detailedInfo={`${project?.membershipExpirationTimeLeft} left`}
                 label="Membership expiration"
               >
-                05/25
+                {project?.membershipExpirationDate}
               </DetailedInfoLabel>
             </div>
           </ProjectCard>
