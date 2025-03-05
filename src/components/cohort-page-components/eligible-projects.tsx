@@ -157,7 +157,7 @@ const EndorseButton = ({
         )}
         disabled
       >
-        <CheckCircle className="text-success" weight="bold" size={24} />
+        <CheckCircle className="text-success min-h-6 min-w-6" weight="bold" />
         ENDORSED
       </Button>
     );
@@ -196,7 +196,8 @@ const EndorseButton = ({
                 disabled={!isCitizen}
                 onClick={handleStartEndorse}
               >
-                <ThumbsUp weight="bold" size={24} /> ENDORSE PROJECT
+                <ThumbsUp weight="bold" className="min-h-6 min-w-6" /> ENDORSE
+                PROJECT
               </Button>
             </div>
           </TooltipTrigger>
