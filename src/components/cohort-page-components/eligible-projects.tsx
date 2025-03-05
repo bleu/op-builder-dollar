@@ -55,6 +55,25 @@ export const EligibleProjects = () => {
   );
 };
 
+function MissingEndorsementItems({ n }: { n: number }) {
+  const keys = [];
+
+  for (let i = 0; i < n - 1; i++) {
+    keys.push(`missingEndorsementItem${i + 1}`);
+  }
+
+  return (
+    <>
+      {keys.map((key) => (
+        <li key={key} className="italic text-sub-text">
+          -
+        </li>
+      ))}
+      <li className="italic text-sub-text">{n} more endorsement missing</li>
+    </>
+  );
+}
+
 const EndorsementSection = ({
   endorsers,
   projectUid,
@@ -80,9 +99,7 @@ const EndorsementSection = ({
             </li>
           ))}
           {endorsers && endorsers.length < 3 && (
-            <li className="italic text-sub-text">
-              {3 - endorsers.length} more endorsement missing
-            </li>
+            <MissingEndorsementItems n={3 - endorsers.length} />
           )}
         </ul>
       </div>
