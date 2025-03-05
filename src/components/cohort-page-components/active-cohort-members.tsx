@@ -41,7 +41,10 @@ export const ActiveCohortMembers = () => {
               <div className="flex gap-1 flex-wrap">
                 {project.endorsers?.map((endorser, index, array) => (
                   <div className="font-bold italic" key={endorser.address}>
-                    <AccountName address={endorser.address} />
+                    <AccountName
+                      address={endorser.address}
+                      ensName={endorser?.ensName}
+                    />
                     {index !== array.length - 1 && ", "}
                   </div>
                 ))}

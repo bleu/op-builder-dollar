@@ -1,5 +1,10 @@
 import type { Address } from "viem";
 
+export type EndorserType = {
+  address: Address;
+  ensName: string | undefined | null;
+};
+
 export interface EligibleProject {
   id: string;
   refUid: string;
@@ -7,7 +12,7 @@ export interface EligibleProject {
   description: string;
   projectLinks: ProjectLink[];
   socialLinks: { website: string[] };
-  endorsers: { address: Address }[];
+  endorsers: EndorserType[];
   isCohortMember: boolean;
 }
 
