@@ -1,3 +1,4 @@
+import { addCommasToInt } from "@/lib/utils";
 import { formatUnits } from "viem";
 
 export function formatTokenBalance(amount: bigint, decimals: number): string {
@@ -7,6 +8,7 @@ export function formatTokenBalance(amount: bigint, decimals: number): string {
   let formattedBalance: string;
   formattedBalance = formatUnits(amount, decimals);
   formattedBalance = Number(formattedBalance).toFixed(2);
+  formattedBalance = `${addCommasToInt(formattedBalance.slice(0, -3))}.${formattedBalance.slice(-2)}`;
   return formattedBalance;
 }
 
