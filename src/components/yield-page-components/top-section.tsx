@@ -91,11 +91,11 @@ export const TopSection = () => {
 export const FormattedYield = ({ yieldString }: { yieldString: string }) => {
   if (yieldString) if (yieldString.includes("<")) return yieldString;
 
-  const [whole, decimal] = Number(yieldString).toFixed(2).split(".");
+  const [whole, decimal] = Number(yieldString).toFixed(4).split(".");
   const wholeWithCommas = addCommasToInt(whole);
   return (
     <>
-      ~{wholeWithCommas}.<span className="font-normal">{decimal}</span>
+      {wholeWithCommas}.<span className="font-normal">{decimal}</span>
     </>
   );
 };

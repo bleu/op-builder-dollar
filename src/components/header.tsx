@@ -48,7 +48,7 @@ const Header = () => {
     name: ensName ? ensName : undefined,
     chainId: 1,
   });
-  const { apy } = useApy();
+  const { apy } = useApy() ?? {};
   const { obusdFormattedBalance } = useReadObusd();
   const userYearlyYield =
     apy !== undefined && obusdFormattedBalance

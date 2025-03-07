@@ -126,6 +126,7 @@ export function useReadObusd() {
     usdcFormattedBalance,
     obusdBalance,
     obusdFormattedBalance,
+    obusdTotalSupply,
     obusdTotalSupplyFormatted,
     obusdDecimals,
     usdcDecimals,

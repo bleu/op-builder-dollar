@@ -10,7 +10,7 @@ import ObUsd from "../ui/obusd";
 export default function OurImpactSection() {
   const { theme } = useThemeStore();
   const { data } = useDuneStats();
-  const { apy } = useApy();
+  const { apy } = useApy() ?? {};
   const { obusdTotalSupplyFormatted } = useReadObusd();
 
   const {

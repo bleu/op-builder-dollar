@@ -6,9 +6,9 @@ import { formatUnits } from "viem";
 import { useAccount, usePublicClient } from "wagmi";
 import { optimism } from "wagmi/chains";
 
-const RAY = BigInt(10) ** BigInt(27);
+export const RAY = BigInt(10) ** BigInt(27);
 const HALF_RAY = RAY / BigInt(2);
-const SECONDS_PER_YEAR = BigInt("31536000");
+export const SECONDS_PER_YEAR = BigInt("31536000");
 
 export function rayMul(a: bigint, b: bigint): bigint {
   return (a * b + HALF_RAY) / RAY;
@@ -60,9 +60,9 @@ export function useApy() {
 
       const apy = formatUnits(BigInt(100) * supplyApyRay, 27);
 
-      return Number(apy).toFixed(2);
+      return { apy: Number(apy).toFixed(2), liquidityRateRay };
     },
   });
 
-  return { apy: query.data };
+  return query.data;
 }
