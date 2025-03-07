@@ -4,7 +4,8 @@ import { BUILDERS_MANAGER_ADDRESS } from "@/utils/constants";
 import { formatDate, formatTimeLeft } from "@/utils/formatting";
 import { useQuery } from "@tanstack/react-query";
 import type { Address } from "viem";
-import { usePublicClient } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
+import { optimism } from "wagmi/chains";
 
 const AVG_BLOCK_TIME = 2; // Optimism avg block time
 const SECONDS_IN_30_DAYS = 60 * 60 * 24 * 30;
@@ -20,7 +21,8 @@ function getBlockTimestamp(currentBlock: bigint, block: bigint): number {
 }
 
 export function useReadNewCohortProjects() {
-  const publicClient = usePublicClient();
+  const { chainId } = useAccount();
+  const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
 
   const query = useQuery({
     queryKey: ["usdcTransferCountLastMonth"],

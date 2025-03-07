@@ -5,13 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import type { Address } from "viem";
 import { useAccount, usePublicClient } from "wagmi";
+import { optimism } from "wagmi/chains";
 import { useMultiReadEns } from "./use-multi-read-ens";
 
 export function useEndorsements(
   ids: `0x${string}`[],
 ): Map<string, EndorserType[]> {
-  const { address } = useAccount();
-  const publicClient = usePublicClient();
+  const { address, chainId } = useAccount();
+  const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
 
   const { data: endorsementsResult } = useQuery({
     queryKey: ["endorsements"],

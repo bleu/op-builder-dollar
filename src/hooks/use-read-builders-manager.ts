@@ -2,15 +2,15 @@ import { buildersManagerAbi } from "@/lib/abis/builders-manager-abi";
 import { BUILDERS_MANAGER_ADDRESS } from "@/utils/constants";
 import { useQuery } from "@tanstack/react-query";
 import { useAccount, usePublicClient } from "wagmi";
+import { optimism } from "wagmi/chains";
 
 export function useReadBuildersManager() {
-  const { address } = useAccount();
-  const publicClient = usePublicClient();
+  const { chainId } = useAccount();
+  const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
 
   return useQuery({
     queryKey: ["buildersManager"],
     queryFn: async () => {
-      if (!address) throw new Error("missing address");
       if (!publicClient) throw new Error("missing publicClient");
 
       const buildersManagerCommon = {

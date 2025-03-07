@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import type { Address } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { optimism } from "wagmi/chains";
 
 export interface BaseTx {
   to: Address;
@@ -25,9 +26,9 @@ export function useExecuteTransaction({
   const [loadingMessage, setLoadingMessage] = useState<string>(
     "Executing transaction...",
   );
-  const { address: signer } = useAccount();
+  const { address: signer, chainId } = useAccount();
   const { data: walletClient } = useWalletClient();
-  const publicClient = usePublicClient();
+  const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
 
   const mutation = useMutation({
     mutationFn: async () => {

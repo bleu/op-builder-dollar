@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { type Address, encodeFunctionData } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { optimism } from "wagmi/chains";
 import { useCitizen } from "./use-citizen";
 import { useExecuteTransaction } from "./use-execute-transaction";
 
@@ -12,9 +13,9 @@ export function useEndorse({
 }: {
   projectUid: `0x${string}`;
 }) {
-  const { address: signer } = useAccount();
+  const { address: signer, chainId } = useAccount();
   const { data: walletClient } = useWalletClient();
-  const publicClient = usePublicClient();
+  const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
   const queryClient = useQueryClient();
 
   const { isCitizen, citizenAttestationUid } = useCitizen();

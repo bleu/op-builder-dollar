@@ -3,7 +3,8 @@ import { aavePoolAbi } from "@/lib/abis/aave-pool-abi";
 import { POOL_ADDRESS, USDC_ADDRESS } from "@/utils/constants";
 import { useQuery } from "@tanstack/react-query";
 import { formatUnits } from "viem";
-import { usePublicClient } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
+import { optimism } from "wagmi/chains";
 
 const RAY = BigInt(10) ** BigInt(27);
 const HALF_RAY = RAY / BigInt(2);
@@ -36,7 +37,8 @@ function rayPow(a: bigint, p: bigint) {
 }
 
 export function useApy() {
-  const publicClient = usePublicClient();
+  const { chainId } = useAccount();
+  const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
 
   const query = useQuery({
     queryKey: ["poolApy"],

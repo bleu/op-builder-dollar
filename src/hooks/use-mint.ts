@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { type Address, encodeFunctionData, erc20Abi } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { optimism } from "wagmi/chains";
 import { type BaseTx, useExecuteTransaction } from "./use-execute-transaction";
 
 export function useMint({
@@ -11,9 +12,9 @@ export function useMint({
 }: {
   amount: bigint | undefined;
 }) {
-  const { address: signer } = useAccount();
+  const { address: signer, chainId } = useAccount();
   const { data: walletClient } = useWalletClient();
-  const publicClient = usePublicClient();
+  const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
   const queryClient = useQueryClient();
 
   const buildTxFn = useCallback(async () => {
