@@ -1,5 +1,6 @@
 import textureRed from "@/../public/images/texture-red.png";
 import MintBurn from "@/components/mint-burn";
+import { useDuneStats } from "@/hooks/use-dune-stats";
 import { useReadObusd } from "@/hooks/use-read-obusd";
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
@@ -7,6 +8,8 @@ import ObUsd from "../ui/obusd";
 
 export default function MintSection() {
   const { obusdTotalSupplyFormatted } = useReadObusd();
+  const { data } = useDuneStats();
+  const { totalTeamsFunded } = data ?? {};
   const { theme } = useThemeStore();
 
   const lightBorderClass = cn({
@@ -51,7 +54,7 @@ export default function MintSection() {
           <span className="font-normal text-sub-text whitespace-nowrap">
             Total superchain builders funded
           </span>
-          <span className="text-2xl font-bold">100</span>
+          <span className="text-2xl font-bold">{totalTeamsFunded}</span>
         </div>
       </div>
       <div className="h-4 md:h-[58px]" />
