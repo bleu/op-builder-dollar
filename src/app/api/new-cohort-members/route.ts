@@ -4,7 +4,7 @@ import { DuneClient } from "@duneanalytics/client-sdk";
 
 export const GET = async () => {
   try {
-    const queryId = process.env.STATS_QUERY_ID;
+    const queryId = process.env.NEW_MEMBERS_QUERY_ID;
     if (!queryId)
       return NextResponse.json(
         {
@@ -28,7 +28,7 @@ export const GET = async () => {
         { status: 500 },
       );
 
-    return NextResponse.json(queryResult.result.rows[0]);
+    return NextResponse.json(queryResult.result.rows);
   } catch (e) {
     return NextResponse.json({ error: e }, { status: 500 });
   }
