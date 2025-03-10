@@ -27,11 +27,11 @@ const config = createConfig(
     walletConnectProjectId,
 
     // Required App Info
-    appName: "Next Bleu Starter",
+    appName: "Optimism Builders Dollar",
     // Optional App Info
-    appDescription: "Template for web3 next projects",
-    appUrl: "http://localhost:3000",
-    appIcon: "https://cdn-icons-png.flaticon.com/128/4064/4064205.png",
+    appDescription: "Optimism Builders Dollar",
+    appUrl: "https://op-builder-dollar.vercel.app",
+    appIcon: "",
   }),
 );
 
