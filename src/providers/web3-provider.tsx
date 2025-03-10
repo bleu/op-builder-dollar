@@ -15,12 +15,7 @@ const config = createConfig(
     chains: [optimism, mainnet, sepolia],
     transports: {
       [mainnet.id]: http(),
-      [optimism.id]: process.env.NEXT_PUBLIC_OPTIMISM_RPC_URL
-        ? http(process.env.NEXT_PUBLIC_OPTIMISM_RPC_URL)
-        : http("https://mainnet.optimism.io"),
-      [sepolia.id]: process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL
-        ? http(process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL)
-        : http("https://sepolia.gateway.tenderly.co"),
+      [optimism.id]: http("https://mainnet.optimism.io"),
     },
 
     // Required API Keys
