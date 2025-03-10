@@ -90,6 +90,7 @@ export const TopSection = () => {
 
 export const FormattedYield = ({ yieldString }: { yieldString: string }) => {
   if (yieldString) if (yieldString.includes("<")) return yieldString;
+  if (yieldString) if (yieldString.includes(",")) return yieldString;
 
   const [whole, decimal] = Number(yieldString).toFixed(4).split(".");
   const wholeWithCommas = addCommasToInt(whole);
