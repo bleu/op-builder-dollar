@@ -5,27 +5,19 @@ import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import type { ReactNode } from "react";
 import { Client, Provider, cacheExchange, fetchExchange } from "urql";
 import { http, WagmiProvider, createConfig } from "wagmi";
-import {
-  arbitrum,
-  base,
-  mainnet,
-  optimism,
-  polygon,
-  sepolia,
-} from "wagmi/chains";
+import { mainnet, optimism, sepolia } from "wagmi/chains";
 
 const walletConnectProjectId = "";
 
 const config = createConfig(
   getDefaultConfig({
     // Your dApps chains
-    chains: [mainnet, optimism, arbitrum, base, polygon, sepolia],
+    chains: [optimism, mainnet, sepolia],
     transports: {
-      [mainnet.id]: http(process.env.NEXT_PUBLIC_MAINNET_RPC_URL ?? ""),
-      [optimism.id]: http(process.env.NEXT_PUBLIC_OPTIMISM_RPC_URL ?? ""),
-      [arbitrum.id]: http(process.env.NEXT_PUBLIC_ARBITRUM_RPC_URL ?? ""),
-      [base.id]: http(process.env.NEXT_PUBLIC_BASE_RPC_URL ?? ""),
-      [polygon.id]: http(process.env.NEXT_PUBLIC_POLYGON_RPC_URL ?? ""),
+      [mainnet.id]: http(),
+      [optimism.id]: process.env.NEXT_PUBLIC_OPTIMISM_RPC_URL
+        ? http(process.env.NEXT_PUBLIC_OPTIMISM_RPC_URL)
+        : http("https://mainnet.optimism.io"),
       [sepolia.id]: process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL
         ? http(process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL)
         : http("https://sepolia.gateway.tenderly.co"),
