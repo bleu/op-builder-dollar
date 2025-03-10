@@ -73,7 +73,10 @@ export const TopSection = () => {
       <div className="col-span-4 md:col-span-8 flex flex-col gap-4">
         {daysToNextDistribution !== undefined ? (
           <span className="text-xl text-sub-text font-semibold">
-            Distributing in {daysToNextDistribution} days
+            Distributing{" "}
+            {daysToNextDistribution === 0
+              ? "in less than 1 day"
+              : `in ${daysToNextDistribution} days`}
           </span>
         ) : (
           <div className="h-7 w-60 bg-card-border rounded-lg animate-pulse" />
