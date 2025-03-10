@@ -20,6 +20,7 @@ export function useYieldStats() {
             Number(settings.currentSeasonExpiry),
             Number(settings.seasonDuration),
             Number(settings.cycleLength),
+            Number(settings.lastClaimedTimestamp),
           )
         : {
             round: undefined,

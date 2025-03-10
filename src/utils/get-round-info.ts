@@ -15,6 +15,7 @@ export function getRoundInfo(
   seasonExpiry: number,
   seasonDuration: number,
   cycleLength: number,
+  lastClaimedTimestamp: number,
 ): {
   round: number;
   timeToNextDistribution: number | undefined;
@@ -38,8 +39,8 @@ export function getRoundInfo(
     };
 
   const round = Math.floor((now - seasonStart) / cycleLength) + 1;
-  const timeToNextRound = seasonStart + round * cycleLength;
-  const timeToNextDistribution = timeToNextRound - now;
+  const nextRoundTime = lastClaimedTimestamp + cycleLength - now;
+  const timeToNextDistribution = nextRoundTime > 0 ? nextRoundTime : 0;
   const pctgToNextDistribution =
     100 - (100 * timeToNextDistribution) / cycleLength;
 
