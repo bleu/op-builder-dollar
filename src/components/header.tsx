@@ -4,6 +4,7 @@ import { useApy } from "@/hooks/use-apy";
 import { useReadObusd } from "@/hooks/use-read-obusd";
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
+import { formatTokenBalance } from "@/utils/formatting";
 import { useModal } from "connectkit";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,7 +18,6 @@ import {
   UsersThree,
 } from "phosphor-react";
 import { useEffect, useState } from "react";
-import { formatEther } from "viem";
 import { useAccount, useBalance, useEnsAvatar, useEnsName } from "wagmi";
 import {
   ConnectWalletButton,
@@ -142,9 +142,7 @@ const Header = () => {
                 avatar={avatar ?? undefined}
                 balance={
                   balance?.value !== undefined
-                    ? balance.value.toString() === "0"
-                      ? "0.0"
-                      : Number(formatEther(balance.value)).toFixed(4)
+                    ? formatTokenBalance(balance.value, 18, 4)
                     : ""
                 }
                 userYearlyYield={userYearlyYield}
