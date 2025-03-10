@@ -34,6 +34,7 @@ const themeButtonStyle =
 const isWindow = typeof window !== "undefined";
 
 const isMobile = isWindow ? window.innerWidth <= 1200 : undefined;
+const isNotLargeWindow = isWindow ? window.innerWidth <= 1500 : undefined;
 
 const Header = () => {
   const { setTheme, theme } = useThemeStore();
@@ -217,10 +218,10 @@ const Header = () => {
             Mint
           </NavLink>
           <NavLink href="/yield" icon={ShareNetwork} iconClassName="rotate-90">
-            Yield {!isMobile && "distribution"}
+            Yield {!isNotLargeWindow && "distribution"}
           </NavLink>
           <NavLink href="/cohort-selection" icon={UsersThree}>
-            Cohort {!isMobile && "selection"}
+            Cohort {!isNotLargeWindow && "selection"}
           </NavLink>
           <NavLink href="" icon={Gift} disabled={true}>
             Rewards
