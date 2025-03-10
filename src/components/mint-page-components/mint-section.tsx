@@ -20,7 +20,10 @@ export default function MintSection() {
     <div
       id="mint-section"
       className="flex flex-col w-full justify-center items-center bg-cover pt-20 md:pt-32 px-4 md:px-0 rounded-b-[30px] md:rounded-b-[60px] border-b-[1px] border-card-border"
-      style={{ backgroundImage: `url(${textureRed.src})` }}
+      style={{
+        backgroundImage: `url(${textureRed.src})`,
+        backgroundPosition: "center",
+      }}
     >
       <h1 className="text-center italic font-bold text-xl md:text-2xl mt-4 px-4">
         OPTIMISTIC BUILDER DOLLAR
