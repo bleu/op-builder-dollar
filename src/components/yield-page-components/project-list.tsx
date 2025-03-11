@@ -1,7 +1,6 @@
 "use client";
 
 import { useProjects } from "@/hooks/use-projects";
-import { useReadObusd } from "@/hooks/use-read-obusd";
 import type { CohortProject } from "@/lib/types";
 import { DetailedInfoLabel } from "../detailed-info-label";
 import { ProjectCard } from "../project-card";
@@ -14,14 +13,9 @@ export const ProjectList = () => {
     (project) => project.isCohortMember,
   ) as CohortProject[];
 
-  const { obusdYieldFormatted } = useReadObusd();
-
-  const totalYield = obusdYieldFormatted
-    ? Number(obusdYieldFormatted.replace("<", ""))
-    : undefined;
-  const getPercentageOfTotalYield = (shareOfYield: number) => {
-    return totalYield
-      ? ((shareOfYield / totalYield) * 100).toFixed(1)
+  const getPercentageOfTotalYield = () => {
+    return cohortProjects?.length
+      ? ((1 / cohortProjects.length) * 100).toFixed(1)
       : undefined;
   };
 
@@ -43,7 +37,7 @@ export const ProjectList = () => {
             <DetailedInfoLabel
               detailedInfo={
                 project.shareOfYield
-                  ? `${getPercentageOfTotalYield(project.shareOfYield)}% of total`
+                  ? `${getPercentageOfTotalYield()}% of total`
                   : ""
               }
               label="Share of monthly yield"

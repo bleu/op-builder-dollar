@@ -33,6 +33,7 @@ export function useProjectCohortData(
             formatTokenBalance(
               obusdYield / BigInt(cohortSize),
               obusdDecimals,
+              4,
             ).replace("<", ""),
           )
         : 0.0

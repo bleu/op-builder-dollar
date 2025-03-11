@@ -118,7 +118,7 @@ export function useReadObusd() {
       : "";
   const obusdYieldFormatted =
     obusdYield !== undefined && obusdDecimals !== undefined
-      ? formatTokenBalance(obusdYield, obusdDecimals)
+      ? formatTokenBalance(obusdYield, obusdDecimals, 4)
       : "";
 
   return {
