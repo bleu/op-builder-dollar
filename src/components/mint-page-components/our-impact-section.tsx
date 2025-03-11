@@ -1,4 +1,7 @@
 import texture from "@/../public/images/texture.png";
+import { useApy } from "@/hooks/use-apy";
+import { useDuneStats } from "@/hooks/use-dune-stats";
+import { useReadObusd } from "@/hooks/use-read-obusd";
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
 import type { ReactNode } from "react";
@@ -6,6 +9,16 @@ import ObUsd from "../ui/obusd";
 
 export default function OurImpactSection() {
   const { theme } = useThemeStore();
+  const { data } = useDuneStats();
+  const { apy } = useApy() ?? {};
+  const { obusdTotalSupplyFormatted } = useReadObusd();
+
+  const {
+    totalYieldGeneratedOvertime,
+    totalObusdTransactions,
+    totalTeamsFunded,
+    totalUsers,
+  } = data ?? {};
 
   const lightBorderClass = cn({
     "border-[1px] border-card-border": theme === "light",
@@ -25,7 +38,7 @@ export default function OurImpactSection() {
             title="Total yield generated overtime"
             content={
               <span className="text-3xl md:text-4xl text-success font-bold italic">
-                $40,678.56
+                ${totalYieldGeneratedOvertime}
               </span>
             }
             className="bg-card-bg"
@@ -33,7 +46,9 @@ export default function OurImpactSection() {
           <ImpactCard
             title="Total teams funded"
             content={
-              <span className="text-3xl md:text-4xl font-bold italic">300</span>
+              <span className="text-3xl md:text-4xl font-bold italic">
+                {totalTeamsFunded}
+              </span>
             }
             className={lightBorderClass}
           />
@@ -43,7 +58,7 @@ export default function OurImpactSection() {
             title="Current APY"
             content={
               <span className="text-3xl md:text-4xl font-bold italic">
-                4.5%
+                {apy}%
               </span>
             }
             className={lightBorderClass}
@@ -54,7 +69,7 @@ export default function OurImpactSection() {
               <div className="flex gap-2">
                 <ObUsd size={32} />
                 <span className="text-3xl md:text-4xl font-bold italic">
-                  2,000,010.87
+                  {obusdTotalSupplyFormatted}
                 </span>
               </div>
             }
@@ -66,7 +81,7 @@ export default function OurImpactSection() {
             title="Total users"
             content={
               <span className="text-3xl md:text-4xl font-bold italic">
-                2,000
+                {totalUsers}
               </span>
             }
             className={lightBorderClass}
@@ -75,7 +90,7 @@ export default function OurImpactSection() {
             title="Total obUSD transactions"
             content={
               <span className="text-3xl md:text-4xl font-bold italic">
-                20,000,010
+                {totalObusdTransactions}
               </span>
             }
             className={lightBorderClass}

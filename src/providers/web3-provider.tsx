@@ -5,41 +5,28 @@ import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import type { ReactNode } from "react";
 import { Client, Provider, cacheExchange, fetchExchange } from "urql";
 import { http, WagmiProvider, createConfig } from "wagmi";
-import {
-  arbitrum,
-  base,
-  mainnet,
-  optimism,
-  polygon,
-  sepolia,
-} from "wagmi/chains";
+import { mainnet, optimism, sepolia } from "wagmi/chains";
 
 const walletConnectProjectId = "";
 
 const config = createConfig(
   getDefaultConfig({
     // Your dApps chains
-    chains: [mainnet, optimism, arbitrum, base, polygon, sepolia],
+    chains: [optimism, mainnet, sepolia],
     transports: {
-      [mainnet.id]: http(process.env.NEXT_PUBLIC_MAINNET_RPC_URL ?? ""),
-      [optimism.id]: http(process.env.NEXT_PUBLIC_OPTIMISM_RPC_URL ?? ""),
-      [arbitrum.id]: http(process.env.NEXT_PUBLIC_ARBITRUM_RPC_URL ?? ""),
-      [base.id]: http(process.env.NEXT_PUBLIC_BASE_RPC_URL ?? ""),
-      [polygon.id]: http(process.env.NEXT_PUBLIC_POLYGON_RPC_URL ?? ""),
-      [sepolia.id]: process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL
-        ? http(process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL)
-        : http("https://sepolia.gateway.tenderly.co"),
+      [mainnet.id]: http(),
+      [optimism.id]: http("https://mainnet.optimism.io"),
     },
 
     // Required API Keys
     walletConnectProjectId,
 
     // Required App Info
-    appName: "Next Bleu Starter",
+    appName: "Optimism Builders Dollar",
     // Optional App Info
-    appDescription: "Template for web3 next projects",
-    appUrl: "http://localhost:3000",
-    appIcon: "https://cdn-icons-png.flaticon.com/128/4064/4064205.png",
+    appDescription: "Optimism Builders Dollar",
+    appUrl: "https://op-builder-dollar.vercel.app",
+    appIcon: "",
   }),
 );
 

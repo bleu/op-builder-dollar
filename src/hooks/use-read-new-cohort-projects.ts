@@ -1,47 +1,46 @@
 "use client";
-import { buildersManagerAbi } from "@/lib/abis/builders-manager-abi";
-import { BUILDERS_MANAGER_ADDRESS } from "@/utils/constants";
 import { formatDate, formatTimeLeft } from "@/utils/formatting";
 import { useQuery } from "@tanstack/react-query";
-import type { Address } from "viem";
-import { usePublicClient } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
+import { optimism } from "wagmi/chains";
 
-const AVG_BLOCK_TIME = 2; // Optimism avg block time
 const SECONDS_IN_30_DAYS = 60 * 60 * 24 * 30;
 const SECONDS_IN_10_MONTHS = 60 * 60 * 24 * 30 * 10;
-const BLOCKS_IN_11_MONTHS =
-  (SECONDS_IN_10_MONTHS + SECONDS_IN_30_DAYS) / AVG_BLOCK_TIME;
 
-function getBlockTimestamp(currentBlock: bigint, block: bigint): number {
-  const now = Math.floor(Date.now() / 1000);
-  const blockDelta = currentBlock - block;
-  const secondsDelta = Number(blockDelta) * AVG_BLOCK_TIME;
-  return now - secondsDelta;
-}
+type RawNewMembers = {
+  block_time: string;
+  topic1: string;
+}[];
 
 export function useReadNewCohortProjects() {
-  const publicClient = usePublicClient();
+  const { chainId } = useAccount();
+  const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
+
+  const { data: newMembers } = useQuery({
+    queryKey: ["newMembersDuneQuery"],
+    queryFn: async () => {
+      const stats = (await (
+        await fetch("/api/new-cohort-members")
+      ).json()) as RawNewMembers;
+
+      const statsProcessed = stats.map((row) => ({
+        timestamp: Math.floor(new Date(row.block_time).getTime() / 1000),
+        recipient: `0x${row.topic1.slice(-40)}`,
+      }));
+
+      return statsProcessed;
+    },
+  });
 
   const query = useQuery({
-    queryKey: ["usdcTransferCountLastMonth"],
+    queryKey: ["newMembers"],
+    enabled: Boolean(newMembers),
     queryFn: async () => {
       if (!publicClient) throw new Error("Missing public client");
+      if (!newMembers) throw new Error("Missing new members");
 
-      const toBlock = await publicClient.getBlockNumber();
-      const fromBlock = toBlock - BigInt(BLOCKS_IN_11_MONTHS);
-
-      const rawEvents = await publicClient.getLogs({
-        address: BUILDERS_MANAGER_ADDRESS,
-        event: buildersManagerAbi.find(
-          (item) =>
-            item.type === "event" && item.name === "ProjectReachedMinVouches",
-        ),
-        fromBlock,
-        toBlock,
-      });
-
-      const events = rawEvents.map((event) => {
-        const eventTime = getBlockTimestamp(toBlock, event.blockNumber);
+      const events = newMembers.map((row) => {
+        const eventTime = row.timestamp;
         const startDate = new Date(eventTime * 1000);
         const expirationDate = new Date(
           (eventTime + SECONDS_IN_10_MONTHS) * 1000,
@@ -55,7 +54,7 @@ export function useReadNewCohortProjects() {
             SECONDS_IN_10_MONTHS + SECONDS_IN_30_DAYS;
 
         return {
-          recipient: `0x${event.topics[1]?.slice(-40)}` as Address,
+          recipient: row.recipient,
           membershipStartDate: formatDate(startDate),
           membershipExpirationDate: formatDate(expirationDate),
           membershipExpirationTimeLeft: formatTimeLeft(expirationDate),

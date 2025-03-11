@@ -2,8 +2,9 @@ import { obusdAbi } from "@/lib/abis/obusd-abi";
 import { OBUSD_ADDRESS, USDC_ADDRESS } from "@/utils/constants";
 import { formatTokenBalance } from "@/utils/formatting";
 import { useQuery } from "@tanstack/react-query";
-import { erc20Abi } from "viem";
+import { erc20Abi, zeroAddress } from "viem";
 import { useAccount, usePublicClient } from "wagmi";
+import { optimism } from "wagmi/chains";
 
 interface RawBalances {
   usdcBalance: bigint;
@@ -15,13 +16,14 @@ interface RawBalances {
 }
 
 export function useReadObusd() {
-  const { address } = useAccount();
-  const publicClient = usePublicClient();
+  const { address: signer, chainId } = useAccount();
+  const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
+
+  const address = signer ?? zeroAddress;
 
   const query = useQuery<RawBalances>({
     queryKey: ["userBalances", address],
     queryFn: async () => {
-      if (!address) throw new Error("missing address");
       if (!publicClient) throw new Error("missing publicClient");
 
       const result = await publicClient.multicall({
@@ -124,6 +126,7 @@ export function useReadObusd() {
     usdcFormattedBalance,
     obusdBalance,
     obusdFormattedBalance,
+    obusdTotalSupply,
     obusdTotalSupplyFormatted,
     obusdDecimals,
     usdcDecimals,
