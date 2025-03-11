@@ -3,7 +3,10 @@ import { cn } from "@/lib/utils";
 const LoadingDots = ({ className }: { className?: string }) => {
   return (
     <div
-      className={cn("flex items-center justify-center space-x-1", className)}
+      className={cn(
+        "flex items-center justify-center space-x-1 w-fit",
+        className,
+      )}
     >
       <span className="animate-bounce" style={{ animationDelay: "0ms" }}>
         .

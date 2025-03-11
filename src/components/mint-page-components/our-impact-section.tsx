@@ -5,6 +5,7 @@ import { useReadObusd } from "@/hooks/use-read-obusd";
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
 import type { ReactNode } from "react";
+import LoadingDots from "../ui/loading-dots";
 import ObUsd from "../ui/obusd";
 
 export default function OurImpactSection() {
@@ -38,7 +39,11 @@ export default function OurImpactSection() {
             title="Total yield generated overtime"
             content={
               <span className="text-3xl md:text-4xl text-success font-bold italic">
-                ${totalYieldGeneratedOvertime}
+                {totalYieldGeneratedOvertime ? (
+                  `$${totalYieldGeneratedOvertime}`
+                ) : (
+                  <LoadingDots />
+                )}
               </span>
             }
             className="bg-card-bg"
@@ -47,7 +52,7 @@ export default function OurImpactSection() {
             title="Total teams funded"
             content={
               <span className="text-3xl md:text-4xl font-bold italic">
-                {totalTeamsFunded}
+                {totalTeamsFunded ?? <LoadingDots />}
               </span>
             }
             className={lightBorderClass}
@@ -58,7 +63,7 @@ export default function OurImpactSection() {
             title="Current APY"
             content={
               <span className="text-3xl md:text-4xl font-bold italic">
-                {apy}%
+                {apy ? `${apy}%` : <LoadingDots />}
               </span>
             }
             className={lightBorderClass}
@@ -69,7 +74,7 @@ export default function OurImpactSection() {
               <div className="flex gap-2">
                 <ObUsd size={32} />
                 <span className="text-3xl md:text-4xl font-bold italic">
-                  {obusdTotalSupplyFormatted}
+                  {obusdTotalSupplyFormatted ?? <LoadingDots />}
                 </span>
               </div>
             }
@@ -81,7 +86,7 @@ export default function OurImpactSection() {
             title="Total users"
             content={
               <span className="text-3xl md:text-4xl font-bold italic">
-                {totalUsers}
+                {totalUsers ?? <LoadingDots />}
               </span>
             }
             className={lightBorderClass}
@@ -90,7 +95,7 @@ export default function OurImpactSection() {
             title="Total obUSD transactions"
             content={
               <span className="text-3xl md:text-4xl font-bold italic">
-                {totalObusdTransactions}
+                {totalObusdTransactions ?? <LoadingDots />}
               </span>
             }
             className={lightBorderClass}

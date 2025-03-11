@@ -4,6 +4,7 @@ import { useDuneStats } from "@/hooks/use-dune-stats";
 import { useReadObusd } from "@/hooks/use-read-obusd";
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
+import LoadingDots from "../ui/loading-dots";
 import ObUsd from "../ui/obusd";
 
 export default function MintSection() {
@@ -57,7 +58,9 @@ export default function MintSection() {
           <span className="font-normal text-sub-text whitespace-nowrap">
             Total superchain builders funded
           </span>
-          <span className="text-2xl font-bold">{totalTeamsFunded}</span>
+          <span className="text-2xl font-bold">
+            {totalTeamsFunded ?? <LoadingDots />}
+          </span>
         </div>
       </div>
       <div className="h-4 md:h-[58px]" />
