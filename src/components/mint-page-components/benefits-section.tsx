@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/store/use-theme-store";
+import Link from "next/link";
 import {
   ArrowSquareOut,
   Butterfly,
@@ -112,9 +113,14 @@ export default function BenefitsSection() {
             text="Active cohort projects receive yield for 6 months before being ejected."
           />
         </div>
-        <p className="w-full flex justify-center items-center gap-2 text-primary font-semibold text-lg md:text-xl hover:cursor-pointer hover:text-error">
-          Full documentation <ArrowSquareOut weight="bold" size={24} />
-        </p>
+        <Link
+          href="https://optimistic-usd.gitbook.io/optimistic-usd-docs"
+          target="_blank"
+        >
+          <p className="w-full flex justify-center items-center gap-2 text-primary font-semibold text-lg md:text-xl hover:cursor-pointer hover:text-error">
+            Full documentation <ArrowSquareOut weight="bold" size={24} />
+          </p>
+        </Link>
       </div>
     </>
   );
