@@ -26,7 +26,10 @@ const linkSections = [
         name: "Github",
         href: "https://github.com/BreadchainCoop/builders-dollar",
       },
-      // { name: "Gitbook", href: "https://gitbook.com" }, TODO - add link
+      {
+        name: "Gitbook",
+        href: "https://optimistic-usd.gitbook.io/optimistic-usd-docs",
+      },
     ],
   },
 ];

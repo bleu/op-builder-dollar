@@ -1,9 +1,16 @@
 import type { CohortProject } from "@/lib/types";
-import { formatTokenBalance } from "@/utils/formatting";
+import {
+  formatDate,
+  formatTimeLeft,
+  formatTokenBalance,
+} from "@/utils/formatting";
 import { useMemo } from "react";
 import { useEndorsements } from "./use-endorsements";
 import { useReadBuildersManager } from "./use-read-builders-manager";
-import { useReadNewCohortProjects } from "./use-read-new-cohort-projects";
+import {
+  SECONDS_IN_10_MONTHS,
+  useReadNewCohortProjects,
+} from "./use-read-new-cohort-projects";
 import { useReadObusd } from "./use-read-obusd";
 
 type CohortData = Omit<
@@ -33,6 +40,7 @@ export function useProjectCohortData(
             formatTokenBalance(
               obusdYield / BigInt(cohortSize),
               obusdDecimals,
+              4,
             ).replace("<", ""),
           )
         : 0.0
@@ -69,6 +77,18 @@ export function useProjectCohortData(
               membershipStartDate,
               membershipExpirationDate,
               membershipExpirationTimeLeft,
+            });
+          } else {
+            const eventTime = Date.now() / 1000;
+            const startDate = new Date(eventTime * 1000);
+            const expirationDate = new Date(
+              (eventTime + SECONDS_IN_10_MONTHS) * 1000,
+            );
+            dataMap.set(id, {
+              ...dataMap.get(id),
+              membershipStartDate: formatDate(startDate),
+              membershipExpirationDate: formatDate(expirationDate),
+              membershipExpirationTimeLeft: formatTimeLeft(expirationDate),
             });
           }
         }

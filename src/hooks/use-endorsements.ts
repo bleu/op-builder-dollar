@@ -15,7 +15,7 @@ export function useEndorsements(
   const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
 
   const { data: endorsementsResult } = useQuery({
-    queryKey: ["endorsements"],
+    queryKey: ["endorsements", ids],
     queryFn: async () => {
       if (!address) throw new Error("missing address");
       if (!publicClient) throw new Error("missing publicClient");
