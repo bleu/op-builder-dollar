@@ -5,7 +5,7 @@ import { useAccount, usePublicClient } from "wagmi";
 import { optimism } from "wagmi/chains";
 
 const SECONDS_IN_30_DAYS = 60 * 60 * 24 * 30;
-const SECONDS_IN_10_MONTHS = 60 * 60 * 24 * 30 * 10;
+export const SECONDS_IN_10_MONTHS = 60 * 60 * 24 * 30 * 10;
 
 type RawNewMembers = {
   block_time: string;
