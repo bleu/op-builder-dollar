@@ -1,9 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { ChainIcon } from "@/components/ui/chain-icon";
 import { useApy } from "@/hooks/use-apy";
 import { useReadObusd } from "@/hooks/use-read-obusd";
-import { ChainIcon, ConnectKitButton, useModal } from "connectkit";
+import { ConnectKitButton, useModal } from "connectkit";
 import Image from "next/image";
 import Link from "next/link";
 import {
