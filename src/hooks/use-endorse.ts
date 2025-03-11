@@ -52,6 +52,7 @@ export function useEndorse({
   return useExecuteTransaction({
     buildTxFn,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
       queryClient.invalidateQueries({ queryKey: ["buildersManager"] });
       queryClient.invalidateQueries({ queryKey: ["endorsements"] });
     },
