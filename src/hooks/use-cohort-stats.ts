@@ -13,14 +13,15 @@ export function useCohortStats() {
     currentProjectRecipients && newMembersCount
       ? currentProjectRecipients.length - newMembersCount <= 0
         ? 100
-        : newMembersCount / (currentProjectRecipients.length - newMembersCount)
+        : (100 * newMembersCount) /
+          (currentProjectRecipients.length - newMembersCount)
       : undefined;
 
   const monthlyExitPercentage =
     currentProjectRecipients && monthlyExitCount
       ? currentProjectRecipients.length - monthlyExitCount <= 0
         ? -100
-        : -monthlyExitCount /
+        : (-100 * monthlyExitCount) /
           (currentProjectRecipients.length - monthlyExitCount)
       : undefined;
 
