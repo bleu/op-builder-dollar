@@ -1,4 +1,5 @@
 import type { CohortProject } from "@/lib/types";
+import { COHORT_DURATION } from "@/utils/constants";
 import {
   formatDate,
   formatTimeLeft,
@@ -7,10 +8,7 @@ import {
 import { useMemo } from "react";
 import { useEndorsements } from "./use-endorsements";
 import { useReadBuildersManager } from "./use-read-builders-manager";
-import {
-  SECONDS_IN_10_MONTHS,
-  useReadNewCohortProjects,
-} from "./use-read-new-cohort-projects";
+import { useReadNewCohortProjects } from "./use-read-new-cohort-projects";
 import { useReadObusd } from "./use-read-obusd";
 
 type CohortData = Omit<
@@ -82,7 +80,7 @@ export function useProjectCohortData(
             const eventTime = Date.now() / 1000;
             const startDate = new Date(eventTime * 1000);
             const expirationDate = new Date(
-              (eventTime + SECONDS_IN_10_MONTHS) * 1000,
+              (eventTime + COHORT_DURATION) * 1000,
             );
             dataMap.set(id, {
               ...dataMap.get(id),

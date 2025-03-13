@@ -17,7 +17,6 @@ export function getRoundInfo(
   cycleLength: number,
   lastClaimedTimestamp: number,
 ): {
-  round: number;
   timeToNextDistribution: number | undefined;
   pctgToNextDistribution: number | undefined;
 } {
@@ -26,23 +25,20 @@ export function getRoundInfo(
 
   if (now < seasonStart)
     return {
-      round: 0,
       timeToNextDistribution: seasonStart - now + cycleLength,
       pctgToNextDistribution: 0,
     };
 
   if (now > seasonExpiry)
     return {
-      round: Math.round(seasonDuration / cycleLength),
       timeToNextDistribution: undefined,
       pctgToNextDistribution: undefined,
     };
 
-  const round = Math.floor((now - seasonStart) / cycleLength) + 1;
   const nextRoundTime = lastClaimedTimestamp + cycleLength - now;
   const timeToNextDistribution = nextRoundTime > 0 ? nextRoundTime : 0;
   const pctgToNextDistribution =
     100 - (100 * timeToNextDistribution) / cycleLength;
 
-  return { round, timeToNextDistribution, pctgToNextDistribution };
+  return { timeToNextDistribution, pctgToNextDistribution };
 }

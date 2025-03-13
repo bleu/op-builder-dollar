@@ -11,13 +11,12 @@ import { useMultiReadEns } from "./use-multi-read-ens";
 export function useEndorsements(
   ids: `0x${string}`[],
 ): Map<string, EndorserType[]> {
-  const { address, chainId } = useAccount();
+  const { chainId } = useAccount();
   const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
 
   const { data: endorsementsResult } = useQuery({
     queryKey: ["endorsements", ids],
     queryFn: async () => {
-      if (!address) throw new Error("missing address");
       if (!publicClient) throw new Error("missing publicClient");
 
       const result = (await publicClient.multicall({
