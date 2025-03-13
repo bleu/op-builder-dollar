@@ -10,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
+import { useModal } from "connectkit";
 import { CheckCircle, SmileySad, ThumbsUp } from "phosphor-react";
 import { useState } from "react";
 import { useAccount } from "wagmi";
@@ -142,6 +143,7 @@ const EndorseButton = ({
   projectName,
 }: EndorseButtonProps) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const { setOpen } = useModal();
   const { address } = useAccount();
   const { isCitizen, fetching } = useCitizen();
   const { trigger, reset, txHashes, loadingMessage, error } = useEndorse({
@@ -176,6 +178,18 @@ const EndorseButton = ({
       >
         <CheckCircle className="text-success min-h-6 min-w-6" weight="bold" />
         {endorsers.length >= 3 ? "ENDORSEMENT COMPLETE" : "ENDORSED"}
+      </Button>
+    );
+  }
+
+  if (!address) {
+    return (
+      <Button
+        className={buttonStyle}
+        variant="default"
+        onClick={() => setOpen(true)}
+      >
+        SIGN IN TO ENDORSE
       </Button>
     );
   }
