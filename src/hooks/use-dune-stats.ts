@@ -9,6 +9,7 @@ interface DuneStats {
   total_yield_generated: string;
   unique_recipients: number;
   unique_token_holders: number;
+  yield_distribution_count: number;
 }
 
 export const useDuneStats = () => {
@@ -33,6 +34,7 @@ export const useDuneStats = () => {
         totalObusdTransactions: addCommasToInt(stats.transfers_count),
         totalTeamsFunded: addCommasToInt(stats.unique_recipients),
         totalUsers: addCommasToInt(stats.unique_token_holders),
+        round: addCommasToInt(stats.yield_distribution_count + 1),
       };
     },
   });
