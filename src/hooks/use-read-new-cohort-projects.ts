@@ -9,7 +9,7 @@ const SECONDS_IN_30_DAYS = 60 * 60 * 24 * 30;
 
 type RawNewMembers = {
   block_time: string;
-  topic1: string;
+  recipient: string;
 }[];
 
 export function useReadNewCohortProjects() {
@@ -25,7 +25,7 @@ export function useReadNewCohortProjects() {
 
       const statsProcessed = stats.map((row) => ({
         timestamp: Math.floor(new Date(row.block_time).getTime() / 1000),
-        recipient: `0x${row.topic1.slice(-40)}`,
+        recipient: row.recipient,
       }));
 
       return statsProcessed;
