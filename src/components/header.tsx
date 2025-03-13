@@ -80,7 +80,17 @@ const Header = () => {
 
   if (isMobile)
     return (
-      <div className="z-50 h-0 mb-[-24px]">
+      <div
+        className="z-50 h-0 mb-[-24px]"
+        onMouseOut={() => {
+          setMobileWalletOpen(false);
+          setMobileOptionsOpen(false);
+        }}
+        onBlur={() => {
+          setMobileWalletOpen(false);
+          setMobileOptionsOpen(false);
+        }}
+      >
         <header
           className={cn(
             "z-50 flex flex-col items-center justify-start relative h-fit bg-content mx-4 mt-6 px-3 rounded-3xl shadow-lg",
