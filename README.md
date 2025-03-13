@@ -32,4 +32,4 @@ Make sure they match the deployed contracts variables for production.
 
 The app needs to access two Dune Analytics queries in order to fetch all data: stats query and new members query. Both are available at `/dune_queries` folder. Note they also have harcoded addresses to be set.
 
-The Dune API key and the queries IDs must be provided as environment variables, following `./env.example` format.
+The Dune API key and the queries IDs must be provided as environment variables, following `/.env.example` format.
