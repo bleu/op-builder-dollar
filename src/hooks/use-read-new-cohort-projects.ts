@@ -1,11 +1,11 @@
 "use client";
+import { COHORT_DURATION } from "@/utils/constants";
 import { formatDate, formatTimeLeft } from "@/utils/formatting";
 import { useQuery } from "@tanstack/react-query";
 import { useAccount, usePublicClient } from "wagmi";
 import { optimism } from "wagmi/chains";
 
 const SECONDS_IN_30_DAYS = 60 * 60 * 24 * 30;
-export const SECONDS_IN_10_MONTHS = 60 * 60 * 24 * 30 * 10;
 
 type RawNewMembers = {
   block_time: string;
@@ -42,16 +42,13 @@ export function useReadNewCohortProjects() {
       const events = newMembers.map((row) => {
         const eventTime = row.timestamp;
         const startDate = new Date(eventTime * 1000);
-        const expirationDate = new Date(
-          (eventTime + SECONDS_IN_10_MONTHS) * 1000,
-        );
+        const expirationDate = new Date((eventTime + COHORT_DURATION) * 1000);
 
         const wasCreatedLastMonth =
           Date.now() / 1000 - eventTime < SECONDS_IN_30_DAYS;
         const hasExpiredLastMonth =
-          Date.now() / 1000 - eventTime > SECONDS_IN_10_MONTHS &&
-          Date.now() / 1000 - eventTime <
-            SECONDS_IN_10_MONTHS + SECONDS_IN_30_DAYS;
+          Date.now() / 1000 - eventTime > COHORT_DURATION &&
+          Date.now() / 1000 - eventTime < COHORT_DURATION + SECONDS_IN_30_DAYS;
 
         return {
           recipient: row.recipient,
