@@ -41,7 +41,7 @@ export default function BenefitsSection() {
     <>
       <div
         className="flex flex-col items-center justify-center min-h-fit"
-        style={{ height: `calc(100dvh - ${firstDivHeight}px)` }}
+        style={{ height: `calc(100svh - ${firstDivHeight}px)` }}
       >
         <span className="text-sm md:text-xl text-disclaimer-text font-medium mb-1 mt-4 animate-pulse">
           Scroll to explore

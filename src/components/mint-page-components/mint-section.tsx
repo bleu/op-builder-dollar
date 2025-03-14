@@ -20,7 +20,7 @@ export default function MintSection() {
   return (
     <div
       id="mint-section"
-      className="flex min-h-[80dvh] flex-col w-full justify-center items-center bg-cover pt-20 md:pt-32 px-4 md:px-0 rounded-b-[30px] md:rounded-b-[60px] border-b-[1px] border-card-border"
+      className="flex min-h-[80svh] flex-col w-full justify-center items-center bg-cover pt-20 md:pt-32 px-4 md:px-0 rounded-b-[30px] md:rounded-b-[60px] border-b-[1px] border-card-border"
       style={{
         backgroundImage: `url(${textureRed.src})`,
         backgroundPosition: "center",
