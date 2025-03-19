@@ -82,7 +82,7 @@ const Header = () => {
     return (
       <div
         className="z-50 h-0 mb-[-24px]"
-        onMouseDown={() => {
+        onMouseUp={() => {
           setMobileWalletOpen(false);
           setMobileOptionsOpen(false);
         }}
