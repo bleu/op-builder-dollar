@@ -82,11 +82,7 @@ const Header = () => {
     return (
       <div
         className="z-50 h-0 mb-[-24px]"
-        onMouseOut={() => {
-          setMobileWalletOpen(false);
-          setMobileOptionsOpen(false);
-        }}
-        onBlur={() => {
+        onMouseDown={() => {
           setMobileWalletOpen(false);
           setMobileOptionsOpen(false);
         }}
