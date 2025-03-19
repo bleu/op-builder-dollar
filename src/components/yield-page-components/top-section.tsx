@@ -1,6 +1,8 @@
 "use client";
 import { useYieldStats } from "@/hooks/use-yield-stats";
-import { addCommasToInt } from "@/lib/utils";
+import { addCommasToInt, cn } from "@/lib/utils";
+import Link from "next/link";
+import { ArrowSquareOut, Info } from "phosphor-react";
 import { Card } from "../ui/card";
 import LoadingDots from "../ui/loading-dots";
 import ObUsd from "../ui/obusd";
@@ -70,6 +72,27 @@ export const TopSection = () => {
           <span className="font-bold italic">{round ?? <LoadingDots />}</span>
         </div>
       </Card>
+      <div className="col-span-4 md:col-span-8 py-4 px-8 bg-background rounded-[30px] border border-card-border">
+        <p className="flex justify-start items-center gap-2 text-sub-text md:font-bold md:text-foreground">
+          <Info size={24} className="text-sub-text-2" />
+          Maintenance fee
+        </p>
+        <p className="text-sub-text font-bold text-xs my-4">
+          The obUSD core team collects a{" "}
+          <span className={cn("text-sm text-foreground md:text-sub-text")}>
+            10%
+          </span>{" "}
+          fee from each month's yield distribution to sustain the platform.
+        </p>
+        <Link
+          href="https://app.safe.global/home?safe=oeth:0x918dEf5d593F46735f74F9E2B280Fe51AF3A99ad"
+          target="_blank"
+        >
+          <p className="w-full flex justify-center items-center gap-2 text-primary font-bold md:text-xl hover:cursor-pointer hover:text-error">
+            View core team treasury <ArrowSquareOut weight="bold" size={24} />
+          </p>
+        </Link>
+      </div>
       <div className="col-span-4 md:col-span-8 flex flex-col gap-4">
         {daysToNextDistribution !== undefined ? (
           <span className="text-xl text-sub-text font-semibold">
