@@ -78,13 +78,17 @@ const Header = () => {
     if (!address) setMobileWalletOpen(false);
   }, [address]);
 
+  const closeMobilePopovers = () => {
+    setMobileOptionsOpen(false);
+    setMobileWalletOpen(false);
+  };
+
   if (isMobile)
     return (
       <div
         className="z-50 h-0 mb-[-24px]"
-        onMouseUp={() => {
-          setMobileWalletOpen(false);
-          setMobileOptionsOpen(false);
+        onMouseLeave={() => {
+          if (mobileWalletOpen || mobileOptionsOpen) closeMobilePopovers();
         }}
       >
         <header
@@ -164,20 +168,34 @@ const Header = () => {
           {mobileOptionsOpen && (
             <>
               <div className="z-50 flex w-full flex-col justify-start items-start gap-4 pt-2">
-                <NavLink href="/" icon={Butterfly}>
+                <NavLink
+                  href="/"
+                  icon={Butterfly}
+                  onLinkClick={closeMobilePopovers}
+                >
                   Mint
                 </NavLink>
                 <NavLink
                   href="/yield"
                   icon={ShareNetwork}
                   iconClassName="rotate-90"
+                  onLinkClick={closeMobilePopovers}
                 >
                   Yield {!isMobile && "distribution"}
                 </NavLink>
-                <NavLink href="/cohort-selection" icon={UsersThree}>
+                <NavLink
+                  href="/cohort-selection"
+                  icon={UsersThree}
+                  onLinkClick={closeMobilePopovers}
+                >
                   Cohort {!isMobile && "selection"}
                 </NavLink>
-                <NavLink href="" icon={Gift} disabled={true}>
+                <NavLink
+                  href=""
+                  icon={Gift}
+                  disabled={true}
+                  onLinkClick={closeMobilePopovers}
+                >
                   Rewards
                 </NavLink>
 
