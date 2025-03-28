@@ -4,7 +4,7 @@ WITH
 constants AS (
   SELECT 
     0x8f72c81b51c9dce74b9ac606ef1bb7f36d8b3d52 AS obusd_address,
-    0xda10009cbd5d07dd0cecc66161fc93d7c9000da1 AS yield_token_address,
+    0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85 AS yield_token_address,
     0xb80fc23175e13a7114160c1446699f4590c58c3c AS builders_manager_address
 ),
 -- Get all transfers for the genesis token to build balance tracking
