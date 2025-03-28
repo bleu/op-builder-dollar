@@ -10,9 +10,9 @@ export const BUILDERS_MANAGER_ADDRESS =
 export const POOL_ADDRESS =
   "0x794a61358D6845594F94dc1DB02A252b5b4814aD" as Address; // Proxy address
 export const CITIZEN_SCHEMA_ID =
-  "0x18aa1bc209b30f49600e3a76c8e4841704f1695452ac35c39ff8b06937c9f440";
+  "0x41513aa7b99bfea09d389c74aacedaeb13c28fb748569e9e2400109cbe284ee5";
 export const PROJECTS_SCHEMA_ID =
-  "0x6de256b80ccabb478b10583df94d0a3e36a45ef9d41e9da137bde022401c13bc";
+  "0x8aef6b9adab6252367588ad337f304da1c060cc3190f01d7b72c7e512b9bfb38";
 
 // Mainnet addresses
 export const UNIVERSAL_RESOLVER_ADDRESS =
