@@ -3,9 +3,9 @@ WITH
 -- Define token addresses and other constants
 constants AS (
   SELECT 
-    0x8f72c81b51c9dce74b9ac606ef1bb7f36d8b3d52 AS obusd_address,
+    0x8b4806abc02eFE1cf6F973bEdabf13d1809Ed97B AS obusd_address,
     0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85 AS yield_token_address,
-    0xb80fc23175e13a7114160c1446699f4590c58c3c AS builders_manager_address
+    0xC72D602835deBf5F47A993D4aC28bFA581f278C5 AS builders_manager_address
 ),
 -- Get all transfers for the genesis token to build balance tracking
 genesis_transfers AS (
