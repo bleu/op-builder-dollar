@@ -22,9 +22,9 @@ const config = createConfig(
     walletConnectProjectId,
 
     // Required App Info
-    appName: "Optimism Builders Dollar",
+    appName: "Optimistic Builders Dollar",
     // Optional App Info
-    appDescription: "Optimism Builders Dollar",
+    appDescription: "Optimistic Builders Dollar",
     appUrl: "https://op-builder-dollar.vercel.app",
     appIcon: "",
   }),

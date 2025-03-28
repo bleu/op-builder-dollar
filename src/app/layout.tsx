@@ -5,7 +5,7 @@ import Content from "./Content";
 
 export const metadata: Metadata = {
   title: "OP Builders Dollar",
-  description: "Optimism Builders Dollar",
+  description: "Optimistic Builders Dollar",
 };
 
 const rubik = Rubik({
