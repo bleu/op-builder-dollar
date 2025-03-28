@@ -2,7 +2,7 @@ import type { Address } from "viem";
 
 // OP mainnet addresses
 export const USDC_ADDRESS =
-  "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1" as Address;
+  "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85" as Address;
 export const OBUSD_ADDRESS =
   "0x8f72c81b51C9Dce74B9Ac606EF1BB7F36D8B3D52" as Address; // Proxy address
 export const BUILDERS_MANAGER_ADDRESS =
