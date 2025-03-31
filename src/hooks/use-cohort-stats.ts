@@ -27,9 +27,10 @@ export function useCohortStats() {
           (currentProjectRecipients.length - monthlyExitCount)
       : undefined;
 
-  const currentSeason = Math.max(
-    ...projects.map((proj) => Number(proj.season)),
-  );
+  const currentSeason =
+    projects.length > 0
+      ? Math.max(...projects.map((proj) => Number(proj.season)))
+      : undefined;
 
   const totalOpCollectiveCitizens = citizensList
     ? String(citizensList.length)
