@@ -13,29 +13,18 @@ seasonStart <-o [_______._______._______._______._______] o-> seasonExpiry
 
 export function getRoundInfo(
   seasonStart: number,
-  seasonDuration: number,
   cycleLength: number,
   lastClaimedTimestamp: number,
 ): {
   timeToNextDistribution: number | undefined;
   pctgToNextDistribution: number | undefined;
-  isSeasonFinished: boolean;
 } {
-  const seasonExpiry = seasonStart + seasonDuration;
   const now = Date.now() / 1000;
 
   if (now < seasonStart)
     return {
       timeToNextDistribution: seasonStart - now + cycleLength,
       pctgToNextDistribution: 0,
-      isSeasonFinished: false,
-    };
-
-  if (now > seasonExpiry)
-    return {
-      timeToNextDistribution: undefined,
-      pctgToNextDistribution: undefined,
-      isSeasonFinished: true,
     };
 
   const nextRoundTime = lastClaimedTimestamp + cycleLength - now;
@@ -43,9 +32,5 @@ export function getRoundInfo(
   const pctgToNextDistribution =
     100 - (100 * timeToNextDistribution) / cycleLength;
 
-  return {
-    timeToNextDistribution,
-    pctgToNextDistribution,
-    isSeasonFinished: false,
-  };
+  return { timeToNextDistribution, pctgToNextDistribution };
 }
