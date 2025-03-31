@@ -13,6 +13,7 @@ export const TopSection = () => {
     round,
     daysToNextDistribution,
     pctgToNextDistribution,
+    isSeasonFinished,
     obusdYieldFormatted,
     yieldPerProject,
     cohortSize,
@@ -94,20 +95,31 @@ export const TopSection = () => {
         </Link>
       </div>
       <div className="col-span-4 md:col-span-8 flex flex-col gap-4">
-        {daysToNextDistribution !== undefined ? (
+        {isSeasonFinished !== undefined ||
+        daysToNextDistribution !== undefined ? (
           <span className="text-xl text-sub-text font-semibold">
-            Distributing{" "}
-            {daysToNextDistribution === 0
-              ? "in less than 1 day"
-              : `in ${daysToNextDistribution} days`}
+            {isSeasonFinished ? (
+              <>The current season has finished.</>
+            ) : (
+              <>
+                Distributing{" "}
+                {daysToNextDistribution === 0
+                  ? "in less than 1 day"
+                  : `in ${daysToNextDistribution} day${daysToNextDistribution === 1 ? "" : "s"}`}
+              </>
+            )}
           </span>
         ) : (
           <div className="h-7 w-60 bg-card-border rounded-lg animate-pulse" />
         )}
-        {pctgToNextDistribution ? (
-          <ProgressBar progress={pctgToNextDistribution} />
+        {pctgToNextDistribution !== undefined ? (
+          <ProgressBar
+            progress={isSeasonFinished ? 0.0 : (pctgToNextDistribution ?? 0)}
+          />
         ) : (
-          <div className="h-5 w-full bg-card-border rounded-lg animate-pulse" />
+          !isSeasonFinished && (
+            <div className="h-5 w-full bg-card-border rounded-lg animate-pulse" />
+          )
         )}
       </div>
     </div>
