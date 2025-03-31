@@ -1,11 +1,13 @@
 import { SCHEMA_QUERY } from "@/graphql/schema-query";
 import { buildersManagerAbi } from "@/lib/abis/builders-manager-abi";
 import { BUILDERS_MANAGER_ADDRESS, CITIZEN_SCHEMA_ID } from "@/utils/constants";
+import { useQuery as useTanstackQuery } from "@tanstack/react-query";
 import { useQuery } from "urql";
-import { useAccount, useReadContract } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
 
 export const useCitizen = () => {
   const { address: signer } = useAccount();
+  const publicClient = usePublicClient();
 
   const [{ data, ...result }, refetch] = useQuery({
     query: SCHEMA_QUERY,
@@ -13,14 +15,19 @@ export const useCitizen = () => {
     requestPolicy: "cache-first",
   });
 
-  const { data: isEligibleVoter } = signer
-    ? useReadContract({
+  const { data: isEligibleVoter } = useTanstackQuery({
+    queryKey: [signer],
+    queryFn: async () => {
+      if (!publicClient) throw new Error("missing public client");
+      if (!signer) return false;
+      return await publicClient?.readContract({
         address: BUILDERS_MANAGER_ADDRESS,
         abi: buildersManagerAbi,
         functionName: "eligibleVoter",
         args: [signer],
-      })
-    : {};
+      });
+    },
+  });
 
   const { address } = useAccount();
 
