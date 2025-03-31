@@ -444,11 +444,24 @@ export const buildersManagerAbi = [
           },
           {
             internalType: "uint64",
-            name: "currentSeasonExpiry",
+            name: "fundingExpiry",
             type: "uint64",
           },
-          { internalType: "uint256", name: "seasonDuration", type: "uint256" },
-          { internalType: "uint256", name: "minVouches", type: "uint256" },
+          {
+            internalType: "uint64",
+            name: "seasonStart",
+            type: "uint64",
+          },
+          {
+            internalType: "uint64",
+            name: "seasonDuration",
+            type: "uint64",
+          },
+          {
+            internalType: "uint256",
+            name: "minVouches",
+            type: "uint256",
+          },
           {
             internalType: "address[]",
             name: "optimismFoundationAttesters",
