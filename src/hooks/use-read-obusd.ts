@@ -82,7 +82,9 @@ export function useReadObusd() {
       const obusdDecimals = result[3].result;
       const usdcDecimals = result[4].result;
       const obusdYield =
-        result[5].status === "success" ? result[5].result : undefined;
+        result[5].status === "success"
+          ? (result[5].result * BigInt(9)) / BigInt(10)
+          : undefined;
 
       return {
         obusdBalance,

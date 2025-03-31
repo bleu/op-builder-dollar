@@ -7,7 +7,7 @@ import { Client, Provider, cacheExchange, fetchExchange } from "urql";
 import { http, WagmiProvider, createConfig } from "wagmi";
 import { mainnet, optimism, sepolia } from "wagmi/chains";
 
-const walletConnectProjectId = "";
+const walletConnectProjectId = "6d9de7a0140c0e30f0c302f820446d2b";
 
 const config = createConfig(
   getDefaultConfig({
@@ -24,9 +24,9 @@ const config = createConfig(
     // Required App Info
     appName: "Optimistic Builders Dollar",
     // Optional App Info
-    appDescription: "Optimistic Builders Dollar",
-    appUrl: "https://op-builder-dollar.vercel.app",
-    appIcon: "",
+    appDescription: "Optimism Builders Dollar",
+    appUrl: "https://obdollar.xyz",
+    appIcon: "https://obdollar.xyz/icons/op-icon.ico",
   }),
 );
 
@@ -42,7 +42,13 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <Provider value={graphqlClient}>
-          <ConnectKitProvider>{children}</ConnectKitProvider>
+          <ConnectKitProvider
+            options={{
+              walletConnectName: "WalletConnect",
+            }}
+          >
+            {children}
+          </ConnectKitProvider>
         </Provider>
       </QueryClientProvider>
     </WagmiProvider>

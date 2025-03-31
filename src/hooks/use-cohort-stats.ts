@@ -1,13 +1,15 @@
+import { useCitizen } from "./use-citizen";
 import { useEligibleProjects } from "./use-eligible-projects";
 import { useReadBuildersManager } from "./use-read-builders-manager";
 import { useReadNewCohortProjects } from "./use-read-new-cohort-projects";
 
 export function useCohortStats() {
   const { data } = useReadBuildersManager();
-  const { currentProjectRecipients, optimismFoundationAttesters } = data ?? {};
+  const { currentProjectRecipients } = data ?? {};
   const { newMembersCount, monthlyExitCount } =
     useReadNewCohortProjects() ?? {};
   const { projects } = useEligibleProjects();
+  const { citizensList } = useCitizen();
 
   const newMembersPercentage =
     currentProjectRecipients && newMembersCount
@@ -25,12 +27,13 @@ export function useCohortStats() {
           (currentProjectRecipients.length - monthlyExitCount)
       : undefined;
 
-  const currentSeason = Math.max(
-    ...projects.map((proj) => Number(proj.season)),
-  );
+  const currentSeason =
+    projects.length > 0
+      ? Math.max(...projects.map((proj) => Number(proj.season)))
+      : undefined;
 
-  const totalOpCollectiveCitizens = optimismFoundationAttesters
-    ? String(optimismFoundationAttesters.length)
+  const totalOpCollectiveCitizens = citizensList
+    ? String(citizensList.length)
     : undefined;
 
   const cohortSize = currentProjectRecipients

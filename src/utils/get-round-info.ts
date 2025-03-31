@@ -12,7 +12,7 @@ seasonStart <-o [_______._______._______._______._______] o-> seasonExpiry
 */
 
 export function getRoundInfo(
-  seasonExpiry: number,
+  seasonStart: number,
   seasonDuration: number,
   cycleLength: number,
   lastClaimedTimestamp: number,
@@ -20,7 +20,7 @@ export function getRoundInfo(
   timeToNextDistribution: number | undefined;
   pctgToNextDistribution: number | undefined;
 } {
-  const seasonStart = seasonExpiry - seasonDuration;
+  const seasonExpiry = seasonStart + seasonDuration;
   const now = Date.now() / 1000;
 
   if (now < seasonStart)
