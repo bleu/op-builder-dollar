@@ -21,7 +21,6 @@ export function useYieldStats() {
       settings
         ? getRoundInfo(
             Number(settings.seasonStart),
-            Number(settings.seasonDuration),
             Number(settings.cycleLength),
             Number(settings.lastClaimedTimestamp),
           )
