@@ -8,7 +8,7 @@ export const OBUSD_ADDRESS =
 export const BUILDERS_MANAGER_ADDRESS =
   "0xC72D602835deBf5F47A993D4aC28bFA581f278C5" as Address; // Proxy address
 export const POOL_ADDRESS =
-  "0x918dEf5d593F46735f74F9E2B280Fe51AF3A99ad" as Address; // Proxy address
+  "0x794a61358D6845594F94dc1DB02A252b5b4814aD" as Address; // Proxy address
 export const CITIZEN_SCHEMA_ID =
   "0x41513aa7b99bfea09d389c74aacedaeb13c28fb748569e9e2400109cbe284ee5";
 export const PROJECTS_SCHEMA_ID =
