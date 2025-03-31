@@ -99,7 +99,7 @@ export const TopSection = () => {
             Distributing{" "}
             {daysToNextDistribution === 0
               ? "in less than 1 day"
-              : `in ${daysToNextDistribution} days`}
+              : `in ${daysToNextDistribution} day${daysToNextDistribution === 1 ? "" : "s"}`}
           </span>
         ) : (
           <div className="h-7 w-60 bg-card-border rounded-lg animate-pulse" />
