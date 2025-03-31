@@ -16,21 +16,23 @@ export function useYieldStats() {
   const { data: duneStats } = useDuneStats();
   const { round } = duneStats ?? {};
 
-  const { timeToNextDistribution, pctgToNextDistribution } = useMemo(
-    () =>
-      settings
-        ? getRoundInfo(
-            Number(settings.seasonStart),
-            Number(settings.seasonDuration),
-            Number(settings.cycleLength),
-            Number(settings.lastClaimedTimestamp),
-          )
-        : {
-            timeToNextDistribution: undefined,
-            pctgToNextDistribution: undefined,
-          },
-    [settings],
-  );
+  const { timeToNextDistribution, pctgToNextDistribution, isSeasonFinished } =
+    useMemo(
+      () =>
+        settings
+          ? getRoundInfo(
+              Number(settings.seasonStart),
+              Number(settings.seasonDuration),
+              Number(settings.cycleLength),
+              Number(settings.lastClaimedTimestamp),
+            )
+          : {
+              timeToNextDistribution: undefined,
+              pctgToNextDistribution: undefined,
+              isSeasonFinished: undefined,
+            },
+      [settings],
+    );
 
   const daysToNextDistribution =
     timeToNextDistribution &&
@@ -53,6 +55,7 @@ export function useYieldStats() {
     round,
     daysToNextDistribution,
     pctgToNextDistribution,
+    isSeasonFinished,
     obusdYieldFormatted: dynamicYieldFormatted,
     yieldPerProject,
     cohortSize,
