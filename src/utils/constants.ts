@@ -4,9 +4,9 @@ import type { Address } from "viem";
 export const USDC_ADDRESS =
   "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85" as Address;
 export const OBUSD_ADDRESS =
-  "0x2D4Cc25d15028455Dd136de216D39f7816b601CA" as Address; // Proxy address
+  "0xF3097d50eA871c99aA9E07b538BA2E98A50625C5" as Address; // Proxy address
 export const BUILDERS_MANAGER_ADDRESS =
-  "0xADaCD8C796c786F46B40065283ea32903FCc7a64" as Address; // Proxy address
+  "0x33e5B002789F6C09180169f09a14d4F51CA0E7B0" as Address; // Proxy address
 export const POOL_ADDRESS =
   "0x794a61358D6845594F94dc1DB02A252b5b4814aD" as Address; // Proxy address
 export const CITIZEN_SCHEMA_ID =
