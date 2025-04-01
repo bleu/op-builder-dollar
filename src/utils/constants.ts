@@ -17,5 +17,3 @@ export const PROJECTS_SCHEMA_ID =
 // Mainnet addresses
 export const UNIVERSAL_RESOLVER_ADDRESS =
   "0xce01f8eee7e479c928f8919abd53e553a36cef67" as Address; // ENS names resolver
-
-export const COHORT_DURATION = 60 * 60 * 24 * 30 * 10; // 10 months, in seconds
