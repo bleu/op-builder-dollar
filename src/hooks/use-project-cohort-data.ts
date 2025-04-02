@@ -1,5 +1,4 @@
 import type { CohortProject } from "@/lib/types";
-import { COHORT_DURATION } from "@/utils/constants";
 import {
   formatDate,
   formatTimeLeft,
@@ -23,7 +22,7 @@ export function useProjectCohortData(
   const { newMemberEvents } = useReadNewCohortProjects() ?? {};
   const { obusdYield, obusdDecimals } = useReadObusd();
   const { data } = useReadBuildersManager();
-  const { currentProjectRecipients } = data ?? {};
+  const { currentProjectRecipients, settings } = data ?? {};
 
   const cohortSize = currentProjectRecipients
     ? currentProjectRecipients.length
@@ -58,7 +57,7 @@ export function useProjectCohortData(
         }
       }
 
-      if (newMemberEvents) {
+      if (newMemberEvents && settings) {
         for (const id of ids) {
           const event = newMemberEvents.find(
             (event) => event.recipient.toLowerCase() === id.toLowerCase(),
@@ -80,7 +79,7 @@ export function useProjectCohortData(
             const eventTime = Date.now() / 1000;
             const startDate = new Date(eventTime * 1000);
             const expirationDate = new Date(
-              (eventTime + COHORT_DURATION) * 1000,
+              (eventTime + Number(settings.fundingExpiry)) * 1000,
             );
             dataMap.set(id, {
               ...dataMap.get(id),
@@ -105,6 +104,6 @@ export function useProjectCohortData(
     }
 
     return new Map<string, CohortData>();
-  }, [endorsements, newMemberEvents, shareOfYield, ids]);
+  }, [endorsements, newMemberEvents, shareOfYield, ids, settings]);
   return projectCohortData;
 }

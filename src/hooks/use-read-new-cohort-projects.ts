@@ -1,9 +1,9 @@
 "use client";
-import { COHORT_DURATION } from "@/utils/constants";
 import { formatDate, formatTimeLeft } from "@/utils/formatting";
 import { useQuery } from "@tanstack/react-query";
 import { useAccount, usePublicClient } from "wagmi";
 import { optimism } from "wagmi/chains";
+import { useReadBuildersManager } from "./use-read-builders-manager";
 
 const SECONDS_IN_30_DAYS = 60 * 60 * 24 * 30;
 
@@ -15,9 +15,14 @@ type RawNewMembers = {
 export function useReadNewCohortProjects() {
   const { chainId } = useAccount();
   const publicClient = usePublicClient({ chainId: chainId ?? optimism.id });
+  const { data } = useReadBuildersManager();
+  const { settings } = data ?? {};
+
+  const cohortDuration = settings && Number(settings.fundingExpiry);
 
   const { data: newMembers } = useQuery({
     queryKey: ["newMembersDuneQuery"],
+    enabled: Boolean(settings),
     queryFn: async () => {
       const stats = (await (
         await fetch("/api/new-cohort-members")
@@ -34,21 +39,22 @@ export function useReadNewCohortProjects() {
 
   const query = useQuery({
     queryKey: ["newMembers"],
-    enabled: Boolean(newMembers),
+    enabled: Boolean(newMembers) && Boolean(cohortDuration),
     queryFn: async () => {
       if (!publicClient) throw new Error("Missing public client");
       if (!newMembers) throw new Error("Missing new members");
+      if (!cohortDuration) throw new Error("Missing new cohortDuration");
 
       const events = newMembers.map((row) => {
         const eventTime = row.timestamp;
         const startDate = new Date(eventTime * 1000);
-        const expirationDate = new Date((eventTime + COHORT_DURATION) * 1000);
+        const expirationDate = new Date((eventTime + cohortDuration) * 1000);
 
         const wasCreatedLastMonth =
           Date.now() / 1000 - eventTime < SECONDS_IN_30_DAYS;
         const hasExpiredLastMonth =
-          Date.now() / 1000 - eventTime > COHORT_DURATION &&
-          Date.now() / 1000 - eventTime < COHORT_DURATION + SECONDS_IN_30_DAYS;
+          Date.now() / 1000 - eventTime > cohortDuration &&
+          Date.now() / 1000 - eventTime < cohortDuration + SECONDS_IN_30_DAYS;
 
         return {
           recipient: row.recipient,
