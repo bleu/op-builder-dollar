@@ -31,8 +31,12 @@ export default function MintBurn() {
       ? tokenAmountStringToBigint(value, obusdDecimals)
       : undefined;
 
-  const mintHookOutput = useMint({ amount });
-  const burnHookOutput = useBurn({ amount });
+  const onSuccess = () => {
+    setValue("");
+  };
+
+  const mintHookOutput = useMint({ amount, onSuccess });
+  const burnHookOutput = useBurn({ amount, onSuccess });
 
   const { txHashes, trigger, isLoading, loadingMessage, error, reset } = isMint
     ? mintHookOutput

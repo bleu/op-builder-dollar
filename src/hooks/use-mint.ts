@@ -9,8 +9,10 @@ import { type BaseTx, useExecuteTransaction } from "./use-execute-transaction";
 
 export function useMint({
   amount,
+  onSuccess,
 }: {
   amount: bigint | undefined;
+  onSuccess?: () => void;
 }) {
   const { address: signer, chainId } = useAccount();
   const { data: walletClient } = useWalletClient();
@@ -59,6 +61,7 @@ export function useMint({
     buildTxFn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userBalances", signer] });
+      if (onSuccess) onSuccess();
     },
   });
 }
