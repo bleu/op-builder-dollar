@@ -9,8 +9,10 @@ import { useExecuteTransaction } from "./use-execute-transaction";
 
 export function useBurn({
   amount,
+  onSuccess,
 }: {
   amount: bigint | undefined;
+  onSuccess?: () => void;
 }) {
   const { address: signer, chainId } = useAccount();
   const { data: walletClient } = useWalletClient();
@@ -39,6 +41,7 @@ export function useBurn({
     buildTxFn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userBalances", signer] });
+      if (onSuccess) onSuccess();
     },
   });
 }
