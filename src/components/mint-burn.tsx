@@ -31,12 +31,8 @@ export default function MintBurn() {
       ? tokenAmountStringToBigint(value, obusdDecimals)
       : undefined;
 
-  const onSuccess = () => {
-    setValue("");
-  };
-
-  const mintHookOutput = useMint({ amount, onSuccess });
-  const burnHookOutput = useBurn({ amount, onSuccess });
+  const mintHookOutput = useMint({ amount });
+  const burnHookOutput = useBurn({ amount });
 
   const { txHashes, trigger, isLoading, loadingMessage, error, reset } = isMint
     ? mintHookOutput
@@ -137,7 +133,10 @@ export default function MintBurn() {
             : undefined
         }
         loadingMessage={loadingMessage}
-        onClose={() => setDialogOpen(false)}
+        onClose={() => {
+          setDialogOpen(false);
+          setValue("");
+        }}
         error={error}
       />
       <ConfirmBurnModal
