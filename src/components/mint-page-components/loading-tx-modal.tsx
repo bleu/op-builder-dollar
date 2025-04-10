@@ -81,7 +81,7 @@ export function LoadingTxModal({
                     href={`https://etherscan.io/tx/${txHash}`}
                   >
                     <p className="w-full flex justify-center items-center gap-2 text-primary font-semibold text-lg md:text-xl hover:cursor-pointer hover:text-error">
-                      View on expolorer!
+                      View on explorer!
                       <ArrowSquareOut weight="bold" size={24} />
                     </p>
                   </Link>
