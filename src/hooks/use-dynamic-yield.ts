@@ -36,5 +36,5 @@ export function useDynamicYield() {
       ? formatTokenBalance(dynamicYield, obusdDecimals, 4)
       : "";
 
-  return { dynamicYieldFormatted };
+  return { dynamicYield, dynamicYieldFormatted };
 }

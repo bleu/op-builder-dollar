@@ -2,6 +2,7 @@
 import { addCommasToInt } from "@/lib/utils";
 import { formatTokenBalance } from "@/utils/formatting";
 import { useQuery } from "@tanstack/react-query";
+import { useDynamicYield } from "./use-dynamic-yield";
 import { useReadObusd } from "./use-read-obusd";
 
 interface DuneStats {
@@ -13,20 +14,23 @@ interface DuneStats {
 }
 
 export const useDuneStats = () => {
-  const { usdcDecimals } = useReadObusd();
+  const { obusdDecimals } = useReadObusd();
+  const { dynamicYield } = useDynamicYield();
 
   return useQuery({
     queryKey: ["duneStats"],
     queryFn: async () => {
-      if (!usdcDecimals) throw new Error("missing decimals information");
+      if (!obusdDecimals || !dynamicYield)
+        throw new Error("missing information");
 
       const stats = (await (
         await fetch("/api/dune-stats")
       ).json()) as DuneStats;
 
       const totalYieldGeneratedOvertime = formatTokenBalance(
-        BigInt(stats.total_yield_generated),
-        usdcDecimals,
+        BigInt(stats.total_yield_generated) + dynamicYield,
+        obusdDecimals,
+        4,
       );
 
       return {
