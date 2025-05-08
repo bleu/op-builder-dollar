@@ -200,7 +200,7 @@ export const WalletAccountDetails = ({
                 <Copy className="text-sub-text-2" size={24} />
               </div>
               <Link
-                href={`https://etherscan.io/address/${address}`}
+                href={`https://optimistic.etherscan.io/address/${address}`}
                 target="_blank"
                 className="w-7 h-7 flex justify-center items-center rounded-md hover:bg-card-border hover:cursor-pointer"
               >

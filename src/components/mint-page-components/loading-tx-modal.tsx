@@ -78,7 +78,7 @@ export function LoadingTxModal({
                 {txHash && (
                   <Link
                     target="_blank"
-                    href={`https://etherscan.io/tx/${txHash}`}
+                    href={`https://optimistic.etherscan.io/tx/${txHash}`}
                   >
                     <p className="w-full flex justify-center items-center gap-2 text-primary font-semibold text-lg md:text-xl hover:cursor-pointer hover:text-error">
                       View on explorer!
