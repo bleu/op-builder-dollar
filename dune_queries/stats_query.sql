@@ -2,10 +2,10 @@
 WITH
 -- Define token addresses and other constants
 constants AS (
-  SELECT 
-    0x8b4806abc02eFE1cf6F973bEdabf13d1809Ed97B AS obusd_address,
+  SELECT
+    0x21Cc97Dd0554836BB2cEFe536991D01617894E3e AS obusd_address,
     0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85 AS yield_token_address,
-    0xC72D602835deBf5F47A993D4aC28bFA581f278C5 AS builders_manager_address
+    0xFFA16307C4813eA0bcE1E01D5FF5ACea11FE0998 AS builders_manager_address
 ),
 -- Get all transfers for the genesis token to build balance tracking
 genesis_transfers AS (
@@ -43,11 +43,11 @@ yield_transfers AS (
 SELECT
   -- Count addresses with positive balances (Query 1)
   (SELECT COUNT(*) FROM genesis_balances WHERE balance > 0) AS unique_token_holders,
-  
+
   -- Total tokens transferred and unique recipients (Query 2)
   CAST(COALESCE((SELECT SUM(amount) FROM yield_transfers), 0) AS DECIMAL(38,0)) AS total_yield_generated,
   (SELECT COALESCE(COUNT(DISTINCT receiver), 0) FROM yield_transfers) AS unique_recipients,
-  
+
 -- Calculate transfers count
 (SELECT
   COUNT(*) AS total_transfers
@@ -55,5 +55,5 @@ FROM erc20_optimism.evt_Transfer
 WHERE contract_address = (SELECT obusd_address FROM constants)) AS transfers_count,
 
 (SELECT COUNT (*)
-FROM obusd_optimism.buildersmanager_call_distributeyield
+FROM builders_manager_optimism.buildermanager_call_distributeyield
 WHERE contract_address = (SELECT builders_manager_address FROM constants) AND call_success = true) as yield_distribution_count;

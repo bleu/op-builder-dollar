@@ -6,7 +6,7 @@ WITH project_min_vouches_events AS (
     FROM
         obusd_optimism.buildersmanager_evt_projectreachedminvouches
     WHERE
-        contract_address = 0xC72D602835deBf5F47A993D4aC28bFA581f278C5 -- BuildersManager contract address
+        contract_address = 0xFFA16307C4813eA0bcE1E01D5FF5ACea11FE0998 -- BuildersManager contract address
         AND evt_block_time >= NOW() - interval '11' month -- Past 11 months
 )
 
