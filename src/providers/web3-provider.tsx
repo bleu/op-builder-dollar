@@ -1,34 +1,48 @@
 "use client";
 
+import {
+  RainbowKitProvider,
+  darkTheme,
+  getDefaultConfig,
+} from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import type { ReactNode } from "react";
 import { Client, Provider, cacheExchange, fetchExchange } from "urql";
-import { http, WagmiProvider, createConfig } from "wagmi";
-import { mainnet, optimism, sepolia } from "wagmi/chains";
+import { http, WagmiProvider } from "wagmi";
+import { mainnet, optimism } from "wagmi/chains";
 
-const walletConnectProjectId = "6d9de7a0140c0e30f0c302f820446d2b";
+const walletConnectProjectId =
+  process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "YOUR_PROJECT_ID_HERE";
 
-const config = createConfig(
-  getDefaultConfig({
-    // Your dApps chains
-    chains: [optimism, mainnet, sepolia],
-    transports: {
-      [mainnet.id]: http(),
-      [optimism.id]: http("https://mainnet.optimism.io"),
-    },
+if (
+  !walletConnectProjectId ||
+  walletConnectProjectId === "YOUR_PROJECT_ID_HERE"
+) {
+  console.warn(
+    "WalletConnect Project ID not configured. Please set NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID environment variable.",
+  );
+}
 
-    // Required API Keys
-    walletConnectProjectId,
+const baseTheme = darkTheme({
+  accentColor: "#ff0420",
+  accentColorForeground: "#ff0420",
+  borderRadius: "small",
+  fontStack: "system",
+  overlayBlur: "small",
+});
 
-    // Required App Info
-    appName: "Optimistic Builders Dollar",
-    // Optional App Info
-    appDescription: "Optimism Builders Dollar",
-    appUrl: "https://obdollar.xyz",
-    appIcon: "https://obdollar.xyz/icons/op-icon.ico",
-  }),
-);
+const config = getDefaultConfig({
+  appName: "Optimistic Builders Dollar",
+  projectId: walletConnectProjectId,
+  appDescription: "Optimism Builders Dollar",
+  appUrl: "https://obdollar.xyz",
+  appIcon: "https://obdollar.xyz/icons/op-icon.ico",
+  chains: [optimism, mainnet],
+  transports: {
+    [mainnet.id]: http(),
+    [optimism.id]: http("https://mainnet.optimism.io"),
+  },
+});
 
 const graphqlClient = new Client({
   url: "https://optimism.easscan.org/graphql",
@@ -42,13 +56,9 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <Provider value={graphqlClient}>
-          <ConnectKitProvider
-            options={{
-              walletConnectName: "WalletConnect",
-            }}
-          >
+          <RainbowKitProvider modalSize="compact" theme={baseTheme}>
             {children}
-          </ConnectKitProvider>
+          </RainbowKitProvider>
         </Provider>
       </QueryClientProvider>
     </WagmiProvider>

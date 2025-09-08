@@ -10,13 +10,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
-import { useModal } from "connectkit";
+import { useChainModal } from "@rainbow-me/rainbowkit";
 import { CheckCircle, SmileySad, ThumbsUp } from "phosphor-react";
 import { useState } from "react";
 import { useAccount } from "wagmi";
 import { AccountName } from "../account-name";
 import { LoadingTxModal } from "../mint-page-components/loading-tx-modal";
-import { ProjectCard } from "../project-card";
+import { ProjectCardWithMetadata } from "../project-card-with-metadata";
 import { Button } from "../ui/button";
 
 export const EligibleProjects = () => {
@@ -35,10 +35,10 @@ export const EligibleProjects = () => {
           with membership typically lasting eight months.
         </span>
       </div>
-      <div className="grid grid-cols-4 md:grid-cols-8 gap-y-4 gap-x-6">
+      <div className="grid grid-cols-4 md:grid-cols-12 gap-y-4 gap-x-6">
         {projects.map((project) => (
           <div key={project.id} className="col-span-4">
-            <ProjectCard
+            <ProjectCardWithMetadata
               key={project.id}
               project={project}
               className="grid grid-cols-8 w-full gap-2"
@@ -48,7 +48,7 @@ export const EligibleProjects = () => {
                 projectUid={project.id as `0x${string}`}
                 projectName={project.name ?? ""}
               />
-            </ProjectCard>
+            </ProjectCardWithMetadata>
           </div>
         ))}
       </div>
@@ -143,7 +143,7 @@ const EndorseButton = ({
   projectName,
 }: EndorseButtonProps) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  const { setOpen } = useModal();
+  const { openChainModal } = useChainModal();
   const { address } = useAccount();
   const { isCitizen, fetching } = useCitizen();
   const { trigger, reset, txHashes, loadingMessage, error } = useEndorse({
@@ -187,7 +187,7 @@ const EndorseButton = ({
       <Button
         className={buttonStyle}
         variant="default"
-        onClick={() => setOpen(true)}
+        onClick={() => (openChainModal ? openChainModal() : () => {})}
       >
         SIGN IN TO ENDORSE
       </Button>
